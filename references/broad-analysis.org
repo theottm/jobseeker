@@ -1,0 +1,125 @@
+* Information sources
+** stathead / qualitative
+** scout / quantitative
+* Problem description
+** objectives
+*** needs
+**** need to find a job quickly
+**** need to be able to have a market overview
+**** need to be able to propose a data product
+*** will
+**** want to have alerts for job opportunities
+**** want to reveal career paths / market trends
+** definition questions
+*** Target to reach
+what makes a job interesting ?
+**** easy access
+***** new ?
+***** formation ?
+***** entrance cost ?
+***** success stories
+**** demand > supply
+**** loan
+**** re-usability
+***** tremplin
+***** multiple use case
+**** connection with your parcours
+*** Problems to overcome
+what is it you want to solve / answer ?
+**** can there be a tool to help me find a job / seek for opportunities ?
+***** can this be quicker the reading / regular digging ?
+****** have an overview of field to dig further in
+****** needs to be quick to browse : efficient summary
+****** needs to be reliable : data quality / second check
+* Project management
+** Time constraints
+*** run test / small steps / prototypes
+** Limits
+what is shaky about this approach ?
+*** quantitative unknown
+**** former predictions / insights : find and evaluate
+**** trending/ubiquitous ideas/concepts
+*** is it useful ?
+**** what would be the user case ?
+***** individual : orientation
+***** firm : market analysis
+*** data acquisition is costly
+**** if the approach is not efficient : pb
+**** TODO can only be tested if large amount of data
+**** need to gain faith / enthusiasm
+***** take small step achievements
+****** small jobs market
+****** data science / computing
+***** select exciting data sources
+***** readings
+****** signal and the noise
+****** use cases
+****** data culture / world
+***** methods / milstones
+****** doubt is good
+****** TODO testing is good
+** Crossovers
+*** test features / ideas
+to gain confidence / go in the right direction
+**** UI / UX
+***** possible on small amounts of data
+**** broader analysis
+***** only possible on larger amount
+**** application to other fields
+**** sponsoring
+*** build prototype project to show
+* Prototype 1
+DEADLINE: <2018-09-21 ven.>
+** [#A] outil pour chercher des jobs
+*** [#A] backend statique
+**** scrapping
+***** DONE check result of today 2018-09-14 ven. 20:20
+CLOSED: [2018-09-15 sam. 16:22]
+***** TODO launch everyday from query list
+****** make query list out of already made queries
+****** cron
+***** TODO make a whole scrap : test
+DEADLINE: <2018-09-16 dim.>
+***** add source query to features
+***** spped up
+****** own set limits ?
+****** server bans ?
+****** vpn ?
+****** tor ?
+**** data selection
+***** org : form interface 
+***** add tags to actual dataset / save working dataset
+**** filtering
+:LOGBOOK:
+- State "TODO"       from "WAITING"    [2018-09-15 sam. 16:25]
+- State "DONE"       from              [2018-09-13 jeu. 16:18]
+:END:
+***** resolve ipython output
+**** internal correlations
+***** nlp
+****** nltk
+****** similarity / clustering
+****** speed !
+******* numpy
+******* sql
+******* cython
+***** TODO historic
+****** redondancy / new 
+****** database sorted per date
+**** external correlations
+***** identify big firms / small ventures
+***** geolocalize headquarters on a map
+**** querying system
+*** [#B] front end
+**** TODO queries management
+***** query bag
+****** simple plain text file
+****** prompt : "add to query bag ?" when running a crawl
+****** autofill : get all previously used queries
+**** fiche job
+**** analysis viz
+** [#B] moyen de présenter mes compétences
+*** site : jekyll / git
+**** portage
+**** article présentation / extensions / futur / Gab application
+*** docker / makefile package

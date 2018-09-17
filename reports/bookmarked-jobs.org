@@ -1,0 +1,33 @@
+* JavaScript Developer, Graphical Modeling
+
+
+Camunda
+
+
+At Camunda we have built a profitable business based on our open source software. Our core product is made by developers for developers and is helping a growing number of organizations around the world (e.g. NASA, Zalando, Universal, Lufthansa and many more) to visualize and automate their mission-critical business processes.
+Modeling notations need excellent tools. We are looking for software engineers who are passionate about building excellent graphical tooling- open-source, hackable and with love for the web. As a developer at Camunda you'll be empowered to make your own decisions and you can always rely on the help and input of your teammates at the same time.
+Are you passionate about user experience? Do you recognize clean code? Do you value collaboration, feedback and taking on challenging tasks? Work as a bpmn.io core team member at Camunda in Berlin to build and improve our modeling tools.
+Requirements
+Your Contribution
+Experience in JavaScript and/or Node.js library and application development
+Knowledge of modern web standards (HTML5, CSS, SVG, ...) and state of the art application development
+Real passion for usability and interest in user interface and API design
+Pragmatism and passion to discuss, dissect and apply technology
+The ability to pursue complex challenges, together with your team
+Knowledge about modeling notations, experience with backend technologies and an open-source mindset is a plus
+Benefits
+Our Offer
+Work on bpmn.io, a successful open-source project
+Craft how people communicate process and decision knowledge via BPMN and DMN
+Get the freedom and flexibility to design and implement new features
+Dedicate 10% of your working time on your own passion projects
+Meet a wonderful workplace, colleagues and cool goodies
+Are you interested? Take a look at the many good reasons to work at Camunda and check out our ongoing open-source work.
+Camunda is an equal opportunity employer and we value diversity at our company. We do not discriminate on the basis of race, religion, color, national origin, gender, sexual orientation, age, marital status, veteran status, or disability status.
+* Video Database Management Intern
+* Entrepreneur in residence
+* Risk methodology specialist
+* Computer Vision Internship
+* Technical Artist VFX
+* Werkstudent
+* Lead 3D Character Artist

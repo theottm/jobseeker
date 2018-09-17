@@ -1,0 +1,3907 @@
+* Project description
+** General Description
+Find jobs
+*** Use
+**** [#A] target opportunities
+***** sheets of wanted words
+***** query matching algorithms
+**** [#A] data exploration
+**** [#B] cluster
+***** nlp
+**** [#B] find jobs I didn't know about
+**** get warned if new opportunities
+**** use it as a model for finding my perfect match in the world / exploring the economy
+**** make it open source and useable by anyone
+*** Features
+**** Update
+**** Clustering
+**** Visualization
+** Plan
+*** Ebay jobs quick scrap
+**** Think about it while normal digging
+**** Build a simple tool to access the info offline and stay up to date
+**** List the wanted features and their learning prerequisites
+*** Blogging
+**** Org babel
+**** Website
+*** Courses
+**** Databases
+**** Visualization
+**** Machine learning
+**** NLP
+**** Hash tables / numpy computation
+**** Proba / stats
+*** Jobs seeker
+** Implementation
+*** Start a clean project
+**** TODO git
+***** a branch per functionality
+**** TODO projectile
+**** file system
+***** /
+****** org
+****** scraper
+****** database
+****** explorer
+**** database
+***** sql ?
+***** csv ?
+**** org babel file / emacs env
+***** snippets
+C-c & ...
+Tables
+C-c C-t is snippet mode for test
+***** TODO track time
+:LOGBOOK:
+CLOCK: [2018-08-21 mar. 13:59]--[2018-08-21 mar. 14:08] =>  0:09
+:END:
+***** track habits
+:LOGBOOK:
+CLOCK: [2018-08-21 mar. 14:14]--[2018-08-21 mar. 15:29] =>  1:15
+:END:
+***** decide what goes public and what does not at expension
+* Explorer
+  :PROPERTIES:
+  :header-args: :session explorer :results raw drawer
+  :END:
+** imports
+*** ipython
+#+BEGIN_SRC ipython
+  %matplotlib inline
+  import matplotlib.pyplot as plt
+  import numpy as np
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[1]:
+:END:
+*** pandas
+#+BEGIN_SRC ipython
+import pandas as pd    
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[2]:
+:END:
+
+** Data load
+*** dataset definition
+**** loop selection
+***** TODO time range selection
+
+#+RESULTS:
+:RESULTS:
+# Out[6]:
+#+BEGIN_EXAMPLE
+  ['bücherei.csv',
+  'anfänger.csv',
+  'digital art.csv',
+  'graphql.log',
+  'google trends.log',
+  'jenkins.log',
+  'cuisine.csv',
+  'blumen.csv',
+  'computer vision.csv',
+  'küchenhilfe.csv',
+  'scrapping.csv',
+  'pilzen.csv',
+  'virtual reality.csv',
+  'google trends.csv',
+  'vr.csv',
+  'computer vision.log',
+  'mushrooms.csv',
+  'docker.log',
+  'advertisment.csv',
+  'buchhandel.csv',
+  'flowers.csv',
+  'digital artist.csv',
+  'graphql.csv',
+  'yoga.csv',
+  'jenkins.csv',
+  'museum.csv',
+  'advertisement.csv',
+  'küche.csv',
+  'fintech.csv',
+  'flower.csv',
+  'movie.csv',
+  'restaurant.csv',
+  'crackers.csv',
+  'docker.csv',
+  'bio.csv',
+  'crackers.log',
+  'garden.csv',
+  'short movie.csv',
+  'gardening.csv',
+  'schneiderei.csv',
+  'heroku.csv',
+  'hammam.csv',
+  'advertisement.log',
+  'kunst und medien.csv',
+  'spa.csv']
+#+END_EXAMPLE
+:END:
+***** files list
+#+BEGIN_SRC ipython
+    import os
+    import re
+    csv_files = []
+    data_dir = "/home/teddd/code/web/scraping/udemy-class/indeed/data/2018-09-14/"
+    dir_files = os.listdir(data_dir)
+    for fl in dir_files:
+        if re.search('[.]csv', fl, re.I) is not None:
+            csv_files.append(fl)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[3]:
+:END:
+
+***** dataframe creation
+#+BEGIN_SRC ipython
+    jobs = pd.DataFrame()
+
+    for fl in csv_files:
+        print(fl+(30-len(fl)//2)*" *")
+        try:
+            jobs_set = pd.read_csv(data_dir+fl)
+            jobs_set.dropna(axis=0, how='any', subset=["desc"], inplace=True)
+            jobs_set.drop_duplicates(subset="desc", inplace=True)            
+            try:                                                             
+                jobs.iloc[0,0]                                               
+                jobs = jobs.append(jobs_set)                                 
+            except IndexError:                                               
+                jobs = jobs_set                                              
+        except pd.errors.EmptyDataError:
+            pass
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[4]:
+:END:
+
+***** rename
+#+BEGIN_SRC ipython
+df = jobs
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[5]:
+:END:
+
+*** python example                                                  :test:
+#+NAME: firstblock
+#+BEGIN_SRC python
+    x = 12
+    return x
+#+END_SRC
+
+#+BEGIN_SRC python :var x=firstblock
+return int(x)+1
+#+END_SRC
+
+*** org doc elisp example                                           :test:
+#+NAME: example-table
+| 1 |
+| 2 |
+| 3 |
+| 4 |
+
+#+NAME: table-length
+#+BEGIN_SRC emacs-lisp :var table=example-table
+(length table)
+#+END_SRC
+
+*** python                                                            :python:
+#+NAME: data-path
+#+BEGIN_SRC python :results value file
+"~/data/projects/jobseeker/data/raw/18-09-07/dsp.csv"
+#+END_SRC
+
+#+RESULTS[d5047aa3d26b44e4cd843798c5ad30431cd8fc49]: data-path
+[[file:None]]
+
+#+NAME: data-dsp
+#+BEGIN_SRC python :results value file
+"~/data/projects/jobseeker/data/raw/18-09-07/dsp.csv"
+#+END_SRC
+
+#+RESULTS[d5047aa3d26b44e4cd843798c5ad30431cd8fc49]: data-dsp
+[[file:None]]
+
+#+NAME: data-python
+#+BEGIN_SRC python :results value file
+"~/data/projects/jobseeker/data/raw/18-09-07/python.csv"
+#+END_SRC
+
+#+RESULTS[f247fbba660ab3bb4061ef0d92294fd713d146b4]: data-python
+[[file:None]]
+
+#+NAME: data-ds
+#+BEGIN_SRC python :results value file
+"~/data/projects/jobseeker/data/raw/18-09-07/data scientist.csv"
+#+END_SRC
+
+#+RESULTS[24df27fa52b775d0702292eb7c6a390d2bcd9717]: data-ds
+[[file:None]]
+
+#+NAME: data-se
+#+BEGIN_SRC python :results value file
+"~/data/projects/jobseeker/data/raw/18-09-07/software engineer.csv"
+#+END_SRC
+
+#+RESULTS[bd39a59c82b8b878b05fac0296a88e2e3182efd4]: data-se
+[[file:None]]
+** Manipulation
+*** Pioneer
+**** get data from path as org variable
+#+BEGIN_SRC ipython :var data=data-path
+    import pandas as pd
+    df = pd.read_csv(data)
+ #+END_SRC
+
+**** infos about data
+#+BEGIN_SRC ipython
+    df.count()
+#+END_SRC
+
+**** show short data insight
+***** raw pandas output
+#+BEGIN_SRC ipython
+df.head()
+#+END_SRC
+
+***** COMMENT in an org table                                         :slow:
+#+BEGIN_SRC ipython :eval no
+    head = df.head()
+    [list(head)] + [None] + head.values.tolist()
+#+END_SRC
+
+**** browse offers
+***** add custom function to pretyfy
+#+BEGIN_SRC ipython
+    from bs4 import BeautifulSoup
+
+    def souper(html):
+        soup = BeautifulSoup(html, 'html.parser')
+        print(soup.get_text())
+
+
+    def soupprint(df, begin, end):
+        for i in range(begin, end):
+            print(i, df.title.iloc[i])
+            print("\n")
+            print(df.company.iloc[i])
+            print("\n")
+            souper(df.desc.iloc[i])
+            print("\n"*3)
+            print("-"*100)
+            print("\n"*3)
+
+#+END_SRC
+
+***** print it !
+#+BEGIN_SRC ipython 
+    soupprint(head,0,3)
+#+END_SRC
+
+*** quick stats
+**** overview
+***** head
+#+BEGIN_SRC ipython
+df.head()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[21]:
+#+BEGIN_EXAMPLE
+  Empty DataFrame
+  Columns: [location, related, title, url, company, days_ago, contract, desc]
+  Index: []
+#+END_EXAMPLE
+:END:
+
+***** count
+#+BEGIN_SRC ipython
+len(df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[10]:
+: 3466
+:END:
+
+**** cleansing                                                  :clean:
+***** duplicates
+#+BEGIN_SRC ipython
+    df.drop_duplicates(subset="desc", inplace=True)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[11]:
+:END:
+
+****** count
+#+BEGIN_SRC ipython
+df.title.count()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[12]:
+: 3194
+:END:
+
+***** olders
+****** map lambda
+#+BEGIN_SRC ipython
+df = df[df.days_ago.str.contains("30+").map(lambda x: not x)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[26]:
+:END:
+
+****** ~
+#+BEGIN_SRC ipython
+df = ~df[df.days_ago.str.contains("30+")]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[16]:
+:END:
+
+****** ==False
+#+BEGIN_SRC ipython
+df = df[df.days_ago.str.contains("30+")==False]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[37]:
+:END:
+
+****** count
+#+BEGIN_SRC ipython
+len(df)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[38]:
+: 1673
+:END:
+***** string numbers to integers
+****** sol
+#+BEGIN_SRC ipython
+    df["days_ago"] = df.days_ago.apply(lambda x: int(x))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[39]:
+:END:
+****** test
+#+BEGIN_SRC ipython
+df.days_ago.iloc[12]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[37]:
+: 3
+:END:
+***** drop erratic values
+****** run 
+#+BEGIN_SRC ipython
+    df = df[df.days_ago.lt(30)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[81]:
+:END:
+****** tests
+#+BEGIN_SRC ipython
+    df.days_ago.lt(30)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[80]:
+#+BEGIN_EXAMPLE
+  3      True
+  12     True
+  14     True
+  15     True
+  19     True
+  23     True
+  27     True
+  28     True
+  35     True
+  38     True
+  45     True
+  48     True
+  55     True
+  57     True
+  59     True
+  62     True
+  63     True
+  64     True
+  65     True
+  66     True
+  75     True
+  79     True
+  82     True
+  87     True
+  91     True
+  92     True
+  93     True
+  94     True
+  96     True
+  100    True
+  ...
+  44     True
+  46     True
+  49     True
+  54     True
+  55     True
+  65     True
+  68     True
+  69     True
+  70     True
+  74     True
+  77     True
+  82     True
+  84     True
+  87     True
+  89     True
+  90     True
+  93     True
+  95     True
+  96     True
+  97     True
+  102    True
+  105    True
+  109    True
+  115    True
+  116    True
+  119    True
+  121    True
+  124    True
+  126    True
+  2      True
+  Name: days_ago, Length: 1625, dtype: bool
+#+END_EXAMPLE
+:END:
+
+**** days ago
+***** histogram
+****** pd plot
+#+BEGIN_SRC ipython
+    df.days_ago.plot.hist()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[82]:
+: <matplotlib.axes._subplots.AxesSubplot at 0x7f1136869c18>
+[[file:./obipy-resources/TtBMu6.png]]
+:END:
+***** value count
+#+BEGIN_SRC ipython
+    df.days_ago.value_counts()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[41]:
+#+BEGIN_EXAMPLE
+  3     136
+  1     125
+  9     115
+  2     109
+  8      80
+  7      74
+  4      71
+  10     70
+  23     68
+  11     68
+  14     68
+  24     57
+  17     56
+  16     55
+  21     55
+  18     52
+  15     48
+  22     47
+  25     46
+  28     40
+  6      39
+  29     38
+  13     35
+  12     28
+  5      23
+  27     20
+  20     19
+  19     16
+  26     13
+  46      1
+  56      1
+  Name: days_ago, dtype: int64
+#+END_EXAMPLE
+:END:
+***** groupby
+****** basic output
+#+BEGIN_SRC ipython
+    df.groupby(["days_ago"]).groups
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[54]:
+#+BEGIN_EXAMPLE
+  {1: Int64Index([20, 25, 49, 136], dtype='int64'),
+  2: Int64Index([2, 4, 10, 30, 71, 77, 116, 125, 139], dtype='int64'),
+  3: Int64Index([27, 54, 73, 98, 106, 128], dtype='int64'),
+  4: Int64Index([29, 32, 60, 97, 114, 119, 143], dtype='int64'),
+  5: Int64Index([50, 135], dtype='int64'),
+  6: Int64Index([129], dtype='int64'),
+  7: Int64Index([127], dtype='int64'),
+  8: Int64Index([104, 112, 113, 121, 138], dtype='int64'),
+  9: Int64Index([142], dtype='int64'),
+  10: Int64Index([3, 96], dtype='int64'),
+  11: Int64Index([86, 132], dtype='int64'),
+  12: Int64Index([109], dtype='int64'),
+  13: Int64Index([31], dtype='int64'),
+  14: Int64Index([22, 24, 95], dtype='int64'),
+  16: Int64Index([47], dtype='int64'),
+  17: Int64Index([6, 37, 41], dtype='int64'),
+  18: Int64Index([80], dtype='int64'),
+  20: Int64Index([79], dtype='int64'),
+  21: Int64Index([55], dtype='int64'),
+  22: Int64Index([1, 144], dtype='int64'),
+  23: Int64Index([21, 52, 75, 110], dtype='int64'),
+  24: Int64Index([66, 67], dtype='int64'),
+  25: Int64Index([14], dtype='int64'),
+  26: Int64Index([91], dtype='int64'),
+  27: Int64Index([48], dtype='int64'),
+  29: Int64Index([145], dtype='int64')}
+#+END_EXAMPLE
+:END:
+****** loop print
+#+BEGIN_SRC ipython
+grouped = df.groupby("days_ago")
+
+for name,group in grouped:
+    print(name)
+    print(group)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[52]:
+:END:
+****** documentation                                        :doc:
+******* pandas doc
+#+BEGIN_SRC ipython 
+help(df.groupby(["days_ago"]))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+Help on DataFrameGroupBy in module pandas.core.groupby object:
+
+class DataFrameGroupBy(NDFrameGroupBy)
+ |  Class for grouping and aggregating relational data. See aggregate,
+ |  transform, and apply functions on this object.
+ |  
+ |  It's easiest to use obj.groupby(...) to use GroupBy, but you can also do:
+ |  
+ |  ::
+ |  
+ |      grouped = groupby(obj, ...)
+ |  
+ |  Parameters
+ |  ----------
+ |  obj : pandas object
+ |  axis : int, default 0
+ |  level : int, default None
+ |      Level of MultiIndex
+ |  groupings : list of Grouping objects
+ |      Most users should ignore this
+ |  exclusions : array-like, optional
+ |      List of columns to exclude
+ |  name : string
+ |      Most users should ignore this
+ |  
+ |  Notes
+ |  -----
+ |  After grouping, see aggregate, apply, and transform functions. Here are
+ |  some other brief notes about usage. When grouping by multiple groups, the
+ |  result index will be a MultiIndex (hierarchical) by default.
+ |  
+ |  Iteration produces (key, group) tuples, i.e. chunking the data by group. So
+ |  you can write code like:
+ |  
+ |  ::
+ |  
+ |      grouped = obj.groupby(keys, axis=axis)
+ |      for key, group in grouped:
+ |          # do something with the data
+ |  
+ |  Function calls on GroupBy, if not specially implemented, "dispatch" to the
+ |  grouped data. So if you group a DataFrame and wish to invoke the std()
+ |  method on each group, you can simply do:
+ |  
+ |  ::
+ |  
+ |      df.groupby(mapper).std()
+ |  
+ |  rather than
+ |  
+ |  ::
+ |  
+ |      df.groupby(mapper).aggregate(np.std)
+ |  
+ |  You can pass arguments to these "wrapped" functions, too.
+ |  
+ |  See the online documentation for full exposition on these topics and much
+ |  more
+ |  
+ |  Returns
+ |  -------
+ |  **Attributes**
+ |  groups : dict
+ |      {group name -> group labels}
+ |  len(grouped) : int
+ |      Number of groups
+ |  
+ |  Method resolution order:
+ |      DataFrameGroupBy
+ |      NDFrameGroupBy
+ |      GroupBy
+ |      _GroupBy
+ |      pandas.core.base.PandasObject
+ |      pandas.core.base.StringMixin
+ |      pandas.core.accessor.DirNamesMixin
+ |      pandas.core.base.SelectionMixin
+ |      builtins.object
+ |  
+ |  Methods defined here:
+ |  
+ |  agg = aggregate(self, arg, *args, **kwargs)
+ |  
+ |  aggregate(self, arg, *args, **kwargs)
+ |      Aggregate using callable, string, dict, or list of string/callables
+ |      
+ |      
+ |      
+ |      Parameters
+ |      ----------
+ |      func : callable, string, dictionary, or list of string/callables
+ |          Function to use for aggregating the data. If a function, must either
+ |          work when passed a DataFrame or when passed to DataFrame.apply. For
+ |          a DataFrame, can pass a dict, if the keys are DataFrame column names.
+ |      
+ |          Accepted Combinations are:
+ |      
+ |          - string function name
+ |          - function
+ |          - list of functions
+ |          - dict of column names -> functions (or list of functions)
+ |      
+ |      Notes
+ |      -----
+ |      Numpy functions mean/median/prod/sum/std/var are special cased so the
+ |      default behavior is applying the function along axis=0
+ |      (e.g., np.mean(arr_2d, axis=0)) as opposed to
+ |      mimicking the default Numpy behavior (e.g., np.mean(arr_2d)).
+ |      
+ |      `agg` is an alias for `aggregate`. Use the alias.
+ |      
+ |      Returns
+ |      -------
+ |      aggregated : DataFrame
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = pd.DataFrame({'A': [1, 1, 2, 2],
+ |      ...                    'B': [1, 2, 3, 4],
+ |      ...                    'C': np.random.randn(4)})
+ |      
+ |      >>> df
+ |         A  B         C
+ |      0  1  1  0.362838
+ |      1  1  2  0.227877
+ |      2  2  3  1.267767
+ |      3  2  4 -0.562860
+ |      
+ |      The aggregation is for each column.
+ |      
+ |      >>> df.groupby('A').agg('min')
+ |         B         C
+ |      A
+ |      1  1  0.227877
+ |      2  3 -0.562860
+ |      
+ |      Multiple aggregations
+ |      
+ |      >>> df.groupby('A').agg(['min', 'max'])
+ |          B             C
+ |        min max       min       max
+ |      A
+ |      1   1   2  0.227877  0.362838
+ |      2   3   4 -0.562860  1.267767
+ |      
+ |      Select a column for aggregation
+ |      
+ |      >>> df.groupby('A').B.agg(['min', 'max'])
+ |         min  max
+ |      A
+ |      1    1    2
+ |      2    3    4
+ |      
+ |      Different aggregations per column
+ |      
+ |      >>> df.groupby('A').agg({'B': ['min', 'max'], 'C': 'sum'})
+ |          B             C
+ |        min max       sum
+ |      A
+ |      1   1   2  0.590716
+ |      2   3   4  0.704907
+ |      
+ |      See also
+ |      --------
+ |      pandas.DataFrame.groupby.apply
+ |      pandas.DataFrame.groupby.transform
+ |      pandas.DataFrame.aggregate
+ |  
+ |  boxplot = boxplot_frame_groupby(grouped, subplots=True, column=None, fontsize=None, rot=0, grid=True, ax=None, figsize=None, layout=None, **kwds)
+ |      Make box plots from DataFrameGroupBy data.
+ |      
+ |      Parameters
+ |      ----------
+ |      grouped : Grouped DataFrame
+ |      subplots :
+ |          * ``False`` - no subplots will be used
+ |          * ``True`` - create a subplot for each group
+ |      column : column name or list of names, or vector
+ |          Can be any valid input to groupby
+ |      fontsize : int or string
+ |      rot : label rotation angle
+ |      grid : Setting this to True will show the grid
+ |      ax : Matplotlib axis object, default None
+ |      figsize : A tuple (width, height) in inches
+ |      layout : tuple (optional)
+ |          (rows, columns) for the layout of the plot
+ |      kwds : other plotting keyword arguments to be passed to matplotlib boxplot
+ |             function
+ |      
+ |      Returns
+ |      -------
+ |      dict of key/value = group key/DataFrame.boxplot return value
+ |      or DataFrame.boxplot return value in case subplots=figures=False
+ |      
+ |      Examples
+ |      --------
+ |      >>> import pandas
+ |      >>> import numpy as np
+ |      >>> import itertools
+ |      >>>
+ |      >>> tuples = [t for t in itertools.product(range(1000), range(4))]
+ |      >>> index = pandas.MultiIndex.from_tuples(tuples, names=['lvl0', 'lvl1'])
+ |      >>> data = np.random.randn(len(index),4)
+ |      >>> df = pandas.DataFrame(data, columns=list('ABCD'), index=index)
+ |      >>>
+ |      >>> grouped = df.groupby(level='lvl1')
+ |      >>> boxplot_frame_groupby(grouped)
+ |      >>>
+ |      >>> grouped = df.unstack(level='lvl1').groupby(level=0, axis=1)
+ |      >>> boxplot_frame_groupby(grouped, subplots=False)
+ |  
+ |  count(self)
+ |      Compute count of group, excluding missing values
+ |  
+ |  nunique(self, dropna=True)
+ |      Return DataFrame with number of distinct observations per group for
+ |      each column.
+ |      
+ |      .. versionadded:: 0.20.0
+ |      
+ |      Parameters
+ |      ----------
+ |      dropna : boolean, default True
+ |          Don't include NaN in the counts.
+ |      
+ |      Returns
+ |      -------
+ |      nunique: DataFrame
+ |      
+ |      Examples
+ |      --------
+ |      >>> df = pd.DataFrame({'id': ['spam', 'egg', 'egg', 'spam',
+ |      ...                           'ham', 'ham'],
+ |      ...                    'value1': [1, 5, 5, 2, 5, 5],
+ |      ...                    'value2': list('abbaxy')})
+ |      >>> df
+ |           id  value1 value2
+ |      0  spam       1      a
+ |      1   egg       5      b
+ |      2   egg       5      b
+ |      3  spam       2      a
+ |      4   ham       5      x
+ |      5   ham       5      y
+ |      
+ |      >>> df.groupby('id').nunique()
+ |          id  value1  value2
+ |      id
+ |      egg    1       1       1
+ |      ham    1       1       2
+ |      spam   1       2       1
+ |      
+ |      # check for rows with the same id but conflicting values
+ |      >>> df.groupby('id').filter(lambda g: (g.nunique() > 1).any())
+ |           id  value1 value2
+ |      0  spam       1      a
+ |      3  spam       2      a
+ |      4   ham       5      x
+ |      5   ham       5      y
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  all
+ |      
+ |      Return whether all elements are True over requested axis
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {index (0), columns (1)}
+ |      skipna : boolean, default True
+ |          Exclude NA/null values. If an entire row/column is NA, the result
+ |          will be NA
+ |      level : int or level name, default None
+ |          If the axis is a MultiIndex (hierarchical), count along a
+ |          particular level, collapsing into a Series
+ |      bool_only : boolean, default None
+ |          Include only boolean columns. If None, will attempt to use everything,
+ |          then use only boolean data. Not implemented for Series.
+ |      
+ |      Returns
+ |      -------
+ |      all : Series or DataFrame (if level specified)
+ |  
+ |  any
+ |      
+ |      Return whether any element is True over requested axis
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {index (0), columns (1)}
+ |      skipna : boolean, default True
+ |          Exclude NA/null values. If an entire row/column is NA, the result
+ |          will be NA
+ |      level : int or level name, default None
+ |          If the axis is a MultiIndex (hierarchical), count along a
+ |          particular level, collapsing into a Series
+ |      bool_only : boolean, default None
+ |          Include only boolean columns. If None, will attempt to use everything,
+ |          then use only boolean data. Not implemented for Series.
+ |      
+ |      Returns
+ |      -------
+ |      any : Series or DataFrame (if level specified)
+ |  
+ |  corr
+ |      Compute pairwise correlation of columns, excluding NA/null values
+ |      
+ |      Parameters
+ |      ----------
+ |      method : {'pearson', 'kendall', 'spearman'}
+ |          * pearson : standard correlation coefficient
+ |          * kendall : Kendall Tau correlation coefficient
+ |          * spearman : Spearman rank correlation
+ |      min_periods : int, optional
+ |          Minimum number of observations required per pair of columns
+ |          to have a valid result. Currently only available for pearson
+ |          and spearman correlation
+ |      
+ |      Returns
+ |      -------
+ |      y : DataFrame
+ |  
+ |  corrwith
+ |      Compute pairwise correlation between rows or columns of two DataFrame
+ |      objects.
+ |      
+ |      Parameters
+ |      ----------
+ |      other : DataFrame
+ |      axis : {0 or 'index', 1 or 'columns'}, default 0
+ |          0 or 'index' to compute column-wise, 1 or 'columns' for row-wise
+ |      drop : boolean, default False
+ |          Drop missing indices from result, default returns union of all
+ |      
+ |      Returns
+ |      -------
+ |      correls : Series
+ |  
+ |  cov
+ |      Compute pairwise covariance of columns, excluding NA/null values
+ |      
+ |      Parameters
+ |      ----------
+ |      min_periods : int, optional
+ |          Minimum number of observations required per pair of columns
+ |          to have a valid result.
+ |      
+ |      Returns
+ |      -------
+ |      y : DataFrame
+ |      
+ |      Notes
+ |      -----
+ |      `y` contains the covariance matrix of the DataFrame's time series.
+ |      The covariance is normalized by N-1 (unbiased estimator).
+ |  
+ |  diff
+ |      1st discrete difference of object
+ |      
+ |      Parameters
+ |      ----------
+ |      periods : int, default 1
+ |          Periods to shift for forming difference
+ |      axis : {0 or 'index', 1 or 'columns'}, default 0
+ |          Take difference over rows (0) or columns (1).
+ |      
+ |          .. versionadded: 0.16.1
+ |      
+ |      Returns
+ |      -------
+ |      diffed : DataFrame
+ |  
+ |  dtypes
+ |      Return the dtypes in this object.
+ |  
+ |  fillna
+ |      Fill NA/NaN values using the specified method
+ |      
+ |      Parameters
+ |      ----------
+ |      value : scalar, dict, Series, or DataFrame
+ |          Value to use to fill holes (e.g. 0), alternately a
+ |          dict/Series/DataFrame of values specifying which value to use for
+ |          each index (for a Series) or column (for a DataFrame). (values not
+ |          in the dict/Series/DataFrame will not be filled). This value cannot
+ |          be a list.
+ |      method : {'backfill', 'bfill', 'pad', 'ffill', None}, default None
+ |          Method to use for filling holes in reindexed Series
+ |          pad / ffill: propagate last valid observation forward to next valid
+ |          backfill / bfill: use NEXT valid observation to fill gap
+ |      axis : {0 or 'index', 1 or 'columns'}
+ |      inplace : boolean, default False
+ |          If True, fill in place. Note: this will modify any
+ |          other views on this object, (e.g. a no-copy slice for a column in a
+ |          DataFrame).
+ |      limit : int, default None
+ |          If method is specified, this is the maximum number of consecutive
+ |          NaN values to forward/backward fill. In other words, if there is
+ |          a gap with more than this number of consecutive NaNs, it will only
+ |          be partially filled. If method is not specified, this is the
+ |          maximum number of entries along the entire axis where NaNs will be
+ |          filled. Must be greater than 0 if not None.
+ |      downcast : dict, default is None
+ |          a dict of item->dtype of what to downcast if possible,
+ |          or the string 'infer' which will try to downcast to an appropriate
+ |          equal type (e.g. float64 to int64 if possible)
+ |      
+ |      See Also
+ |      --------
+ |      reindex, asfreq
+ |      
+ |      Returns
+ |      -------
+ |      filled : DataFrame
+ |      
+ |      Examples
+ |      --------
+ |      >>> df = pd.DataFrame([[np.nan, 2, np.nan, 0],
+ |      ...                    [3, 4, np.nan, 1],
+ |      ...                    [np.nan, np.nan, np.nan, 5],
+ |      ...                    [np.nan, 3, np.nan, 4]],
+ |      ...                    columns=list('ABCD'))
+ |      >>> df
+ |           A    B   C  D
+ |      0  NaN  2.0 NaN  0
+ |      1  3.0  4.0 NaN  1
+ |      2  NaN  NaN NaN  5
+ |      3  NaN  3.0 NaN  4
+ |      
+ |      Replace all NaN elements with 0s.
+ |      
+ |      >>> df.fillna(0)
+ |          A   B   C   D
+ |      0   0.0 2.0 0.0 0
+ |      1   3.0 4.0 0.0 1
+ |      2   0.0 0.0 0.0 5
+ |      3   0.0 3.0 0.0 4
+ |      
+ |      We can also propagate non-null values forward or backward.
+ |      
+ |      >>> df.fillna(method='ffill')
+ |          A   B   C   D
+ |      0   NaN 2.0 NaN 0
+ |      1   3.0 4.0 NaN 1
+ |      2   3.0 4.0 NaN 5
+ |      3   3.0 3.0 NaN 4
+ |      
+ |      Replace all NaN elements in column 'A', 'B', 'C', and 'D', with 0, 1,
+ |      2, and 3 respectively.
+ |      
+ |      >>> values = {'A': 0, 'B': 1, 'C': 2, 'D': 3}
+ |      >>> df.fillna(value=values)
+ |          A   B   C   D
+ |      0   0.0 2.0 2.0 0
+ |      1   3.0 4.0 2.0 1
+ |      2   0.0 1.0 2.0 5
+ |      3   0.0 3.0 2.0 4
+ |      
+ |      Only replace the first NaN element.
+ |      
+ |      >>> df.fillna(value=values, limit=1)
+ |          A   B   C   D
+ |      0   0.0 2.0 2.0 0
+ |      1   3.0 4.0 NaN 1
+ |      2   NaN 1.0 NaN 5
+ |      3   NaN 3.0 NaN 4
+ |  
+ |  hist
+ |      Draw histogram of the DataFrame's series using matplotlib / pylab.
+ |      
+ |      Parameters
+ |      ----------
+ |      data : DataFrame
+ |      column : string or sequence
+ |          If passed, will be used to limit data to a subset of columns
+ |      by : object, optional
+ |          If passed, then used to form histograms for separate groups
+ |      grid : boolean, default True
+ |          Whether to show axis grid lines
+ |      xlabelsize : int, default None
+ |          If specified changes the x-axis label size
+ |      xrot : float, default None
+ |          rotation of x axis labels
+ |      ylabelsize : int, default None
+ |          If specified changes the y-axis label size
+ |      yrot : float, default None
+ |          rotation of y axis labels
+ |      ax : matplotlib axes object, default None
+ |      sharex : boolean, default True if ax is None else False
+ |          In case subplots=True, share x axis and set some x axis labels to
+ |          invisible; defaults to True if ax is None otherwise False if an ax
+ |          is passed in; Be aware, that passing in both an ax and sharex=True
+ |          will alter all x axis labels for all subplots in a figure!
+ |      sharey : boolean, default False
+ |          In case subplots=True, share y axis and set some y axis labels to
+ |          invisible
+ |      figsize : tuple
+ |          The size of the figure to create in inches by default
+ |      layout : tuple, optional
+ |          Tuple of (rows, columns) for the layout of the histograms
+ |      bins : integer, default 10
+ |          Number of histogram bins to be used
+ |      kwds : other plotting keyword arguments
+ |          To be passed to hist function
+ |  
+ |  idxmax
+ |      Return index of first occurrence of maximum over requested axis.
+ |      NA/null values are excluded.
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {0 or 'index', 1 or 'columns'}, default 0
+ |          0 or 'index' for row-wise, 1 or 'columns' for column-wise
+ |      skipna : boolean, default True
+ |          Exclude NA/null values. If an entire row/column is NA, the result
+ |          will be NA.
+ |      
+ |      Raises
+ |      ------
+ |      ValueError
+ |          * If the row/column is empty
+ |      
+ |      Returns
+ |      -------
+ |      idxmax : Series
+ |      
+ |      Notes
+ |      -----
+ |      This method is the DataFrame version of ``ndarray.argmax``.
+ |      
+ |      See Also
+ |      --------
+ |      Series.idxmax
+ |  
+ |  idxmin
+ |      Return index of first occurrence of minimum over requested axis.
+ |      NA/null values are excluded.
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {0 or 'index', 1 or 'columns'}, default 0
+ |          0 or 'index' for row-wise, 1 or 'columns' for column-wise
+ |      skipna : boolean, default True
+ |          Exclude NA/null values. If an entire row/column is NA, the result
+ |          will be NA.
+ |      
+ |      Raises
+ |      ------
+ |      ValueError
+ |          * If the row/column is empty
+ |      
+ |      Returns
+ |      -------
+ |      idxmin : Series
+ |      
+ |      Notes
+ |      -----
+ |      This method is the DataFrame version of ``ndarray.argmin``.
+ |      
+ |      See Also
+ |      --------
+ |      Series.idxmin
+ |  
+ |  mad
+ |      
+ |      Return the mean absolute deviation of the values for the requested axis
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {index (0), columns (1)}
+ |      skipna : boolean, default True
+ |          Exclude NA/null values when computing the result.
+ |      level : int or level name, default None
+ |          If the axis is a MultiIndex (hierarchical), count along a
+ |          particular level, collapsing into a Series
+ |      numeric_only : boolean, default None
+ |          Include only float, int, boolean columns. If None, will attempt to use
+ |          everything, then use only numeric data. Not implemented for Series.
+ |      
+ |      Returns
+ |      -------
+ |      mad : Series or DataFrame (if level specified)
+ |  
+ |  pct_change
+ |      Percent change over given number of periods.
+ |      
+ |      Parameters
+ |      ----------
+ |      periods : int, default 1
+ |          Periods to shift for forming percent change
+ |      fill_method : str, default 'pad'
+ |          How to handle NAs before computing percent changes
+ |      limit : int, default None
+ |          The number of consecutive NAs to fill before stopping
+ |      freq : DateOffset, timedelta, or offset alias string, optional
+ |          Increment to use from time series API (e.g. 'M' or BDay())
+ |      
+ |      Returns
+ |      -------
+ |      chg : NDFrame
+ |      
+ |      Notes
+ |      -----
+ |      
+ |      By default, the percentage change is calculated along the stat
+ |      axis: 0, or ``Index``, for ``DataFrame`` and 1, or ``minor`` for
+ |      ``Panel``. You can change this with the ``axis`` keyword argument.
+ |  
+ |  quantile
+ |      Return values at the given quantile over requested axis, a la
+ |      numpy.percentile.
+ |      
+ |      Parameters
+ |      ----------
+ |      q : float or array-like, default 0.5 (50% quantile)
+ |          0 <= q <= 1, the quantile(s) to compute
+ |      axis : {0, 1, 'index', 'columns'} (default 0)
+ |          0 or 'index' for row-wise, 1 or 'columns' for column-wise
+ |      interpolation : {'linear', 'lower', 'higher', 'midpoint', 'nearest'}
+ |          .. versionadded:: 0.18.0
+ |      
+ |          This optional parameter specifies the interpolation method to use,
+ |          when the desired quantile lies between two data points `i` and `j`:
+ |      
+ |          * linear: `i + (j - i) * fraction`, where `fraction` is the
+ |            fractional part of the index surrounded by `i` and `j`.
+ |          * lower: `i`.
+ |          * higher: `j`.
+ |          * nearest: `i` or `j` whichever is nearest.
+ |          * midpoint: (`i` + `j`) / 2.
+ |      
+ |      Returns
+ |      -------
+ |      quantiles : Series or DataFrame
+ |      
+ |          - If ``q`` is an array, a DataFrame will be returned where the
+ |            index is ``q``, the columns are the columns of self, and the
+ |            values are the quantiles.
+ |          - If ``q`` is a float, a Series will be returned where the
+ |            index is the columns of self and the values are the quantiles.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = DataFrame(np.array([[1, 1], [2, 10], [3, 100], [4, 100]]),
+ |                         columns=['a', 'b'])
+ |      >>> df.quantile(.1)
+ |      a    1.3
+ |      b    3.7
+ |      dtype: float64
+ |      >>> df.quantile([.1, .5])
+ |             a     b
+ |      0.1  1.3   3.7
+ |      0.5  2.5  55.0
+ |  
+ |  rank
+ |      Compute numerical data ranks (1 through n) along axis. Equal values are
+ |      assigned a rank that is the average of the ranks of those values
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {0 or 'index', 1 or 'columns'}, default 0
+ |          index to direct ranking
+ |      method : {'average', 'min', 'max', 'first', 'dense'}
+ |          * average: average rank of group
+ |          * min: lowest rank in group
+ |          * max: highest rank in group
+ |          * first: ranks assigned in order they appear in the array
+ |          * dense: like 'min', but rank always increases by 1 between groups
+ |      numeric_only : boolean, default None
+ |          Include only float, int, boolean data. Valid only for DataFrame or
+ |          Panel objects
+ |      na_option : {'keep', 'top', 'bottom'}
+ |          * keep: leave NA values where they are
+ |          * top: smallest rank if ascending
+ |          * bottom: smallest rank if descending
+ |      ascending : boolean, default True
+ |          False for ranks by high (1) to low (N)
+ |      pct : boolean, default False
+ |          Computes percentage rank of data
+ |      
+ |      Returns
+ |      -------
+ |      ranks : same type as caller
+ |  
+ |  skew
+ |      
+ |      Return unbiased skew over requested axis
+ |      Normalized by N-1
+ |      
+ |      Parameters
+ |      ----------
+ |      axis : {index (0), columns (1)}
+ |      skipna : boolean, default True
+ |          Exclude NA/null values when computing the result.
+ |      level : int or level name, default None
+ |          If the axis is a MultiIndex (hierarchical), count along a
+ |          particular level, collapsing into a Series
+ |      numeric_only : boolean, default None
+ |          Include only float, int, boolean columns. If None, will attempt to use
+ |          everything, then use only numeric data. Not implemented for Series.
+ |      
+ |      Returns
+ |      -------
+ |      skew : Series or DataFrame (if level specified)
+ |  
+ |  take
+ |      Return the elements in the given *positional* indices along an axis.
+ |      
+ |      This means that we are not indexing according to actual values in
+ |      the index attribute of the object. We are indexing according to the
+ |      actual position of the element in the object.
+ |      
+ |      Parameters
+ |      ----------
+ |      indices : array-like
+ |          An array of ints indicating which positions to take.
+ |      axis : int, default 0
+ |          The axis on which to select elements. "0" means that we are
+ |          selecting rows, "1" means that we are selecting columns, etc.
+ |      convert : bool, default True
+ |          .. deprecated:: 0.21.0
+ |             In the future, negative indices will always be converted.
+ |      
+ |          Whether to convert negative indices into positive ones.
+ |          For example, ``-1`` would map to the ``len(axis) - 1``.
+ |          The conversions are similar to the behavior of indexing a
+ |          regular Python list.
+ |      is_copy : bool, default True
+ |          Whether to return a copy of the original object or not.
+ |      
+ |      Examples
+ |      --------
+ |      >>> df = pd.DataFrame([('falcon', 'bird',    389.0),
+ |                             ('parrot', 'bird',     24.0),
+ |                             ('lion',   'mammal',   80.5),
+ |                             ('monkey', 'mammal', np.nan)],
+ |                            columns=('name', 'class', 'max_speed'),
+ |                            index=[0, 2, 3, 1])
+ |      >>> df
+ |           name   class  max_speed
+ |      0  falcon    bird      389.0
+ |      2  parrot    bird       24.0
+ |      3    lion  mammal       80.5
+ |      1  monkey  mammal        NaN
+ |      
+ |      Take elements at positions 0 and 3 along the axis 0 (default).
+ |      
+ |      Note how the actual indices selected (0 and 1) do not correspond to
+ |      our selected indices 0 and 3. That's because we are selecting the 0th
+ |      and 3rd rows, not rows whose indices equal 0 and 3.
+ |      
+ |      >>> df.take([0, 3])
+ |      0  falcon    bird      389.0
+ |      1  monkey  mammal        NaN
+ |      
+ |      Take elements at indices 1 and 2 along the axis 1 (column selection).
+ |      
+ |      >>> df.take([1, 2], axis=1)
+ |          class  max_speed
+ |      0    bird      389.0
+ |      2    bird       24.0
+ |      3  mammal       80.5
+ |      1  mammal        NaN
+ |      
+ |      We may take elements using negative integers for positive indices,
+ |      starting from the end of the object, just like with Python lists.
+ |      
+ |      >>> df.take([-1, -2])
+ |           name   class  max_speed
+ |      1  monkey  mammal        NaN
+ |      3    lion  mammal       80.5
+ |      
+ |      Returns
+ |      -------
+ |      taken : type of caller
+ |          An array-like containing the elements taken from the object.
+ |      
+ |      See Also
+ |      --------
+ |      numpy.ndarray.take
+ |      numpy.take
+ |  
+ |  tshift
+ |      Shift the time index, using the index's frequency if available.
+ |      
+ |      Parameters
+ |      ----------
+ |      periods : int
+ |          Number of periods to move, can be positive or negative
+ |      freq : DateOffset, timedelta, or time rule string, default None
+ |          Increment to use from the tseries module or time rule (e.g. 'EOM')
+ |      axis : int or basestring
+ |          Corresponds to the axis that contains the Index
+ |      
+ |      Notes
+ |      -----
+ |      If freq is not specified then tries to use the freq or inferred_freq
+ |      attributes of the index. If neither of those attributes exist, a
+ |      ValueError is thrown
+ |      
+ |      Returns
+ |      -------
+ |      shifted : NDFrame
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from NDFrameGroupBy:
+ |  
+ |  filter(self, func, dropna=True, *args, **kwargs)
+ |      Return a copy of a DataFrame excluding elements from groups that
+ |      do not satisfy the boolean criterion specified by func.
+ |      
+ |      Parameters
+ |      ----------
+ |      f : function
+ |          Function to apply to each subframe. Should return True or False.
+ |      dropna : Drop groups that do not pass the filter. True by default;
+ |          if False, groups that evaluate False are filled with NaNs.
+ |      
+ |      Notes
+ |      -----
+ |      Each subframe is endowed the attribute 'name' in case you need to know
+ |      which group you are working on.
+ |      
+ |      Examples
+ |      --------
+ |      >>> import pandas as pd
+ |      >>> df = pd.DataFrame({'A' : ['foo', 'bar', 'foo', 'bar',
+ |      ...                           'foo', 'bar'],
+ |      ...                    'B' : [1, 2, 3, 4, 5, 6],
+ |      ...                    'C' : [2.0, 5., 8., 1., 2., 9.]})
+ |      >>> grouped = df.groupby('A')
+ |      >>> grouped.filter(lambda x: x['B'].mean() > 3.)
+ |           A  B    C
+ |      1  bar  2  5.0
+ |      3  bar  4  1.0
+ |      5  bar  6  9.0
+ |      
+ |      Returns
+ |      -------
+ |      filtered : DataFrame
+ |  
+ |  transform(self, func, *args, **kwargs)
+ |      Call function producing a like-indexed DataFrame on each group and
+ |      return a DataFrame having the same indexes as the original object
+ |      filled with the transformed values
+ |      
+ |      Parameters
+ |      ----------
+ |      f : function
+ |          Function to apply to each group
+ |      
+ |      Notes
+ |      -----
+ |      Each group is endowed the attribute 'name' in case you need to know
+ |      which group you are working on.
+ |      
+ |      The current implementation imposes three requirements on f:
+ |      
+ |      * f must return a value that either has the same shape as the input
+ |        subframe or can be broadcast to the shape of the input subframe.
+ |        For example, f returns a scalar it will be broadcast to have the
+ |        same shape as the input subframe.
+ |      * if this is a DataFrame, f must support application column-by-column
+ |        in the subframe. If f also supports application to the entire subframe,
+ |        then a fast path is used starting from the second chunk.
+ |      * f must not mutate groups. Mutation is not supported and may
+ |        produce unexpected results.
+ |      
+ |      Returns
+ |      -------
+ |      DataFrame
+ |      
+ |      See also
+ |      --------
+ |      aggregate, transform
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      # Same shape
+ |      >>> df = pd.DataFrame({'A' : ['foo', 'bar', 'foo', 'bar',
+ |      ...                           'foo', 'bar'],
+ |      ...                    'B' : ['one', 'one', 'two', 'three',
+ |      ...                          'two', 'two'],
+ |      ...                    'C' : [1, 5, 5, 2, 5, 5],
+ |      ...                    'D' : [2.0, 5., 8., 1., 2., 9.]})
+ |      >>> grouped = df.groupby('A')
+ |      >>> grouped.transform(lambda x: (x - x.mean()) / x.std())
+ |                C         D
+ |      0 -1.154701 -0.577350
+ |      1  0.577350  0.000000
+ |      2  0.577350  1.154701
+ |      3 -1.154701 -1.000000
+ |      4  0.577350 -0.577350
+ |      5  0.577350  1.000000
+ |      
+ |      # Broadcastable
+ |      >>> grouped.transform(lambda x: x.max() - x.min())
+ |         C    D
+ |      0  4  6.0
+ |      1  3  8.0
+ |      2  4  6.0
+ |      3  3  8.0
+ |      4  4  6.0
+ |      5  3  8.0
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from GroupBy:
+ |  
+ |  backfill(self, limit=None)
+ |      Backward fill the values
+ |      
+ |      Parameters
+ |      ----------
+ |      limit : integer, optional
+ |          limit of how many values to fill
+ |      
+ |      See Also
+ |      --------
+ |      Series.fillna
+ |      DataFrame.fillna
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  bfill = backfill(self, limit=None)
+ |      Backward fill the values
+ |      
+ |      Parameters
+ |      ----------
+ |      limit : integer, optional
+ |          limit of how many values to fill
+ |      
+ |      See Also
+ |      --------
+ |      Series.fillna
+ |      DataFrame.fillna
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  cumcount(self, ascending=True)
+ |      Number each item in each group from 0 to the length of that group - 1.
+ |      
+ |      Essentially this is equivalent to
+ |      
+ |      >>> self.apply(lambda x: Series(np.arange(len(x)), x.index))
+ |      
+ |      Parameters
+ |      ----------
+ |      ascending : bool, default True
+ |          If False, number in reverse, from length of group - 1 to 0.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = pd.DataFrame([['a'], ['a'], ['a'], ['b'], ['b'], ['a']],
+ |      ...                   columns=['A'])
+ |      >>> df
+ |         A
+ |      0  a
+ |      1  a
+ |      2  a
+ |      3  b
+ |      4  b
+ |      5  a
+ |      >>> df.groupby('A').cumcount()
+ |      0    0
+ |      1    1
+ |      2    2
+ |      3    0
+ |      4    1
+ |      5    3
+ |      dtype: int64
+ |      >>> df.groupby('A').cumcount(ascending=False)
+ |      0    3
+ |      1    2
+ |      2    1
+ |      3    1
+ |      4    0
+ |      5    0
+ |      dtype: int64
+ |      
+ |      See also
+ |      --------
+ |      .ngroup : Number the groups themselves.
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  cummax(self, axis=0, **kwargs)
+ |      Cumulative max for each group
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  cummin(self, axis=0, **kwargs)
+ |      Cumulative min for each group
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  cumprod(self, axis=0, *args, **kwargs)
+ |      Cumulative product for each group
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  cumsum(self, axis=0, *args, **kwargs)
+ |      Cumulative sum for each group
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  describe(self, **kwargs)
+ |      Generates descriptive statistics that summarize the central tendency,
+ |      dispersion and shape of a dataset's distribution, excluding
+ |      ``NaN`` values.
+ |      
+ |      Analyzes both numeric and object series, as well
+ |      as ``DataFrame`` column sets of mixed data types. The output
+ |      will vary depending on what is provided. Refer to the notes
+ |      below for more detail.
+ |      
+ |      Parameters
+ |      ----------
+ |      percentiles : list-like of numbers, optional
+ |          The percentiles to include in the output. All should
+ |          fall between 0 and 1. The default is
+ |          ``[.25, .5, .75]``, which returns the 25th, 50th, and
+ |          75th percentiles.
+ |      include : 'all', list-like of dtypes or None (default), optional
+ |          A white list of data types to include in the result. Ignored
+ |          for ``Series``. Here are the options:
+ |      
+ |          - 'all' : All columns of the input will be included in the output.
+ |          - A list-like of dtypes : Limits the results to the
+ |            provided data types.
+ |            To limit the result to numeric types submit
+ |            ``numpy.number``. To limit it instead to object columns submit
+ |            the ``numpy.object`` data type. Strings
+ |            can also be used in the style of
+ |            ``select_dtypes`` (e.g. ``df.describe(include=['O'])``). To
+ |            select pandas categorical columns, use ``'category'``
+ |          - None (default) : The result will include all numeric columns.
+ |      exclude : list-like of dtypes or None (default), optional,
+ |          A black list of data types to omit from the result. Ignored
+ |          for ``Series``. Here are the options:
+ |      
+ |          - A list-like of dtypes : Excludes the provided data types
+ |            from the result. To exclude numeric types submit
+ |            ``numpy.number``. To exclude object columns submit the data
+ |            type ``numpy.object``. Strings can also be used in the style of
+ |            ``select_dtypes`` (e.g. ``df.describe(include=['O'])``). To
+ |            exclude pandas categorical columns, use ``'category'``
+ |          - None (default) : The result will exclude nothing.
+ |      
+ |      Returns
+ |      -------
+ |      summary:  Series/DataFrame of summary statistics
+ |      
+ |      Notes
+ |      -----
+ |      For numeric data, the result's index will include ``count``,
+ |      ``mean``, ``std``, ``min``, ``max`` as well as lower, ``50`` and
+ |      upper percentiles. By default the lower percentile is ``25`` and the
+ |      upper percentile is ``75``. The ``50`` percentile is the
+ |      same as the median.
+ |      
+ |      For object data (e.g. strings or timestamps), the result's index
+ |      will include ``count``, ``unique``, ``top``, and ``freq``. The ``top``
+ |      is the most common value. The ``freq`` is the most common value's
+ |      frequency. Timestamps also include the ``first`` and ``last`` items.
+ |      
+ |      If multiple object values have the highest count, then the
+ |      ``count`` and ``top`` results will be arbitrarily chosen from
+ |      among those with the highest count.
+ |      
+ |      For mixed data types provided via a ``DataFrame``, the default is to
+ |      return only an analysis of numeric columns. If the dataframe consists
+ |      only of object and categorical data without any numeric columns, the
+ |      default is to return an analysis of both the object and categorical
+ |      columns. If ``include='all'`` is provided as an option, the result
+ |      will include a union of attributes of each type.
+ |      
+ |      The `include` and `exclude` parameters can be used to limit
+ |      which columns in a ``DataFrame`` are analyzed for the output.
+ |      The parameters are ignored when analyzing a ``Series``.
+ |      
+ |      Examples
+ |      --------
+ |      Describing a numeric ``Series``.
+ |      
+ |      >>> s = pd.Series([1, 2, 3])
+ |      >>> s.describe()
+ |      count    3.0
+ |      mean     2.0
+ |      std      1.0
+ |      min      1.0
+ |      25%      1.5
+ |      50%      2.0
+ |      75%      2.5
+ |      max      3.0
+ |      
+ |      Describing a categorical ``Series``.
+ |      
+ |      >>> s = pd.Series(['a', 'a', 'b', 'c'])
+ |      >>> s.describe()
+ |      count     4
+ |      unique    3
+ |      top       a
+ |      freq      2
+ |      dtype: object
+ |      
+ |      Describing a timestamp ``Series``.
+ |      
+ |      >>> s = pd.Series([
+ |      ...   np.datetime64("2000-01-01"),
+ |      ...   np.datetime64("2010-01-01"),
+ |      ...   np.datetime64("2010-01-01")
+ |      ... ])
+ |      >>> s.describe()
+ |      count                       3
+ |      unique                      2
+ |      top       2010-01-01 00:00:00
+ |      freq                        2
+ |      first     2000-01-01 00:00:00
+ |      last      2010-01-01 00:00:00
+ |      dtype: object
+ |      
+ |      Describing a ``DataFrame``. By default only numeric fields
+ |      are returned.
+ |      
+ |      >>> df = pd.DataFrame({ 'object': ['a', 'b', 'c'],
+ |      ...                     'numeric': [1, 2, 3],
+ |      ...                     'categorical': pd.Categorical(['d','e','f'])
+ |      ...                   })
+ |      >>> df.describe()
+ |             numeric
+ |      count      3.0
+ |      mean       2.0
+ |      std        1.0
+ |      min        1.0
+ |      25%        1.5
+ |      50%        2.0
+ |      75%        2.5
+ |      max        3.0
+ |      
+ |      Describing all columns of a ``DataFrame`` regardless of data type.
+ |      
+ |      >>> df.describe(include='all')
+ |              categorical  numeric object
+ |      count            3      3.0      3
+ |      unique           3      NaN      3
+ |      top              f      NaN      c
+ |      freq             1      NaN      1
+ |      mean           NaN      2.0    NaN
+ |      std            NaN      1.0    NaN
+ |      min            NaN      1.0    NaN
+ |      25%            NaN      1.5    NaN
+ |      50%            NaN      2.0    NaN
+ |      75%            NaN      2.5    NaN
+ |      max            NaN      3.0    NaN
+ |      
+ |      Describing a column from a ``DataFrame`` by accessing it as
+ |      an attribute.
+ |      
+ |      >>> df.numeric.describe()
+ |      count    3.0
+ |      mean     2.0
+ |      std      1.0
+ |      min      1.0
+ |      25%      1.5
+ |      50%      2.0
+ |      75%      2.5
+ |      max      3.0
+ |      Name: numeric, dtype: float64
+ |      
+ |      Including only numeric columns in a ``DataFrame`` description.
+ |      
+ |      >>> df.describe(include=[np.number])
+ |             numeric
+ |      count      3.0
+ |      mean       2.0
+ |      std        1.0
+ |      min        1.0
+ |      25%        1.5
+ |      50%        2.0
+ |      75%        2.5
+ |      max        3.0
+ |      
+ |      Including only string columns in a ``DataFrame`` description.
+ |      
+ |      >>> df.describe(include=[np.object])
+ |             object
+ |      count       3
+ |      unique      3
+ |      top         c
+ |      freq        1
+ |      
+ |      Including only categorical columns from a ``DataFrame`` description.
+ |      
+ |      >>> df.describe(include=['category'])
+ |             categorical
+ |      count            3
+ |      unique           3
+ |      top              f
+ |      freq             1
+ |      
+ |      Excluding numeric columns from a ``DataFrame`` description.
+ |      
+ |      >>> df.describe(exclude=[np.number])
+ |             categorical object
+ |      count            3      3
+ |      unique           3      3
+ |      top              f      c
+ |      freq             1      1
+ |      
+ |      Excluding object columns from a ``DataFrame`` description.
+ |      
+ |      >>> df.describe(exclude=[np.object])
+ |              categorical  numeric
+ |      count            3      3.0
+ |      unique           3      NaN
+ |      top              f      NaN
+ |      freq             1      NaN
+ |      mean           NaN      2.0
+ |      std            NaN      1.0
+ |      min            NaN      1.0
+ |      25%            NaN      1.5
+ |      50%            NaN      2.0
+ |      75%            NaN      2.5
+ |      max            NaN      3.0
+ |      
+ |      See Also
+ |      --------
+ |      DataFrame.count
+ |      DataFrame.max
+ |      DataFrame.min
+ |      DataFrame.mean
+ |      DataFrame.std
+ |      DataFrame.select_dtypes
+ |  
+ |  expanding(self, *args, **kwargs)
+ |      Return an expanding grouper, providing expanding
+ |      functionaility per group
+ |      
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  ffill = pad(self, limit=None)
+ |      Forward fill the values
+ |      
+ |      Parameters
+ |      ----------
+ |      limit : integer, optional
+ |          limit of how many values to fill
+ |      
+ |      See Also
+ |      --------
+ |      Series.fillna
+ |      DataFrame.fillna
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  first(self, **kwargs)
+ |      Compute first of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  head(self, n=5)
+ |      Returns first n rows of each group.
+ |      
+ |      Essentially equivalent to ``.apply(lambda x: x.head(n))``,
+ |      except ignores as_index flag.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = DataFrame([[1, 2], [1, 4], [5, 6]],
+ |                         columns=['A', 'B'])
+ |      >>> df.groupby('A', as_index=False).head(1)
+ |         A  B
+ |      0  1  2
+ |      2  5  6
+ |      >>> df.groupby('A').head(1)
+ |         A  B
+ |      0  1  2
+ |      2  5  6
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  last(self, **kwargs)
+ |      Compute last of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  max(self, **kwargs)
+ |      Compute max of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  mean(self, *args, **kwargs)
+ |      Compute mean of groups, excluding missing values
+ |      
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  median(self, **kwargs)
+ |      Compute median of groups, excluding missing values
+ |      
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  min(self, **kwargs)
+ |      Compute min of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  ngroup(self, ascending=True)
+ |      Number each group from 0 to the number of groups - 1.
+ |      
+ |      This is the enumerative complement of cumcount.  Note that the
+ |      numbers given to the groups match the order in which the groups
+ |      would be seen when iterating over the groupby object, not the
+ |      order they are first observed.
+ |      
+ |      .. versionadded:: 0.20.2
+ |      
+ |      Parameters
+ |      ----------
+ |      ascending : bool, default True
+ |          If False, number in reverse, from number of group - 1 to 0.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = pd.DataFrame({"A": list("aaabba")})
+ |      >>> df
+ |         A
+ |      0  a
+ |      1  a
+ |      2  a
+ |      3  b
+ |      4  b
+ |      5  a
+ |      >>> df.groupby('A').ngroup()
+ |      0    0
+ |      1    0
+ |      2    0
+ |      3    1
+ |      4    1
+ |      5    0
+ |      dtype: int64
+ |      >>> df.groupby('A').ngroup(ascending=False)
+ |      0    1
+ |      1    1
+ |      2    1
+ |      3    0
+ |      4    0
+ |      5    1
+ |      dtype: int64
+ |      >>> df.groupby(["A", [1,1,2,3,2,1]]).ngroup()
+ |      0    0
+ |      1    0
+ |      2    1
+ |      3    3
+ |      4    2
+ |      5    0
+ |      dtype: int64
+ |      
+ |      See also
+ |      --------
+ |      .cumcount : Number the rows in each group.
+ |      
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  nth(self, n, dropna=None)
+ |      Take the nth row from each group if n is an int, or a subset of rows
+ |      if n is a list of ints.
+ |      
+ |      If dropna, will take the nth non-null row, dropna is either
+ |      Truthy (if a Series) or 'all', 'any' (if a DataFrame);
+ |      this is equivalent to calling dropna(how=dropna) before the
+ |      groupby.
+ |      
+ |      Parameters
+ |      ----------
+ |      n : int or list of ints
+ |          a single nth value for the row or a list of nth values
+ |      dropna : None or str, optional
+ |          apply the specified dropna operation before counting which row is
+ |          the nth row. Needs to be None, 'any' or 'all'
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = pd.DataFrame({'A': [1, 1, 2, 1, 2],
+ |      ...                    'B': [np.nan, 2, 3, 4, 5]}, columns=['A', 'B'])
+ |      >>> g = df.groupby('A')
+ |      >>> g.nth(0)
+ |           B
+ |      A
+ |      1  NaN
+ |      2  3.0
+ |      >>> g.nth(1)
+ |           B
+ |      A
+ |      1  2.0
+ |      2  5.0
+ |      >>> g.nth(-1)
+ |           B
+ |      A
+ |      1  4.0
+ |      2  5.0
+ |      >>> g.nth([0, 1])
+ |           B
+ |      A
+ |      1  NaN
+ |      1  2.0
+ |      2  3.0
+ |      2  5.0
+ |      
+ |      Specifying ``dropna`` allows count ignoring NaN
+ |      
+ |      >>> g.nth(0, dropna='any')
+ |           B
+ |      A
+ |      1  2.0
+ |      2  3.0
+ |      
+ |      NaNs denote group exhausted when using dropna
+ |      
+ |      >>> g.nth(3, dropna='any')
+ |          B
+ |      A
+ |      1 NaN
+ |      2 NaN
+ |      
+ |      Specifying ``as_index=False`` in ``groupby`` keeps the original index.
+ |      
+ |      >>> df.groupby('A', as_index=False).nth(1)
+ |         A    B
+ |      1  1  2.0
+ |      4  2  5.0
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  ohlc(self)
+ |      Compute sum of values, excluding missing values
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  pad(self, limit=None)
+ |      Forward fill the values
+ |      
+ |      Parameters
+ |      ----------
+ |      limit : integer, optional
+ |          limit of how many values to fill
+ |      
+ |      See Also
+ |      --------
+ |      Series.fillna
+ |      DataFrame.fillna
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  pipe(self, func, *args, **kwargs)
+ |      Apply a function with arguments to this GroupBy object,
+ |      
+ |      .. versionadded:: 0.21.0
+ |      
+ |      Parameters
+ |      ----------
+ |      func : callable or tuple of (callable, string)
+ |          Function to apply to this GroupBy object or, alternatively, a
+ |          ``(callable, data_keyword)`` tuple where ``data_keyword`` is a
+ |          string indicating the keyword of ``callable`` that expects the
+ |          GroupBy object.
+ |      args : iterable, optional
+ |             positional arguments passed into ``func``.
+ |      kwargs : dict, optional
+ |               a dictionary of keyword arguments passed into ``func``.
+ |      
+ |      Returns
+ |      -------
+ |      object : the return type of ``func``.
+ |      
+ |      Notes
+ |      -----
+ |      Use ``.pipe`` when chaining together functions that expect
+ |      Series, DataFrames or GroupBy objects. Instead of writing
+ |      
+ |      >>> f(g(h(df.groupby('group')), arg1=a), arg2=b, arg3=c)
+ |      
+ |      You can write
+ |      
+ |      >>> (df
+ |      ...    .groupby('group')
+ |      ...    .pipe(f, arg1)
+ |      ...    .pipe(g, arg2)
+ |      ...    .pipe(h, arg3))
+ |      
+ |      See more `here
+ |      <http://pandas.pydata.org/pandas-docs/stable/groupby.html#pipe>`_
+ |      
+ |      See Also
+ |      --------
+ |      pandas.Series.pipe : Apply a function with arguments to a series
+ |      pandas.DataFrame.pipe: Apply a function with arguments to a dataframe
+ |      apply : Apply function to each group instead of to the
+ |          full GroupBy object.
+ |  
+ |  prod(self, **kwargs)
+ |      Compute prod of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  resample(self, rule, *args, **kwargs)
+ |      Provide resampling when using a TimeGrouper
+ |      Return a new grouper with our resampler appended
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  rolling(self, *args, **kwargs)
+ |      Return a rolling grouper, providing rolling
+ |      functionaility per group
+ |      
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  sem(self, ddof=1)
+ |      Compute standard error of the mean of groups, excluding missing values
+ |      
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      Parameters
+ |      ----------
+ |      ddof : integer, default 1
+ |          degrees of freedom
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  shift(self, periods=1, freq=None, axis=0)
+ |      Shift each group by periods observations
+ |      
+ |      Parameters
+ |      ----------
+ |      periods : integer, default 1
+ |          number of periods to shift
+ |      freq : frequency string
+ |      axis : axis to shift, default 0
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  size(self)
+ |      Compute group sizes
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  std(self, ddof=1, *args, **kwargs)
+ |      Compute standard deviation of groups, excluding missing values
+ |      
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      Parameters
+ |      ----------
+ |      ddof : integer, default 1
+ |          degrees of freedom
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  sum(self, **kwargs)
+ |      Compute sum of group values
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  tail(self, n=5)
+ |      Returns last n rows of each group
+ |      
+ |      Essentially equivalent to ``.apply(lambda x: x.tail(n))``,
+ |      except ignores as_index flag.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = DataFrame([['a', 1], ['a', 2], ['b', 1], ['b', 2]],
+ |                         columns=['A', 'B'])
+ |      >>> df.groupby('A').tail(1)
+ |         A  B
+ |      1  a  2
+ |      3  b  2
+ |      >>> df.groupby('A').head(1)
+ |         A  B
+ |      0  a  1
+ |      2  b  1
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  var(self, ddof=1, *args, **kwargs)
+ |      Compute variance of groups, excluding missing values
+ |      
+ |      For multiple groupings, the result index will be a MultiIndex
+ |      
+ |      Parameters
+ |      ----------
+ |      ddof : integer, default 1
+ |          degrees of freedom
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pandas.Series.groupby
+ |      pandas.DataFrame.groupby
+ |      pandas.Panel.groupby
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from _GroupBy:
+ |  
+ |  __getattr__(self, attr)
+ |  
+ |  __init__(self, obj, keys=None, axis=0, level=None, grouper=None, exclusions=None, selection=None, as_index=True, sort=True, group_keys=True, squeeze=False, **kwargs)
+ |      Initialize self.  See help(type(self)) for accurate signature.
+ |  
+ |  __iter__(self)
+ |      Groupby iterator
+ |      
+ |      Returns
+ |      -------
+ |      Generator yielding sequence of (name, subsetted object)
+ |      for each group
+ |  
+ |  __len__(self)
+ |  
+ |  __unicode__(self)
+ |      Return a string representation for a particular object.
+ |      
+ |      Invoked by unicode(obj) in py2 only. Yields a Unicode String in both
+ |      py2/py3.
+ |  
+ |  apply(self, func, *args, **kwargs)
+ |      Apply function ``func``  group-wise and combine the results together.
+ |      
+ |      The function passed to ``apply`` must take a dataframe as its first
+ |      argument and return a dataframe, a series or a scalar. ``apply`` will
+ |      then take care of combining the results back together into a single
+ |      dataframe or series. ``apply`` is therefore a highly flexible
+ |      grouping method.
+ |      
+ |      While ``apply`` is a very flexible method, its downside is that
+ |      using it can be quite a bit slower than using more specific methods.
+ |      Pandas offers a wide range of method that will be much faster
+ |      than using ``apply`` for their specific purposes, so try to use them
+ |      before reaching for ``apply``.
+ |      
+ |      Parameters
+ |      ----------
+ |      func : function
+ |          A callable that takes a dataframe as its first argument, and
+ |          returns a dataframe, a series or a scalar. In addition the
+ |          callable may take positional and keyword arguments
+ |      args, kwargs : tuple and dict
+ |          Optional positional and keyword arguments to pass to ``func``
+ |      
+ |      Returns
+ |      -------
+ |      applied : Series or DataFrame
+ |      
+ |      Notes
+ |      -----
+ |      In the current implementation ``apply`` calls func twice on the
+ |      first group to decide whether it can take a fast or slow code
+ |      path. This can lead to unexpected behavior if func has
+ |      side-effects, as they will take effect twice for the first
+ |      group.
+ |      
+ |      Examples
+ |      --------
+ |      
+ |      >>> df = pd.DataFrame({'A': 'a a b'.split(), 'B': [1,2,3], 'C': [4,6, 5]})
+ |      >>> g = df.groupby('A')
+ |      
+ |      From ``df`` above we can see that ``g`` has two groups, ``a``, ``b``.
+ |      Calling ``apply`` in various ways, we can get different grouping results:
+ |      
+ |      Example 1: below the function passed to ``apply`` takes a dataframe as
+ |      its argument and returns a dataframe. ``apply`` combines the result for
+ |      each group together into a new dataframe:
+ |      
+ |      >>> g.apply(lambda x: x / x.sum())
+ |                B    C
+ |      0  0.333333  0.4
+ |      1  0.666667  0.6
+ |      2  1.000000  1.0
+ |      
+ |      Example 2: The function passed to ``apply`` takes a dataframe as
+ |      its argument and returns a series.  ``apply`` combines the result for
+ |      each group together into a new dataframe:
+ |      
+ |      >>> g.apply(lambda x: x.max() - x.min())
+ |         B  C
+ |      A
+ |      a  1  2
+ |      b  0  0
+ |      
+ |      Example 3: The function passed to ``apply`` takes a dataframe as
+ |      its argument and returns a scalar. ``apply`` combines the result for
+ |      each group together into a series, including setting the index as
+ |      appropriate:
+ |      
+ |      >>> g.apply(lambda x: x.C.max() - x.B.min())
+ |      A
+ |      a    5
+ |      b    2
+ |      dtype: int64
+ |      
+ |      
+ |      See also
+ |      --------
+ |      pipe : Apply function to the full GroupBy object instead of to each
+ |          group.
+ |      aggregate, transform
+ |  
+ |  get_group(self, name, obj=None)
+ |      Constructs NDFrame from group with provided name
+ |      
+ |      Parameters
+ |      ----------
+ |      name : object
+ |          the name of the group to get as a DataFrame
+ |      obj : NDFrame, default None
+ |          the NDFrame to take the DataFrame out of.  If
+ |          it is None, the object groupby was called on will
+ |          be used
+ |      
+ |      Returns
+ |      -------
+ |      group : type of obj
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from _GroupBy:
+ |  
+ |  groups
+ |      dict {group name -> group labels}
+ |  
+ |  indices
+ |      dict {group name -> group indices}
+ |  
+ |  ngroups
+ |  
+ |  plot
+ |      Class implementing the .plot attribute for groupby objects
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from pandas.core.base.PandasObject:
+ |  
+ |  __sizeof__(self)
+ |      Generates the total memory usage for a object that returns
+ |      either a value or Series of values
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from pandas.core.base.StringMixin:
+ |  
+ |  __bytes__(self)
+ |      Return a string representation for a particular object.
+ |      
+ |      Invoked by bytes(obj) in py3 only.
+ |      Yields a bytestring in both py2/py3.
+ |  
+ |  __repr__(self)
+ |      Return a string representation for a particular object.
+ |      
+ |      Yields Bytestring in Py2, Unicode String in py3.
+ |  
+ |  __str__(self)
+ |      Return a string representation for a particular Object
+ |      
+ |      Invoked by str(df) in both py2/py3.
+ |      Yields Bytestring in Py2, Unicode String in py3.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from pandas.core.base.StringMixin:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from pandas.core.accessor.DirNamesMixin:
+ |  
+ |  __dir__(self)
+ |      Provide method name lookup and completion
+ |      Only provide 'public' methods
+ |  
+ |  ----------------------------------------------------------------------
+ |  Methods inherited from pandas.core.base.SelectionMixin:
+ |  
+ |  __getitem__(self, key)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors inherited from pandas.core.base.SelectionMixin:
+ |  
+ |  ndim
+
+:END:
+******* tutorial
+https://www.tutorialspoint.com/python_pandas/python_pandas_groupby.htm
+****** use
+#+BEGIN_SRC ipython
+    grouped = df.groupby(["days_ago"])
+    grouped.title.count().sort_values(ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[70]:
+#+BEGIN_EXAMPLE
+  days_ago
+  2     9
+  4     7
+  3     6
+  8     5
+  1     4
+  23    4
+  17    3
+  14    3
+  10    2
+  24    2
+  22    2
+  5     2
+  11    2
+  6     1
+  7     1
+  9     1
+  29    1
+  12    1
+  27    1
+  16    1
+  18    1
+  20    1
+  21    1
+  25    1
+  26    1
+  13    1
+  Name: title, dtype: int64
+#+END_EXAMPLE
+:END:
+**** companies
+***** groupby
+****** define group
+#+BEGIN_SRC ipython
+comp_group = df.groupby(["company"])
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[38]:
+:END:
+
+****** print groups
+#+BEGIN_SRC ipython
+    comp_group.groups
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[39]:
+#+BEGIN_EXAMPLE
+  {'All My Homes': Int64Index([104], dtype='int64'),
+  'Ares Tech GmbH': Int64Index([80], dtype='int64'),
+  'Arweave': Int64Index([113], dtype='int64'),
+  'Asana Rebel': Int64Index([47], dtype='int64'),
+  'Atfarm': Int64Index([22], dtype='int64'),
+  'Atos': Int64Index([14], dtype='int64'),
+  'Avabis GmbH': Int64Index([135], dtype='int64'),
+  'BankenScore.de': Int64Index([132], dtype='int64'),
+  'BigchainDB': Int64Index([143], dtype='int64'),
+  'Bosch Software Innovations': Int64Index([139], dtype='int64'),
+  'CGI': Int64Index([121], dtype='int64'),
+  'Carmeq GmbH': Int64Index([2, 4, 10, 125], dtype='int64'),
+  'Conrad Electronic': Int64Index([50], dtype='int64'),
+  'Detecon': Int64Index([60], dtype='int64'),
+  'Deutsche Telekom AG, VTI': Int64Index([79], dtype='int64'),
+  'Door2Door': Int64Index([30], dtype='int64'),
+  'Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut': Int64Index([144], dtype='int64'),
+  'Freie Universität': Int64Index([119], dtype='int64'),
+  'GIM - Gesellschaft für Innovative Marktforschung mbH': Int64Index([71], dtype='int64'),
+  'Get It Done': Int64Index([106], dtype='int64'),
+  'Goldland Media GmbH': Int64Index([116], dtype='int64'),
+  'Hays': Int64Index([20], dtype='int64'),
+  'HelloFresh': Int64Index([109], dtype='int64'),
+  'JLink connecting experts GmbH': Int64Index([29], dtype='int64'),
+  'Joblift GmbH': Int64Index([73], dtype='int64'),
+  'KLEO Connect': Int64Index([95], dtype='int64'),
+  'Klarna': Int64Index([145], dtype='int64'),
+  'Lesara GmbH': Int64Index([41], dtype='int64'),
+  'Menzel IT GmbH': Int64Index([112], dtype='int64'),
+  'Modis GmbH': Int64Index([24, 37], dtype='int64'),
+  'NVIDIA': Int64Index([142], dtype='int64'),
+  'Novate IT Ltd': Int64Index([27], dtype='int64'),
+  'Planet Expat': Int64Index([97], dtype='int64'),
+  'Project A Ventures': Int64Index([32, 49, 86], dtype='int64'),
+  'Publicis Pixelpark': Int64Index([77], dtype='int64'),
+  'Qtixx GmbH': Int64Index([1], dtype='int64'),
+  'Rakuten Deutschland GmbH': Int64Index([129], dtype='int64'),
+  'Relayr': Int64Index([128], dtype='int64'),
+  'ResearchGate GmbH': Int64Index([31], dtype='int64'),
+  'Retresco': Int64Index([114], dtype='int64'),
+  'Scout24': Int64Index([75], dtype='int64'),
+  'Sixt GmbH & Co. Autovermietung KG': Int64Index([6], dtype='int64'),
+  'Sparkassen-Finanzportal GmbH': Int64Index([52], dtype='int64'),
+  'Sparks42': Int64Index([48], dtype='int64'),
+  'Technische Universität Berlin': Int64Index([138], dtype='int64'),
+  'Tillhub Gmbh': Int64Index([98], dtype='int64'),
+  'Twilio': Int64Index([21], dtype='int64'),
+  'Two Visions Consulting OHG': Int64Index([67], dtype='int64'),
+  'TÜV Rheinland Group': Int64Index([55], dtype='int64'),
+  'Upvest': Int64Index([96], dtype='int64'),
+  'Volkswagen AG': Int64Index([127], dtype='int64'),
+  'YEAY GmbH': Int64Index([66], dtype='int64'),
+  'car2go Group GmbH': Int64Index([110], dtype='int64'),
+  'eBay Inc.': Int64Index([3], dtype='int64'),
+  'mytaxi!': Int64Index([54], dtype='int64'),
+  'omni:us': Int64Index([25], dtype='int64'),
+  'scondoo GmbH': Int64Index([91], dtype='int64'),
+  'solvemate GmbH': Int64Index([136], dtype='int64')}
+#+END_EXAMPLE
+:END:
+****** count groups
+#+BEGIN_SRC ipython
+len(comp_group.groups)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[40]:
+: 58
+:END:
+****** number of job per company
+******* hack
+******** loop
+#+BEGIN_SRC ipython
+    for company in comp_group.groups.keys():
+                lenght = len(comp_group.groups[company])
+                if lenght > 1:
+                            print(company, lenght)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[57]:
+:END:
+
+******** single
+#+BEGIN_SRC ipython
+    key = list(comp_group.groups.keys())[0]
+    list(comp_group.groups[key])
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[50]:
+: [32, 49, 86]
+:END:
+
+******** test
+#+BEGIN_SRC ipython
+len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut"])
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[55]:
+: 1
+:END:
+******* pandas 
+#+BEGIN_SRC ipython
+    count = comp_group.title.count()
+    count.sort_values(ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[65]:
+#+BEGIN_EXAMPLE
+  company
+  Carmeq GmbH                                                            4
+  Project A Ventures                                                     3
+  Modis GmbH                                                             2
+  solvemate GmbH                                                         1
+  Door2Door                                                              1
+  KLEO Connect                                                           1
+  Joblift GmbH                                                           1
+  JLink connecting experts GmbH                                          1
+  HelloFresh                                                             1
+  Hays                                                                   1
+  Goldland Media GmbH                                                    1
+  Get It Done                                                            1
+  GIM - Gesellschaft für Innovative Marktforschung mbH                   1
+  Freie Universität                                                      1
+  Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut    1
+  Deutsche Telekom AG, VTI                                               1
+  Lesara GmbH                                                            1
+  Detecon                                                                1
+  Conrad Electronic                                                      1
+  CGI                                                                    1
+  Bosch Software Innovations                                             1
+  BigchainDB                                                             1
+  BankenScore.de                                                         1
+  Avabis GmbH                                                            1
+  Atos                                                                   1
+  Atfarm                                                                 1
+  Asana Rebel                                                            1
+  Arweave                                                                1
+  Ares Tech GmbH                                                         1
+  Klarna                                                                 1
+  Menzel IT GmbH                                                         1
+  scondoo GmbH                                                           1
+  Technische Universität Berlin                                          1
+  omni:us                                                                1
+  mytaxi!                                                                1
+  eBay Inc.                                                              1
+  car2go Group GmbH                                                      1
+  YEAY GmbH                                                              1
+  Volkswagen AG                                                          1
+  Upvest                                                                 1
+  TÜV Rheinland Group                                                    1
+  Two Visions Consulting OHG                                             1
+  Twilio                                                                 1
+  Tillhub Gmbh                                                           1
+  Sparks42                                                               1
+  NVIDIA                                                                 1
+  Sparkassen-Finanzportal GmbH                                           1
+  Sixt GmbH & Co. Autovermietung KG                                      1
+  Scout24                                                                1
+  Retresco                                                               1
+  ResearchGate GmbH                                                      1
+  Relayr                                                                 1
+  Rakuten Deutschland GmbH                                               1
+  Qtixx GmbH                                                             1
+  Publicis Pixelpark                                                     1
+  Planet Expat                                                           1
+  Novate IT Ltd                                                          1
+  All My Homes                                                           1
+  Name: title, dtype: int64
+#+END_EXAMPLE
+:END:
+
+***** value count
+#+BEGIN_SRC ipython
+    df.company.value_counts()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[83]:
+#+BEGIN_EXAMPLE
+  Zalando                                                                    24
+  Land Berlin                                                                24
+  Project A Ventures                                                         21
+  Carmeq GmbH                                                                14
+  Amazon.com                                                                 13
+  Capgemini                                                                  11
+  home24 SE                                                                  10
+  BASF Services Europe GmbH                                                  10
+  perZukunft                                                                 10
+  Wayfair                                                                     8
+  HelloFresh                                                                  8
+  Modis GmbH                                                                  8
+  COMATCH                                                                     8
+  N26                                                                         7
+  Quandoo GmbH                                                                7
+  media.net berlinbrandenburg                                                 7
+  smava GmbH                                                                  6
+  Hays                                                                        6
+  Workstation AG Personaldienstleistungen                                     6
+  T-Systems Multimedia Solutions                                              6
+  Bonial International Gmbh                                                   6
+  Project A Services GmbH & Co. KG                                            6
+  Coya AG                                                                     6
+  Flaconi GmbH                                                                6
+  JLink connecting experts GmbH                                               6
+  omni:us                                                                     6
+  Lesara GmbH                                                                 6
+  Careem                                                                      5
+  simplesurance                                                               5
+  Vehiculum mobiltiy solutions GmbH                                           5
+  ..
+  VGL Verlagsgesellschaft                                                     1
+  COREtransform GmbH                                                          1
+  Tanzschule weRK36                                                           1
+  Gnosis GmbH                                                                 1
+  BoldITALIC Communications GmbH                                              1
+  Genuine German GmbH                                                         1
+  GameDuell GmbH                                                              1
+  Laufen Deutschland                                                          1
+  Merolt GmbH von ITbbb.de                                                    1
+  Yara UK Ltd.                                                                1
+  Restaurant Feinberg                                                         1
+  SOMI Solutions GmbH                                                         1
+  NBB Netzgesellschaft Berlin-Brandenburg mbH & Co. KG (Standort: Berlin)     1
+  Homes for Independent Living                                                1
+  Deutscher Kinderschutzbund Landesverband Berlin e.V.                        1
+  Status                                                                      1
+  Westcon-Comstor                                                             1
+  Dussmann Group                                                              1
+  i2x GMBH                                                                    1
+  Storecast GmbH                                                              1
+  Golden Curl                                                                 1
+  Bertrandt                                                                   1
+  Deutsche Telekom IT GmbH                                                    1
+  enpact e.V.                                                                 1
+  Digitalklang                                                                1
+  GimmeMore                                                                   1
+  DR. KADE Pharmazeutische Fabrik                                             1
+  Muddastadt GmbH                                                             1
+  Labor Berlin - Charité Vivantes                                             1
+  Anwalt.de                                                                   1
+  Name: company, Length: 1054, dtype: int64
+#+END_EXAMPLE
+:END:
+*** filtering
+**** junior positions
+***** how to
+****** load dataset
+****** define keyword
+****** choose a place to look for
+****** print result
+***** load dataset in python session
+****** load DS data
+#+BEGIN_SRC ipython :var data=data-ds
+    import pandas as pd
+    df = pd.read_csv(data)
+#+END_SRC
+
+#+RESULTS:
+
+****** quick overview
+#+BEGIN_SRC ipython
+    df.title
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0     Data Scientist - Machine Learning Specialist (...
+1                                        Data Scientist
+2        Senior Data Scientist - Personalized Marketing
+3        Senior Data Scientist - Personalized Marketing
+4                        Senior Product Manager (m/f/d)
+5                     Product Lead - Demand Forecasting
+6                 Head of Business Intelligence (f/m/d)
+7                  Inside Sales Representative, Germany
+8                             Lead Data Scientist (m/f)
+9      Senior Consultant: Data Scientist Big Data (m/w)
+10             Senior Applied Scientist - Core AI (f/m)
+11                   Working Student: Operations and HR
+12    Data Scientist mit Schwerpunkt Machine Learnin...
+13                                       Data Scientist
+14        Senior Data Scientist - Machine Learning & DL
+15                                 Data Scientist (m/w)
+16        Senior Data Scientist - Machine Learning & DL
+17                                 Data Scientist (f/m)
+18                                 Data Scientist (m/w)
+Name: title, dtype: object
+#+end_example
+
+****** add other data-sets
+******* load data
+******** python
+#+BEGIN_SRC ipython :var data=data-python
+dfpy = pd.read_csv(data)
+#+END_SRC
+
+#+RESULTS:
+
+******** se
+#+BEGIN_SRC ipython :var data=data-se
+dfse = pd.read_csv(data)
+#+END_SRC
+
+#+RESULTS:
+
+******** dsp
+#+BEGIN_SRC ipython :var data=data-dsp
+dfdsp = pd.read_csv(data)
+#+END_SRC
+
+#+RESULTS:
+
+******* quick overview
+#+BEGIN_SRC ipython
+dfpy.title
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+0                                 Python Developer (m/w)
+1                                Software-Entwickler w/m
+2                           Senior Software-Tester (w/m)
+3                                   Lead Product Analyst
+4      Softwareentwickler (m/w) für Entwicklungsumgeb...
+5      Softwareentwickler (m/w) für Entwicklungsumgeb...
+6                Machine Vision Software Developer (m/w)
+7      Softwareentwickler (m/w) für Entwicklungsumgeb...
+8      Softwareentwickler (m/w) für Entwicklungsumgeb...
+9                Machine Vision Software Developer (m/w)
+10     Werkstudent im Bereich HMI / Sprachbedienung (...
+11                          Senior Software-Tester (w/m)
+12     Werkstudent im Bereich HMI / Sprachbedienung (...
+13     Werkstudent im Bereich HMI / Sprachbedienung (...
+14                         Cloud Native Entwickler (m/w)
+15     Senior Data Scientist (m/f) for our geospatial...
+16     Softwareentwickler (m/w) für Entwicklungsumgeb...
+17               Machine Vision Software Developer (m/w)
+18             Working Student - IT Infrastructure M/F/X
+19          Praktikant (m/w) CIO Advisory – IT-Strategie
+20           Entwicklungsingenieur Sprachbedienung (m/w)
+21                                 Senior Sales Engineer
+22                  Atfarm Senior Backend Engineer (f/m)
+23     Softwareentwickler (m/w) für Entwicklungsumgeb...
+24                        Senior Backend Developer (m/f)
+25              Senior Product Manager - Insurance (m/f)
+26                                  Lead Product Analyst
+27                                Java Software Engineer
+28                                  Lead Product Analyst
+29                 DevOps (m/w) Qualitätssicherung #4041
+                             ...                        
+116                    Django Entwickler / Webentwickler
+117                                 Data Scientist (m/w)
+118                         Senior Software-Tester (w/m)
+119         Wissenschaftliche/r Mitarbeiter/in (Postdoc)
+120                            OpenStack Developer (w/m)
+121    Berater Business Intelligence (m/w) für Entwic...
+122                                 Data Scientist (m/f)
+123    STUDENTISCHER MITARBEITER (M/W) FÜR DEEP LEARNING
+124                            Blockchain Engineer (m/w)
+125    Full Stack Developer für datenbasierte Fahrzeu...
+126    Full Stack Developer für datenbasierte Fahrzeu...
+127    Data Scientist/ Engineer for Digital Business ...
+128                                 Field Engineer (m/f)
+129                          BI Report Developer (m/w/d)
+130                                 Lead Product Analyst
+131        Berechnungsingenieur (m/w) Flugzeugtriebwerke
+132                                        CTO (Fintech)
+133    Softwareentwickler (m/w) für Entwicklungsumgeb...
+134                                             Embedded
+135               Entwicklungsnaher Softwaretester (m/w)
+136                                 Data Scientist (m/w)
+137              Machine Vision Software Developer (m/w)
+138    Wiss. Mitarbeiter/in - Entgeltgruppe 13 TV-L B...
+139         Student (m/w) zur Entwicklungs-Unterstützung
+140                         Business Intelligence Intern
+141    Full Stack Developer für datenbasierte Fahrzeu...
+142                                   Research Scientist
+143                       Python Developer // BigchainDB
+144    Wissenschaftliche Mitarbeiterin/ Wissenschaftl...
+145                               Data Engineer - Python
+Name: title, Length: 146, dtype: object
+#+end_example
+
+******* combine datasets
+#+BEGIN_SRC ipython
+    dfm = pd.merge(df, dfpy,  how="outer")
+    dfm = pd.merge(dfm, dfdsp,  how="outer")
+    dfm = pd.merge(dfm, dfse,  how="outer")
+    dfm
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+             location                                            related  \
+0              Berlin  https://de.indeed.com/Data-Scientist-Jobs-in-B...   
+1              Berlin  https://de.indeed.com/Data-Scientist-Jobs-in-B...   
+2              Berlin                                                NaN   
+3              Berlin                                                NaN   
+4              Berlin                                                NaN   
+5              Berlin                                                NaN   
+6              Berlin  https://de.indeed.com/Head-Business-Intelligen...   
+7              Berlin                                                NaN   
+8              Berlin  https://de.indeed.com/Lead-Data-Scientist-Jobs...   
+9              Berlin  https://de.indeed.com/Senior-Consultant-Jobs-i...   
+10             Berlin  https://de.indeed.com/Senior-Applied-Scientist...   
+11             Berlin  https://de.indeed.com/Working-Student-Jobs-in-...   
+12             Berlin     https://de.indeed.com/Headmatch-Jobs-in-Berlin   
+13             Berlin                                                NaN   
+14             Berlin                                                NaN   
+15             Berlin                                                NaN   
+16             Berlin                                                NaN   
+17             Berlin  https://de.indeed.com/Data-Scientist-Jobs-in-B...   
+18             Berlin                                                NaN   
+19             Berlin  https://de.indeed.com/Python-Developer-Jobs-in...   
+20             Berlin                                                NaN   
+21             Berlin  https://de.indeed.com/Senior-Software-Tester-J...   
+22             Berlin  https://de.indeed.com/Lead-Product-Analyst-Job...   
+23             Berlin  https://de.indeed.com/Softwareentwickler-Entwi...   
+24             Berlin  https://de.indeed.com/Softwareentwickler-Entwi...   
+25             Berlin  https://de.indeed.com/Machine-Vision-Software-...   
+26             Berlin  https://de.indeed.com/Softwareentwickler-Entwi...   
+27             Berlin  https://de.indeed.com/Softwareentwickler-Entwi...   
+28             Berlin  https://de.indeed.com/Machine-Vision-Software-...   
+29             Berlin  https://de.indeed.com/Werkstudent-Hmi-Jobs-in-...   
+..                ...                                                ...   
+263            Berlin                                                NaN   
+264            Berlin  https://de.indeed.com/Data-Machine-Learning-En...   
+265            Berlin  https://de.indeed.com/Software-Engineer-Java-J...   
+266            Berlin  https://de.indeed.com/Full-Stack-Engineer-Jobs...   
+267            Berlin  https://de.indeed.com/Senior-Software-Engineer...   
+268            Berlin                                                NaN   
+269            Berlin  https://de.indeed.com/Hardware-Engineer-Jobs-i...   
+270            Berlin                                                NaN   
+271            Berlin  https://de.indeed.com/Net-Jobs-in-Berlin,https...   
+272            Berlin  https://de.indeed.com/Software-Application-Eng...   
+273            Berlin                                                NaN   
+274            Berlin  https://de.indeed.com/Integration-Test-Enginee...   
+275            Berlin  https://de.indeed.com/Senior-Software-Engineer...   
+276            Berlin                                                NaN   
+277            Berlin  https://de.indeed.com/Software-Engineer-Jobs-i...   
+278            Berlin  https://de.indeed.com/Junior-Software-Engineer...   
+279            Berlin                                                NaN   
+280            Berlin       https://de.indeed.com/Detecon-Jobs-in-Berlin   
+281            Berlin                                                NaN   
+282            Berlin  https://de.indeed.com/Software-Engineer-Java-J...   
+283            Berlin  https://de.indeed.com/QA-Engineer-Jobs-in-Berl...   
+284            Berlin  https://de.indeed.com/Machine-Learning-Enginee...   
+285            Berlin  https://de.indeed.com/Assistant-Software-Engin...   
+286            Berlin  https://de.indeed.com/Architect-Construction-E...   
+287  Berlin-Kreuzberg  https://de.indeed.com/Jobs?q=Software+Engineer...   
+288            Berlin  https://de.indeed.com/Software-Engineer-Jobs-i...   
+289            Berlin  https://de.indeed.com/Senior-Software-Engineer...   
+290            Berlin   https://de.indeed.com/Mister-Spex-Jobs-in-Berlin   
+291            Berlin                                                NaN   
+292            Berlin   https://de.indeed.com/Mister-Spex-Jobs-in-Berlin   
+
+                                                 title  \
+0    Data Scientist - Machine Learning Specialist (...   
+1                                       Data Scientist   
+2       Senior Data Scientist - Personalized Marketing   
+3       Senior Data Scientist - Personalized Marketing   
+4                       Senior Product Manager (m/f/d)   
+5                    Product Lead - Demand Forecasting   
+6                Head of Business Intelligence (f/m/d)   
+7                 Inside Sales Representative, Germany   
+8                            Lead Data Scientist (m/f)   
+9     Senior Consultant: Data Scientist Big Data (m/w)   
+10            Senior Applied Scientist - Core AI (f/m)   
+11                  Working Student: Operations and HR   
+12   Data Scientist mit Schwerpunkt Machine Learnin...   
+13                                      Data Scientist   
+14       Senior Data Scientist - Machine Learning & DL   
+15                                Data Scientist (m/w)   
+16       Senior Data Scientist - Machine Learning & DL   
+17                                Data Scientist (f/m)   
+18                                Data Scientist (m/w)   
+19                              Python Developer (m/w)   
+20                             Software-Entwickler w/m   
+21                        Senior Software-Tester (w/m)   
+22                                Lead Product Analyst   
+23   Softwareentwickler (m/w) für Entwicklungsumgeb...   
+24   Softwareentwickler (m/w) für Entwicklungsumgeb...   
+25             Machine Vision Software Developer (m/w)   
+26   Softwareentwickler (m/w) für Entwicklungsumgeb...   
+27   Softwareentwickler (m/w) für Entwicklungsumgeb...   
+28             Machine Vision Software Developer (m/w)   
+29   Werkstudent im Bereich HMI / Sprachbedienung (...   
+..                                                 ...   
+263                                    QA Tester (m/f)   
+264             Data/Machine Learning Engineer (m/f/d)   
+265                       Software Engineer (m/w) Java   
+266                                Full Stack Engineer   
+267  Senior Software Engineer (Technical Support) (...   
+268                          Backend Engineer - Elixir   
+269                      Hardware Engineer // LabMaker   
+270                             QA Automation Engineer   
+271              (Senior) Software Engineer (m/w) .NET   
+272                Software Application Engineer (m/w)   
+273                        Full-Stack Engineer (f/m/d)   
+274                Integration and Test Engineer (m/f)   
+275  Senior Software Engineer (Technical Support) (...   
+276                   Senior Software Engineer (m/f/d)   
+277                           Software Engineer (Java)   
+278                     Junior Software Engineer (m/w)   
+279                 Software Engineer - Frontend (M/F)   
+280   Digital Software Engineer Industrial IoT (m/w/d)   
+281                             Lead Software Engineer   
+282                       Software Engineer (m/w) Java   
+283                                  QA Engineer (w/m)   
+284                          Machine Learning Engineer   
+285                  Assistant Software Engineer (m/w)   
+286              Architect/Construction engineer (m/f)   
+287                 Software Engineer/Full-Stack (w/m)   
+288                                  Software Engineer   
+289  Senior Software Engineer (Technical Support) (...   
+290  (Senior) Software Engineer - Focus E-Commerce ...   
+291                    Software Engineer (Python, m/f)   
+292  (Senior) Software Engineer - Focus E-Commerce ...   
+
+                                                   url  \
+0    https://de.indeed.com/viewjob?jk=f1aba03548ad7...   
+1    https://de.indeed.com/viewjob?jk=4fe18413c56cf...   
+2    https://de.indeed.com/viewjob?jk=ed0196948c902...   
+3    https://de.indeed.com/viewjob?jk=ed0196948c902...   
+4    https://de.indeed.com/viewjob?jk=e27e418a78387...   
+5    https://de.indeed.com/viewjob?jk=7c99c74561adb...   
+6    https://de.indeed.com/viewjob?jk=13c17e9791b55...   
+7    https://de.indeed.com/viewjob?jk=d2f26a937e226...   
+8    https://de.indeed.com/viewjob?jk=3e3cbf5f20845...   
+9    https://de.indeed.com/viewjob?jk=0c70ac97cbca9...   
+10   https://de.indeed.com/viewjob?jk=784a2f8eeacb0...   
+11   https://de.indeed.com/viewjob?jk=8a010948b837a...   
+12   https://de.indeed.com/viewjob?jk=9eb74b59f24be...   
+13   https://de.indeed.com/cmp/Oxygen-Digital-Recru...   
+14   https://de.indeed.com/viewjob?jk=a774474756a20...   
+15   https://de.indeed.com/cmp/A&O-HOTEL-and-HOSTEL...   
+16   https://de.indeed.com/viewjob?jk=a774474756a20...   
+17   https://de.indeed.com/viewjob?jk=a323ce96fc2d9...   
+18   https://de.indeed.com/cmp/RatePAY-GmbH/jobs/Da...   
+19   https://de.indeed.com/viewjob?jk=05f2b8ca5157f...   
+20   https://de.indeed.com/cmp/Qtixx-GmbH/jobs/Soft...   
+21   https://de.indeed.com/viewjob?jk=d9b44d35ab5be...   
+22   https://de.indeed.com/viewjob?jk=9b572e61f1945...   
+23   https://de.indeed.com/viewjob?jk=c181a1609f4bb...   
+24   https://de.indeed.com/viewjob?jk=c181a1609f4bb...   
+25   https://de.indeed.com/viewjob?jk=d68421e3a8e15...   
+26   https://de.indeed.com/viewjob?jk=c181a1609f4bb...   
+27   https://de.indeed.com/viewjob?jk=c181a1609f4bb...   
+28   https://de.indeed.com/viewjob?jk=d68421e3a8e15...   
+29   https://de.indeed.com/viewjob?jk=9fa778c1f80c1...   
+..                                                 ...   
+263  https://de.indeed.com/viewjob?jk=094b76951ca32...   
+264  https://de.indeed.com/viewjob?jk=731beb0980092...   
+265  https://de.indeed.com/viewjob?jk=7eb84970c8cc6...   
+266  https://de.indeed.com/viewjob?jk=d740152210913...   
+267  https://de.indeed.com/viewjob?jk=beded4d497c45...   
+268  https://de.indeed.com/viewjob?jk=06fce01692a16...   
+269  https://de.indeed.com/viewjob?jk=d1075e7ce189b...   
+270  https://de.indeed.com/viewjob?jk=5a6ffa10eae8c...   
+271  https://de.indeed.com/viewjob?jk=5919a1076c14f...   
+272  https://de.indeed.com/viewjob?jk=40e9e573b4236...   
+273  https://de.indeed.com/viewjob?jk=5f7121229eec0...   
+274  https://de.indeed.com/viewjob?jk=4631a937bd2aa...   
+275  https://de.indeed.com/viewjob?jk=beded4d497c45...   
+276  https://de.indeed.com/viewjob?jk=943a14c3cb53a...   
+277  https://de.indeed.com/viewjob?jk=c2d9e2586d6f4...   
+278  https://de.indeed.com/viewjob?jk=88c3711bfcab3...   
+279  https://de.indeed.com/cmp/Care-Companion-GmbH/...   
+280  https://de.indeed.com/viewjob?jk=f9603b4be40ef...   
+281  https://de.indeed.com/viewjob?jk=9bdb444365a2b...   
+282  https://de.indeed.com/viewjob?jk=7eb84970c8cc6...   
+283  https://de.indeed.com/viewjob?jk=3367fcbd39169...   
+284  https://de.indeed.com/viewjob?jk=31ca7b7d4be9c...   
+285  https://de.indeed.com/viewjob?jk=5ac099cf0c938...   
+286  https://de.indeed.com/viewjob?jk=319eb8da89f83...   
+287  https://de.indeed.com/viewjob?jk=a7ea2906ba098...   
+288  https://de.indeed.com/viewjob?jk=4cacce011c0cf...   
+289  https://de.indeed.com/viewjob?jk=beded4d497c45...   
+290  https://de.indeed.com/viewjob?jk=982bd817afffb...   
+291  https://de.indeed.com/viewjob?jk=62edd2886bf10...   
+292  https://de.indeed.com/viewjob?jk=982bd817afffb...   
+
+                                 company days_ago  contract  \
+0                        OUTFITTERY GmbH        8       NaN   
+1                                Sangeon       22       NaN   
+2                                Zalando      30+       NaN   
+3                                Zalando      30+       NaN   
+4                                  Civey      30+       NaN   
+5                                Zalando       23       NaN   
+6                           HeyJobs GmbH        8       NaN   
+7                Nanostring Technologies      30+       NaN   
+8                           Michael Page      30+       NaN   
+9                               telexiom       30       NaN   
+10                            Amazon.com       11       NaN   
+11                                   SAP        3       NaN   
+12                             Headmatch      30+       NaN   
+13            Oxygen Digital Recruitment       10       NaN   
+14                               Zalando      30+       NaN   
+15   a&o HOTELS and HOSTELS Holding GmbH      30+       NaN   
+16                               Zalando      30+       NaN   
+17       Amorelie - Sonoma Internet GmbH      30+       NaN   
+18                          RatePAY GmbH       11       NaN   
+19                         Bidmanagement      30+       NaN   
+20                            Qtixx GmbH       22       NaN   
+21                           Carmeq GmbH        2       NaN   
+22                             eBay Inc.       10       NaN   
+23                           Carmeq GmbH        2       NaN   
+24                           Carmeq GmbH        2       NaN   
+25     Sixt GmbH & Co. Autovermietung KG       17       NaN   
+26                           Carmeq GmbH        2       NaN   
+27                           Carmeq GmbH        2       NaN   
+28     Sixt GmbH & Co. Autovermietung KG       17       NaN   
+29                           Carmeq GmbH        2       NaN   
+..                                   ...      ...       ...   
+263                    Travelcircus Gmbh        1       NaN   
+264                   upday GmbH & Co.KG      30+       NaN   
+265                            adesso AG      30+       NaN   
+266             Civic Technologies, Inc.      30+       NaN   
+267                         Elinvar GmbH       23       NaN   
+268                                Wooga        1       NaN   
+269                             LabMaker        3       NaN   
+270                            360dialog      30+       NaN   
+271                            adesso AG      30+       NaN   
+272               AMETEK CTS Europe GmbH       14       NaN   
+273                               Babbel      30+       NaN   
+274                         MBition GmbH       25       NaN   
+275                         Elinvar GmbH       23       NaN   
+276                                Civey      30+       NaN   
+277                            Episerver      30+       NaN   
+278             Deutsche Telekom IT GmbH       23       NaN   
+279                  Care Companion GmbH       25       NaN   
+280                              Detecon        4       NaN   
+281            ZYP.ONE (in stealth mode)       16       NaN   
+282                            adesso AG      30+       NaN   
+283                    Urban Sports Club        7       NaN   
+284                           Amazon.com       11       NaN   
+285             Deutsche Telekom AG, VTI       21       NaN   
+286                                Bayer       22       NaN   
+287                       Basilicom GmbH       19       NaN   
+288                                  N26       26       NaN   
+289                         Elinvar GmbH       23       NaN   
+290                     Mister Spex GmbH      30+       NaN   
+291                       Cartwatch GmbH       18       NaN   
+292                     Mister Spex GmbH      30+       NaN   
+
+                                                  desc  
+0    <span id="job_summary" class="summary"><div><p...  
+1    <span id="job_summary" class="summary"><div><d...  
+2    <span id="job_summary" class="summary">ABOUT T...  
+3    <span id="job_summary" class="summary">ABOUT T...  
+4    <span id="job_summary" class="summary"><div><h...  
+5    <span id="job_summary" class="summary">ABOUT T...  
+6    <span id="job_summary" class="summary"><div><p...  
+7    <span id="job_summary" class="summary"><div><p...  
+8    <span id="job_summary" class="summary"><div><h...  
+9    <span id="job_summary" class="summary"><div><d...  
+10   <span id="job_summary" class="summary"><div><h...  
+11   <span id="job_summary" class="summary"><div><p...  
+12   <span id="job_summary" class="summary"><div><h...  
+13   <span id="job_summary" class="summary"><p>Work...  
+14   <span id="job_summary" class="summary">ABOUT T...  
+15   <span id="job_summary" class="summary"><p><b>D...  
+16   <span id="job_summary" class="summary">ABOUT T...  
+17   <span id="job_summary" class="summary"><div><p...  
+18   <span id="job_summary" class="summary"><p>Rate...  
+19   <span id="job_summary" class="summary"><div><d...  
+20   <span id="job_summary" class="summary"><p>Die ...  
+21   <span id="job_summary" class="summary"><div><d...  
+22   <span id="job_summary" class="summary"><div><p...  
+23   <span id="job_summary" class="summary"><div><d...  
+24   <span id="job_summary" class="summary"><div><d...  
+25   <span id="job_summary" class="summary">Wir suc...  
+26   <span id="job_summary" class="summary"><div><d...  
+27   <span id="job_summary" class="summary"><div><d...  
+28   <span id="job_summary" class="summary">Wir suc...  
+29   <span id="job_summary" class="summary"><div><d...  
+..                                                 ...  
+263  <span id="job_summary" class="summary"><div><p...  
+264  <span id="job_summary" class="summary"><div><d...  
+265  <span id="job_summary" class="summary">DAS WAR...  
+266  <span id="job_summary" class="summary">Civic’s...  
+267  <span id="job_summary" class="summary"><div><b...  
+268  <span id="job_summary" class="summary">An Elix...  
+269  <span id="job_summary" class="summary"><div><p...  
+270  <span id="job_summary" class="summary"><div><p...  
+271  <span id="job_summary" class="summary">DAS WAR...  
+272  <span id="job_summary" class="summary">AMETEK ...  
+273  <span id="job_summary" class="summary">Founded...  
+274  <span id="job_summary" class="summary">With th...  
+275  <span id="job_summary" class="summary"><div><b...  
+276  <span id="job_summary" class="summary"><div><h...  
+277  <span id="job_summary" class="summary">The Rol...  
+278  <span id="job_summary" class="summary"><div><h...  
+279  <span id="job_summary" class="summary"><p><b>W...  
+280  <span id="job_summary" class="summary"><div><h...  
+281  <span id="job_summary" class="summary"><div><p...  
+282  <span id="job_summary" class="summary">DAS WAR...  
+283  <span id="job_summary" class="summary"><div><d...  
+284  <span id="job_summary" class="summary"><div><h...  
+285  <span id="job_summary" class="summary"><div><h...  
+286  <span id="job_summary" class="summary"><div><d...  
+287  <span id="job_summary" class="summary"><div><d...  
+288  <span id="job_summary" class="summary">We are ...  
+289  <span id="job_summary" class="summary"><div><b...  
+290  <span id="job_summary" class="summary">Your ta...  
+291  <span id="job_summary" class="summary">We're c...  
+292  <span id="job_summary" class="summary">Your ta...  
+
+[293 rows x 8 columns]
+#+end_example
+
+***** look for keywords
+****** keyword definiton
+******* doc : look for matching patern                               :doc:
+#+BEGIN_SRC ipython :eval no
+help(df.title.str.contains)
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+Help on method contains in module pandas.core.strings:
+
+contains(pat, case=True, flags=0, na=nan, regex=True) method of pandas.core.strings.StringMethods instance
+    Return boolean Series/``array`` whether given pattern/regex is
+    contained in each string in the Series/Index.
+    
+    Parameters
+    ----------
+    pat : string
+        Character sequence or regular expression
+    case : boolean, default True
+        If True, case sensitive
+    flags : int, default 0 (no flags)
+        re module flags, e.g. re.IGNORECASE
+    na : default NaN, fill value for missing values.
+    regex : bool, default True
+        If True use re.search, otherwise use Python in operator
+    
+    Returns
+    -------
+    contained : Series/array of boolean values
+    
+    See Also
+    --------
+    match : analogous, but stricter, relying on re.match instead of re.search
+#+end_example
+
+******* org variable
+#+NAME: keyword
+#+BEGIN_SRC python :nosession
+"database"
+#+END_SRC
+
+#+RESULTS: keyword
+:RESULTS:
+database
+:END:
+
+****** look in title
+******* boolean serie construction                                  :test:
+#+BEGIN_SRC ipython :var k=keyword
+df.title.str.contains(k, case=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[86]:
+#+BEGIN_EXAMPLE
+  3      False
+  12     False
+  14     False
+  15     False
+  19     False
+  23     False
+  27     False
+  28     False
+  35     False
+  38     False
+  45     False
+  48     False
+  55     False
+  57     False
+  59     False
+  62     False
+  63     False
+  64     False
+  65     False
+  66     False
+  75     False
+  79     False
+  82     False
+  87     False
+  91     False
+  92     False
+  93     False
+  94     False
+  96     False
+  100    False
+  ...
+  44     False
+  46     False
+  49     False
+  54     False
+  55     False
+  65     False
+  68     False
+  69     False
+  70     False
+  74     False
+  77     False
+  82     False
+  84     False
+  87     False
+  89     False
+  90     False
+  93     False
+  95     False
+  96     False
+  97     False
+  102    False
+  105    False
+  109    False
+  115    False
+  116    False
+  119    False
+  121    False
+  124    False
+  126    False
+  2      False
+  Name: title, Length: 1623, dtype: bool
+#+END_EXAMPLE
+:END:
+
+******* reduction of our dataset
+#+BEGIN_SRC ipython :var k=keyword
+    dfk = df[df.title.str.contains(k, case=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[92]:
+:END:
+
+****** look in description
+******* reduction
+#+BEGIN_SRC ipython
+    dfk = df[df.desc.str.contains(k, case=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[89]:
+:END:
+
+****** TODO test 
+goto Johnny Kitchin
+#+BEGIN_SRC ipython
+k
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[94]:
+: "# Out[91]:\n: 'database'"
+:END:
+** Printing
+*** quick overview
+**** head
+#+BEGIN_SRC ipython
+df.head()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[5]:
+#+BEGIN_EXAMPLE
+  location                                            related  \
+  0   Berlin  https://de.indeed.com/Python-Developer-Jobs-in...
+  1   Berlin                                                NaN
+  2   Berlin  https://de.indeed.com/Senior-Software-Tester-J...
+  3   Berlin  https://de.indeed.com/Lead-Product-Analyst-Job...
+  4   Berlin  https://de.indeed.com/Softwareentwickler-Entwi...
+  
+  title  \
+  0                             Python Developer (m/w)
+  1                            Software-Entwickler w/m
+  2                       Senior Software-Tester (w/m)
+  3                               Lead Product Analyst
+  4  Softwareentwickler (m/w) für Entwicklungsumgeb...
+  
+  url        company days_ago  \
+  0  https://de.indeed.com/viewjob?jk=05f2b8ca5157f...  Bidmanagement      30+
+  1  https://de.indeed.com/cmp/Qtixx-GmbH/jobs/Soft...     Qtixx GmbH       22
+  2  https://de.indeed.com/viewjob?jk=d9b44d35ab5be...    Carmeq GmbH        2
+  3  https://de.indeed.com/viewjob?jk=9b572e61f1945...      eBay Inc.       10
+  4  https://de.indeed.com/viewjob?jk=c181a1609f4bb...    Carmeq GmbH        2
+  
+  contract                                               desc
+  0       NaN  <span id="job_summary" class="summary"><div><d...
+  1       NaN  <span id="job_summary" class="summary"><p>Die ...
+  2       NaN  <span id="job_summary" class="summary"><div><d...
+  3       NaN  <span id="job_summary" class="summary"><div><p...
+  4       NaN  <span id="job_summary" class="summary"><div><d...
+#+END_EXAMPLE
+:END:
+
+**** count
+#+BEGIN_SRC ipython
+df.title.count()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[6]:
+: 146
+:END:
+**** titles
+#+BEGIN_SRC ipython
+df.title
+#+END_SRC
+
+*** html filesystem
+**** hacked around solution                                            :test:
+***** function to save results to html
+#+NAME: html-save
+#+BEGIN_SRC ipython
+    from datetime import datetime
+    from os import mkdir
+
+    def htmlexport(df, begin, end):
+                date = str(datetime.now())
+                path = "../reports/html/" + date + "/"
+                mkdir(path)
+                for i in range(begin, end):
+                            html = ""
+                            html = html + "\n"
+                            html = html + "Job number " + str(i)
+                            html = html + "\n"
+                            html = html + "-"*100
+                            html = html + "\n" + df.title.iloc[i]
+                            html = html + "\n"
+                            html = html + df.company.iloc[i]
+                            html = html + "\n"
+                            html = html + "-"*100
+                            html = html + "\n"
+                            html = html + df.desc.iloc[i]
+                            html = html + "\n"*3
+                            html = html + "-"*100
+                            html = html + "\n"*3
+                            filename = path + "job-" + str(i) + ".html"
+                            with open(filename, "a") as file:
+                                        file.write(html)
+#+END_SRC
+
+***** call function
+#+BEGIN_SRC ipython
+    htmlexport(dfk, 0, dfk.title.count())
+#+END_SRC
+***** PB : imossible to add links because of some encoding pb
+**** use xml.dom                                                       :test:
+***** use
+#+BEGIN_SRC ipython 
+    from xml.dom import minidom
+    minidom.parseString(dfk.desc.iloc[10])
+#+END_SRC
+
+***** PB : some descs are separated by comas
+****** change spider
+****** use regexp to parse again
+****** test with proper html files : maybe it is just not working with html ?
+#+BEGIN_SRC ipython 
+    from xml.dom import minidom
+    minidom.parseString("~/code/web/plasma-city/application/static/front.html")
+#+END_SRC
+
+**** use yattag
+***** hands-on                                                        :test:
+#+BEGIN_SRC ipython 
+    from yattag import Doc
+
+    doc, tag, text = Doc().tagtext()
+
+    with tag('a', href = "/link/to/path"):
+        text('this is the link !')
+
+    print(doc.getvalue())
+#+END_SRC
+***** notes
+#+BEGIN_SRC ipython
+dfk.keys()
+#+END_SRC
+
+***** solution
+****** imports
+#+BEGIN_SRC ipython
+    from datetime import datetime
+    from os import mkdir
+    from yattag import Doc
+#+END_SRC
+
+****** functions definiton
+******* html page generation
+******** version1
+#+BEGIN_SRC ipython
+    def pagegen(path, filename_base, pagenum, title, desc, company, days):
+        do, ta, te = Doc().tagtext()
+
+        # def linksgen(path, filename_base, pagenum):
+        #     do, ta, te = Do().tagtext()
+        #     with ta('a', href = path):
+        #         te('Home page')
+        #     with ta("a", href = path + filename_base + str(pagenum - 1) + ".html"):
+        #         te("Previous page")
+        #     with ta("a", href = path + filename_base + str(pagenum + 1) + ".html"):
+        #         te("Next page")
+        #     return do.getvalue()
+
+        with ta("title"):
+            te(title)
+            with ta("body"):
+                # linksgen(path, filename_base, pagenum)
+                with ta("h1"):
+                    te(title + company)
+                with ta("p"):
+                    te(days)
+                with ta("a", href = link):
+                    te("Original page")
+                with ta("div"):
+                    te(desc)
+                # linksgen(path, filename_base, pagenum)
+
+        return do.getvalue()
+#+END_SRC
+
+******** test pagegen
+#+BEGIN_SRC ipython
+pagegen("chemin", "nom", 0, "titre", "desc", "firm", "days")
+#+END_SRC
+
+******** no function test program
+#+BEGIN_SRC ipython
+
+    doc, tag, text = Doc().tagtext()
+
+    with tag("title"):
+                text("titre")
+    with tag("body"):
+                # linksgen(path, filename_base, pagenum)
+                with tag("h1"):
+                            text("title" + "company")
+
+                with tag("p"):
+
+                            text("days")
+
+                with tag("a", href = "link"):
+
+                            text("Original page")
+
+                with tag("div"):
+
+                            text("desc"*10000)
+                # linksgen(path, filename_base, pagenum)
+
+    doc.getvalue()
+#+END_SRC
+
+******** PB: indentation // SOL: ipython
+******* htmlexport function
+#+BEGIN_SRC ipython
+    def htmlexport(df, begin, end):
+        date = str(datetime.now())
+        path = "../reports/html/" + date + "/"
+        mkdir(path)
+        for i in range(begin, end):
+            filename_base = "job-"
+            html = pagegen(path,
+                           filename_base,
+                           i,
+                           df.title.iloc[i],
+                           df.desc.iloc[i],
+                           df.company.iloc[i],
+                           df.days_ago.iloc[i],
+            )
+            filename = path + filename_base +  str(i) + ".html"
+            with open(filename, "a") as file:
+                file.write(html)
+
+#+END_SRC
+
+****** run function
+#+BEGIN_SRC ipython
+print(htmlexport(dfk, 0, dfk.title.count()))
+#+END_SRC
+
+*** org  table (python)                                               :python:
+**** john kitchin example                                        :test:
+#+BEGIN_SRC python
+    import pandas as pd
+    test = pd.DataFrame({'A': [1000, 1000], 'B' : [60, 100]})
+    test2 = [list(test)] + [None] + test.values.tolist()
+    test3 = test.values.tolist()
+    return (test, test2, test3)
+#+END_SRC
+
+**** my program                                                  :slow:
+#+NAME: data-set
+#+BEGIN_SRC python :var data=data-path
+    import pandas as pd
+    df = pd.read_csv(data)
+    return  [list(df)] + [None] + df.values.tolist()
+#+END_SRC
+
+**** COMMENT in an org table                                           :slow:
+#+BEGIN_SRC ipython :eval no
+    head = df.head()
+    [list(head)] + [None] + head.values.tolist()
+#+END_SRC
+
+*** hacks                                                               :test:
+**** org results: html                                                 :test:
+#+BEGIN_SRC python :results html
+    dfk.desc.iloc[0]
+#+END_SRC
+
+**** soupprint
+***** soupprint as org function
+#+NAME: soupprint
+#+BEGIN_SRC python
+    from bs4 import BeautifulSoup
+
+    def souper(html):
+        soup = BeautifulSoup(html, 'html.parser')
+        print(soup.get_text())
+
+    def soupprint(df, begin, end):
+        for i in range(begin, end):
+            print(i, df.title.iloc[i])
+            print("\n")
+            print(df.company.iloc[i])
+            print("\n")
+            souper(df.desc.iloc[i])
+            print("\n"*3)
+            print("-"*100)
+            print("\n"*3)
+#+END_SRC
+
+***** call
+#+CALL: soupprint()
+
+#+RESULTS[035511d92ded44ec24cc84fea0b5511c5863b3b6]:
+
+#+BEGIN_SRC python 
+    soupprint(dfk, 0, dfk.title.count())
+#+END_SRC
+
+* Documentation
+** pandas
+[[~/Cours/Data/cheat-sheets/Pandas_Cheat_Sheet.pdf][Pandas cheat sheet]]
+* ipython test
+** hands-on tryout
+:PROPERTIES:
+:header-args: :session test
+:END:
+*** hello world
+#+BEGIN_SRC ipython
+print 'hello world'
+#+END_SRC
+*** 
+*** function definition
+#+BEGIN_SRC ipython
+    def fn():
+        print "I am in the session !"
+#+END_SRC
+
+*** function call
+#+BEGIN_SRC ipython
+fn()
+#+END_SRC
+
+** doc tutorial
+:PROPERTIES:
+:header-args: :session other :results raw drawer
+:END:
+*** imports
+#+BEGIN_SRC ipython
+  %matplotlib inline
+  import matplotlib.pyplot as plt
+  import numpy as np
+#+END_SRC
+
+*** ex2
+#+BEGIN_SRC ipython
+  def foo(x):
+      return x + 9
+
+  [foo(x) + 7 for x in range(7)]
+#+END_SRC
+
+*** images
+**** ex1
+#+BEGIN_SRC ipython :exports both
+  plt.hist(np.random.randn(20000), bins=200)
+#+END_SRC
+
+**** ex2
+#+BEGIN_SRC ipython :ipyfile /tmp/image.png :exports both :results raw drawer
+  plt.hist(np.random.randn(20000), bins=200)
+#+END_SRC
+
+**** config
+#+BEGIN_SRC ipython
+%config InlineBackend.figure_format = 'svg'
+#+END_SRC
+
+*** other kernel
+#+BEGIN_SRC ipython :session clojure :kernel clojure
+  (+ 1 2)
+#+END_SRC
+
+*** async
+#+BEGIN_SRC ipython :ipyfile /tmp/image.png :exports both :async t :results raw drawer
+  import time
+  time.sleep(3)
+  plt.hist(np.random.randn(20000), bins=200)
+#+END_SRC
+
+** other tryouts
+*** functions
+:PROPERTIES:
+:header-args: :session neuf :results raw drawer
+:END:
+**** definition                                              :noexport:
+#+BEGIN_SRC ipython
+    def lol():
+        /print "This is the fun !"
+#+END_SRC
+
+**** call
+#+BEGIN_SRC ipython 
+lol()
+#+END_SRC
+
+*** formater
+:PROPERTIES:
+:header-args: :session formater  :results raw drawer
+:END:
+**** init
+#+BEGIN_SRC ipython
+import IPython
+from tabulate import tabulate
+
+class OrgFormatter(IPython.core.formatters.BaseFormatter):
+    def __call__(self, obj):
+        try:
+            return tabulate(obj, headers='keys',
+                            tablefmt='orgtbl', showindex='always')
+        except:
+            return None
+
+ip = get_ipython()
+ip.display_formatter.formatters['text/org'] = OrgFormatter()
+#+END_SRC
+**** arrays
+
+*** kernel tests
+**** session header arg after run console
+#+BEGIN_SRC ipython :session xxx
+print("hello")
+#+END_SRC
+**** kernel headerarg
+#+BEGIN_SRC ipython :session :kernel python3
+print("hello")
+#+END_SRC
