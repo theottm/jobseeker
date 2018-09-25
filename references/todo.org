@@ -121,3 +121,4 @@ http://kitchingroup.cheme.cmu.edu/blog/2017/01/03/Find-stuff-in-org-mode-anywher
 ** SQL database
 ** scrapper
 ** frontend
+* TODO set PATH env

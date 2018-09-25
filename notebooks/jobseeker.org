@@ -74,7 +74,7 @@ CLOCK: [2018-08-21 mar. 14:14]--[2018-08-21 mar. 15:29] =>  1:15
 
 #+RESULTS:
 :RESULTS:
-# Out[1]:
+# Out[5]:
 :END:
 *** pandas
 #+BEGIN_SRC ipython
@@ -87,9 +87,8 @@ import pandas as pd
 :END:
 
 ** Data load
-*** dataset definition
-**** loop selection
-***** TODO time range selection
+*** load everything
+**** TODO time range selection
 
 #+RESULTS:
 :RESULTS:
@@ -142,31 +141,30 @@ import pandas as pd
   'spa.csv']
 #+END_EXAMPLE
 :END:
-***** files list
+**** file list with path
 #+BEGIN_SRC ipython
-    import os
-    import re
-    csv_files = []
-    data_dir = "../data/external/indeed/data/2018-09-14/"
-    dir_files = os.listdir(data_dir)
-    for fl in dir_files:
-        if re.search('[.]csv', fl, re.I) is not None:
-            csv_files.append(fl)
+import os
+csv_files = []
+for dirpath, dirs, files in os.walk("../data/raw"): 
+  for filename in files:
+    fname = os.path.join(dirpath,filename)
+    if fname.endswith('.csv'):
+      csv_files.append(fname)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[3]:
+# Out[7]:
 :END:
 
-***** dataframe creation
+**** dataframe creation
 #+BEGIN_SRC ipython
     jobs = pd.DataFrame()
 
     for fl in csv_files:
         print(fl+(30-len(fl)//2)*" *")
         try:
-            jobs_set = pd.read_csv(data_dir+fl)
+            jobs_set = pd.read_csv(fl)
             jobs_set.dropna(axis=0, how='any', subset=["desc"], inplace=True)
             jobs_set.drop_duplicates(subset="desc", inplace=True)            
             try:                                                             
@@ -180,17 +178,18 @@ import pandas as pd
 
 #+RESULTS:
 :RESULTS:
-# Out[4]:
+# Out[8]:
 :END:
 
-***** rename
+*** rename
+use to quickly reset original df
 #+BEGIN_SRC ipython
 df = jobs
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[5]:
+# Out[100]:
 :END:
 
 *** python example                                                  :test:
@@ -310,13 +309,14 @@ df.head()
 #+END_SRC
 *** cleansing                                                          :clean:
 **** duplicates
+***** drop_duplicates
 #+BEGIN_SRC ipython
     df.drop_duplicates(subset="desc", inplace=True)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[6]:
+# Out[101]:
 :END:
 
 ***** count
@@ -326,8 +326,8 @@ df.title.count()
 
 #+RESULTS:
 :RESULTS:
-# Out[7]:
-: 3194
+# Out[102]:
+: 11636
 :END:
 
 **** olders
@@ -474,10 +474,139 @@ df.days_ago.iloc[12]
   Name: days_ago, Length: 1625, dtype: bool
 #+END_EXAMPLE
 :END:
+*** filtering
+**** look for keywords
+***** keyword definiton
+****** org variable
+#+NAME: keyword
+#+BEGIN_SRC python :nosession
+"kunst und medien"
+#+END_SRC
 
-*** quick stats
-**** overview
-***** head
+#+RESULTS: keyword
+:RESULTS:
+kunst und medien
+:END:
+
+***** look in title
+****** boolean serie construction                                    :test:
+#+BEGIN_SRC ipython :var k=keyword
+df.title.str.contains(k, case=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[86]:
+#+BEGIN_EXAMPLE
+  3      False
+  12     False
+  14     False
+  15     False
+  19     False
+  23     False
+  27     False
+  28     False
+  35     False
+  38     False
+  45     False
+  48     False
+  55     False
+  57     False
+  59     False
+  62     False
+  63     False
+  64     False
+  65     False
+  66     False
+  75     False
+  79     False
+  82     False
+  87     False
+  91     False
+  92     False
+  93     False
+  94     False
+  96     False
+  100    False
+  ...
+  44     False
+  46     False
+  49     False
+  54     False
+  55     False
+  65     False
+  68     False
+  69     False
+  70     False
+  74     False
+  77     False
+  82     False
+  84     False
+  87     False
+  89     False
+  90     False
+  93     False
+  95     False
+  96     False
+  97     False
+  102    False
+  105    False
+  109    False
+  115    False
+  116    False
+  119    False
+  121    False
+  124    False
+  126    False
+  2      False
+  Name: title, Length: 1623, dtype: bool
+#+END_EXAMPLE
+:END:
+
+****** reduction of our dataset
+#+BEGIN_SRC ipython :var k=keyword
+    df = df[df.title.str.contains(k, case=False, na=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[92]:
+:END:
+
+***** look in description
+#+BEGIN_SRC ipython :var k=keyword
+    df = df[df.desc.str.contains(k, case=False, na=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[104]:
+:END:
+
+***** TODO test 
+goto Johnny Kitchin
+#+BEGIN_SRC ipython
+k
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[94]:
+: "# Out[91]:\n: 'database'"
+:END:
+**** companies
+#+BEGIN_SRC ipython
+df = df[df.company.str.contains("berlin", case=False, na=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[86]:
+:END:
+
+** Stats
+*** overview
+**** head
 #+BEGIN_SRC ipython
 df.head()
 #+END_SRC
@@ -492,20 +621,20 @@ df.head()
 #+END_EXAMPLE
 :END:
 
-***** count
+**** count
 #+BEGIN_SRC ipython
 len(df)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[21]:
-: 68
+# Out[106]:
+: 0
 :END:
 
-**** days ago
-***** histogram
-****** pd plot
+*** days ago
+**** histogram
+***** pd plot
 #+BEGIN_SRC ipython
     df.days_ago.plot.hist()
 #+END_SRC
@@ -516,7 +645,7 @@ len(df)
 : <matplotlib.axes._subplots.AxesSubplot at 0x7f1136869c18>
 [[file:./obipy-resources/TtBMu6.png]]
 :END:
-***** value count
+**** value count
 #+BEGIN_SRC ipython
     df.days_ago.value_counts()
 #+END_SRC
@@ -559,8 +688,8 @@ len(df)
   Name: days_ago, dtype: int64
 #+END_EXAMPLE
 :END:
-***** groupby
-****** basic output
+**** groupby
+***** basic output
 #+BEGIN_SRC ipython
     df.groupby(["days_ago"]).groups
 #+END_SRC
@@ -597,7 +726,7 @@ len(df)
   29: Int64Index([145], dtype='int64')}
 #+END_EXAMPLE
 :END:
-****** loop print
+***** loop print
 #+BEGIN_SRC ipython
 grouped = df.groupby("days_ago")
 
@@ -610,8 +739,8 @@ for name,group in grouped:
 :RESULTS:
 # Out[52]:
 :END:
-****** documentation                                        :doc:
-******* pandas doc
+***** documentation                                                    :doc:
+****** pandas doc
 #+BEGIN_SRC ipython 
 help(df.groupby(["days_ago"]))
 #+END_SRC
@@ -2558,9 +2687,9 @@ class DataFrameGroupBy(NDFrameGroupBy)
  |  ndim
 
 :END:
-******* tutorial
+****** tutorial
 https://www.tutorialspoint.com/python_pandas/python_pandas_groupby.htm
-****** use
+***** use
 #+BEGIN_SRC ipython
     grouped = df.groupby(["days_ago"])
     grouped.title.count().sort_values(ascending=False)
@@ -2600,9 +2729,9 @@ https://www.tutorialspoint.com/python_pandas/python_pandas_groupby.htm
   Name: title, dtype: int64
 #+END_EXAMPLE
 :END:
-**** companies
-***** groupby
-****** define group
+*** companies
+**** groupby
+***** define group
 #+BEGIN_SRC ipython
 comp_group = df.groupby(["company"])
 #+END_SRC
@@ -2612,7 +2741,7 @@ comp_group = df.groupby(["company"])
 # Out[38]:
 :END:
 
-****** print groups
+***** print groups
 #+BEGIN_SRC ipython
     comp_group.groups
 #+END_SRC
@@ -2681,7 +2810,7 @@ comp_group = df.groupby(["company"])
   'solvemate GmbH': Int64Index([136], dtype='int64')}
 #+END_EXAMPLE
 :END:
-****** count groups
+***** count groups
 #+BEGIN_SRC ipython
 len(comp_group.groups)
 #+END_SRC
@@ -2691,9 +2820,9 @@ len(comp_group.groups)
 # Out[40]:
 : 58
 :END:
-****** number of job per company
-******* hack
-******** loop
+***** number of job per company
+****** hack
+******* loop
 #+BEGIN_SRC ipython
     for company in comp_group.groups.keys():
                 lenght = len(comp_group.groups[company])
@@ -2706,7 +2835,7 @@ len(comp_group.groups)
 # Out[57]:
 :END:
 
-******** single
+******* single
 #+BEGIN_SRC ipython
     key = list(comp_group.groups.keys())[0]
     list(comp_group.groups[key])
@@ -2718,7 +2847,7 @@ len(comp_group.groups)
 : [32, 49, 86]
 :END:
 
-******** test
+******* test
 #+BEGIN_SRC ipython
 len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut"])
 #+END_SRC
@@ -2728,7 +2857,7 @@ len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Her
 # Out[55]:
 : 1
 :END:
-******* pandas 
+****** pandas 
 #+BEGIN_SRC ipython
     count = comp_group.title.count()
     count.sort_values(ascending=False)
@@ -2801,211 +2930,89 @@ len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Her
 #+END_EXAMPLE
 :END:
 
-***** value count
+**** value count
 #+BEGIN_SRC ipython
     df.company.value_counts()
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[20]:
+# Out[96]:
 #+BEGIN_EXAMPLE
-  interact.io Cloud Solutions GmbH            4
-  OUTFITTERY GmbH                             3
-  internetstores GmbH                         3
-  Peak Ace AG                                 2
-  Rebate Networks                             2
-  Siemens AG                                  2
-  media.net berlinbrandenburg                 2
-  German Finest Consulting                    1
-  TillerStack                                 1
-  EMEA Messe UG                               1
-  Wendero GmbH                                1
-  Digital Career Institute                    1
-  BIG PICTURE GmbH                            1
-  Finnchat GmbH                               1
-  Baymax Gmbh                                 1
-  Lemon One                                   1
-  Quantis                                     1
-  MEININGER Hotel Berlin East Side Gallery    1
-  Urban Drivestyle GmbH                       1
-  Newsenselab GmbH                            1
-  Tandem                                      1
-  Spiele-Palast GmbH                          1
-  Ironhack                                    1
-  TeachSurfing                                1
-  car2go Group GmbH                           1
-  Boostability                                1
-  bookingkit GmbH                             1
-  weeve                                       1
-  MEININGER Hotel Berlin Central Station      1
-  thebigword                                  1
-  Restaurant Feinberg                         1
-  Pharmerit International                     1
-  Genuine German GmbH                         1
-  CareerFoundry GmbH                          1
-  Akelius GmbH                                1
-  Ärzte ohne Grenzen                          1
-  Catapult                                    1
-  Steyoyoke Recordings                        1
-  KUMON Berlin-Prenzlauer Berg-Nord           1
-  Pamono GmbH                                 1
-  Springer Nature                             1
-  Chatterbug                                  1
-  Homes for Independent Living                1
-  mitte                                       1
-  BüroPartner I. Buch                         1
-  Crealytics                                  1
-  Outsourcing Bear                            1
-  SRH Hochschule Berlin                       1
-  MYCS GmbH                                   1
-  BAT Business Services GmbH                  1
-  ICOBox                                      1
-  GoEuro                                      1
-  E.CA Economics GmbH                         1
-  So1 GmbH                                    1
-  P & T - Paper & Tea GmbH                    1
-  MoBerries                                   1
-  Mercedes-Benz Bank Service Center GmbH      1
-  Name: company, dtype: int64
-#+END_EXAMPLE
-:END:
-*** filtering
-**** junior positions
-***** how to
-****** load dataset
-****** define keyword
-****** choose a place to look for
-****** print result
-***** look for keywords
-****** keyword definiton
-******* org variable
-#+NAME: keyword
-#+BEGIN_SRC python :nosession
-"part-time"
-#+END_SRC
-
-#+RESULTS: keyword
-:RESULTS:
-part-time
-:END:
-
-****** look in title
-******* boolean serie construction                                  :test:
-#+BEGIN_SRC ipython :var k=keyword
-df.title.str.contains(k, case=False)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[86]:
-#+BEGIN_EXAMPLE
-  3      False
-  12     False
-  14     False
-  15     False
-  19     False
-  23     False
-  27     False
-  28     False
-  35     False
-  38     False
-  45     False
-  48     False
-  55     False
-  57     False
-  59     False
-  62     False
-  63     False
-  64     False
-  65     False
-  66     False
-  75     False
-  79     False
-  82     False
-  87     False
-  91     False
-  92     False
-  93     False
-  94     False
-  96     False
-  100    False
-  ...
-  44     False
-  46     False
-  49     False
-  54     False
-  55     False
-  65     False
-  68     False
-  69     False
-  70     False
-  74     False
-  77     False
-  82     False
-  84     False
-  87     False
-  89     False
-  90     False
-  93     False
-  95     False
-  96     False
-  97     False
-  102    False
-  105    False
-  109    False
-  115    False
-  116    False
-  119    False
-  121    False
-  124    False
-  126    False
-  2      False
-  Name: title, Length: 1623, dtype: bool
+  Status                                                7
+  ZipJet                                                7
+  MVP Factory                                           6
+  Zattoo                                                5
+  virtualQ GmbH                                         5
+  Hays                                                  5
+  8fit                                                  5
+  SumUp                                                 4
+  Relayr                                                4
+  Opitz Personalberatung                                4
+  Book a Street Artist                                  4
+  nteam GmbH                                            3
+  trecker.com                                           3
+  unu GmbH                                              3
+  medneo GmbH                                           3
+  Chatterbug                                            3
+  SmartRecruiters Inc                                   3
+  SAP                                                   3
+  YARA Digital Farming Niederlassung YARA GmbH&Co KG    3
+  Computer Manufaktur                                   3
+  blogfoster                                            3
+  DATAGROUP Inshore Services GmbH                       3
+  Planet                                                3
+  Oracle                                                3
+  flowkey GmbH                                          3
+  Cogs Agency                                           2
+  Bidmanagement                                         2
+  Ares Tech GmbH                                        2
+  media.net berlinbrandenburg                           2
+  Mirantis                                              2
+  ..
+  Mason Bedford                                         1
+  YND Consult GmbH                                      1
+  DB                                                    1
+  Translation Royale                                    1
+  perZukunft                                            1
+  Cornerstone Search Group, LLC                         1
+  Bloomberg                                             1
+  data Artisans                                         1
+  CORE                                                  1
+  Brandnew IO                                           1
+  OLX Group                                             1
+  Plexus Resource Solutions                             1
+  Catapult                                              1
+  Transparency International Secretariat                1
+  GS-Company                                            1
+  Rekode                                                1
+  HubSpot                                               1
+  Shishi                                                1
+  Headmatch                                             1
+  White & Case                                          1
+  AUTO1                                                 1
+  mmpro film- und medienproduktion GmbH                 1
+  Native Instruments                                    1
+  Productsup                                            1
+  Imperva                                               1
+  Data Artisans                                         1
+  Groupon                                               1
+  Heaven Media Ltd                                      1
+  CANCOM SE                                             1
+  AirHelp                                               1
+  Name: company, Length: 194, dtype: int64
 #+END_EXAMPLE
 :END:
 
-******* reduction of our dataset
-#+BEGIN_SRC ipython :var k=keyword
-    df = df[df.title.str.contains(k, case=False)]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[92]:
-:END:
-
-****** look in description
-******* reduction
-#+BEGIN_SRC ipython :var k=keyword
-    df = df[df.desc.str.contains(k, case=False)]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[19]:
-:END:
-
-****** TODO test 
-goto Johnny Kitchin
-#+BEGIN_SRC ipython
-k
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[94]:
-: "# Out[91]:\n: 'database'"
-:END:
-*** words
-**** most used word
-***** category to look in 
+** Words
+*** most used word
+**** category to look in 
 #+NAME: category
 #+BEGIN_SRC python :nosession
 "desc"
 #+END_SRC
 
-***** 
+**** 
 ** Printing
 *** quick overview
 **** head
@@ -3062,7 +3069,7 @@ df.title.count()
 df.title
 #+END_SRC
 
-*** html filesystem
+*** html pages
 **** hacked around solution                                            :test:
 ***** function to save results to html
 #+NAME: html-save
@@ -3117,24 +3124,7 @@ df.title
 #+END_SRC
 
 **** use yattag
-***** hands-on                                                        :test:
-#+BEGIN_SRC ipython 
-    from yattag import Doc
-
-    doc, tag, text = Doc().tagtext()
-
-    with tag('a', href = "/link/to/path"):
-        text('this is the link !')
-
-    print(doc.getvalue())
-#+END_SRC
-***** notes
-#+BEGIN_SRC ipython
-dfk.keys()
-#+END_SRC
-
-***** solution
-****** imports
+***** imports
 #+BEGIN_SRC ipython
     from datetime import datetime
     from os import mkdir
@@ -3143,109 +3133,110 @@ dfk.keys()
 
 #+RESULTS:
 :RESULTS:
-# Out[10]:
+# Out[16]:
 :END:
 
-****** functions definiton
-******* html page generation
-******** version1
+***** html page generation
+****** functions definition
 #+BEGIN_SRC ipython
-    def pagegen(path, filename_base, pagenum, title, desc, company, days):
-        do, ta, te = Doc().tagtext()
+def linksgen(filename_base, pagenum, url):
+    doc, tag, text = Doc().tagtext()
 
-        # def linksgen(path, filename_base, pagenum):
-        #     do, ta, te = Do().tagtext()
-        #     with ta('a', href = path):
-        #         te('Home page')
-        #     with ta("a", href = path + filename_base + str(pagenum - 1) + ".html"):
-        #         te("Previous page")
-        #     with ta("a", href = path + filename_base + str(pagenum + 1) + ".html"):
-        #         te("Next page")
-        #     return do.getvalue()
+    with tag('a', href = "."):
+        text('Home page ')
+    with tag("a", href = filename_base + str(pagenum - 1) + ".html"):
+        text("Previous page ")
+    with tag("a", href = filename_base + str(pagenum + 1) + ".html"):
+        text("Next page ")
+    with tag("a", href = url):
+        text("Original page ")
+    return doc.getvalue()
 
-        with ta("title"):
-            te(title)
-            with ta("body"):
-                # linksgen(path, filename_base, pagenum)
-                with ta("h1"):
-                    te(title + company)
-                with ta("p"):
-                    te(days)
-                with ta("a", href = link):
-                    te("Original page")
-                with ta("div"):
-                    te(desc)
-                # linksgen(path, filename_base, pagenum)
 
-        return do.getvalue()
+def pagegen(filename_base, pagenum, title, desc, company, days, url):
+    doc, tag, text = Doc().tagtext()
+    
+    doc.asis('<meta charset="UTF-8">')
+    with tag("title"):
+        text(title)
+    with tag("body"):
+        doc.asis(linksgen(filename_base, pagenum, url))
+        with tag("h1"):
+            text(title + " - " + company)
+        with tag("p"):
+            text(days)
+        with tag("div"):
+            doc.asis(desc)
+        doc.asis(linksgen(filename_base, pagenum, url))
+
+    return doc.getvalue()
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[11]:
+# Out[76]:
 :END:
 
-******** test pagegen
+****** test pagegen                                                  :test:
 #+BEGIN_SRC ipython
-pagegen("chemin", "nom", 0, "titre", "desc", "firm", "days")
+pagegen("nom", 0, "titre", "desc", "firm", "days", "www")
 #+END_SRC
 
-******** no function test program
+#+RESULTS:
+:RESULTS:
+# Out[79]:
+: '<meta charset="UTF-8"><title>titre</title><body><a href=".">Home page </a><a href="nom-1.html">Previous page </a><a href="nom1.html">Next page </a><a href="www">Original page </a><h1>titre - firm</h1><p>days</p><div>desc</div><a href=".">Home page </a><a href="nom-1.html">Previous page </a><a href="nom1.html">Next page </a><a href="www">Original page </a></body>'
+:END:
+
+****** test linksgen                                                 :test:
 #+BEGIN_SRC ipython
-
-    doc, tag, text = Doc().tagtext()
-
-    with tag("title"):
-                text("titre")
-    with tag("body"):
-                # linksgen(path, filename_base, pagenum)
-                with tag("h1"):
-                            text("title" + "company")
-
-                with tag("p"):
-
-                            text("days")
-
-                with tag("a", href = "link"):
-
-                            text("Original page")
-
-                with tag("div"):
-
-                            text("desc"*10000)
-                # linksgen(path, filename_base, pagenum)
-
-    doc.getvalue()
+linksgen("file", 10, "wwwww")
 #+END_SRC
 
-******** PB: indentation // SOL: ipython
-******* htmlexport function
+#+RESULTS:
+:RESULTS:
+# Out[78]:
+: '<a href=".">Home page </a><a href="file9.html">Previous page </a><a href="file11.html">Next page </a><a href="wwwww">Original page </a>'
+:END:
+***** htmlexport function
+****** definition
 #+BEGIN_SRC ipython
-    def htmlexport(df, begin, end):
-        date = str(datetime.now())
-        path = "../reports/html/" + date + "/"
-        mkdir(path)
-        for i in range(begin, end):
-            filename_base = "job-"
-            html = pagegen(path,
-                           filename_base,
-                           i,
-                           df.title.iloc[i],
-                           df.desc.iloc[i],
-                           df.company.iloc[i],
-                           df.days_ago.iloc[i],
-            )
-            filename = path + filename_base +  str(i) + ".html"
-            with open(filename, "a") as file:
-                file.write(html)
+def htmlexport(df, begin, end):
+    date = str(datetime.now())
+    path = "../reports/html/" + date + "/"
+    mkdir(path)
+    for i in range(begin, end):
+        filename_base = "job-"
+        html = pagegen(filename_base,
+                       i,
+                       df.title.iloc[i],
+                       df.desc.iloc[i],
+                       df.company.iloc[i],
+                       df.days_ago.iloc[i],
+                       df.url.iloc[i]
+        )
+        filename = path + filename_base +  str(i) + ".html"
+        with open(filename, "a") as file:
+            file.write(html)
 
 #+END_SRC
 
-****** run function
+#+RESULTS:
+:RESULTS:
+# Out[80]:
+:END:
+
+****** call
 #+BEGIN_SRC ipython
-print(htmlexport(dfk, 0, dfk.title.count()))
+htmlexport(df, 0, len(df))
 #+END_SRC
 
+#+RESULTS:
+:RESULTS:
+# Out[99]:
+:END:
+*** server
+**** flask ? :D !!!
 *** org  table (python)                                               :python:
 **** john kitchin example                                        :test:
 #+BEGIN_SRC python
@@ -3277,7 +3268,8 @@ print(htmlexport(dfk, 0, dfk.title.count()))
 #+END_SRC
 
 *** soupprint
-**** get text
+**** session functions
+***** souper (using get text)
 #+BEGIN_SRC ipython
 from bs4 import BeautifulSoup
 
@@ -3289,13 +3281,11 @@ def souper(html):
 
     #+RESULTS:
     :RESULTS:
-    # Out[17]:
+    # Out[13]:
     :END:
-
-**** soupprint as org function
-***** definition
-#+NAME: soupprint
-#+BEGIN_SRC python
+***** soupprint
+****** definition
+#+BEGIN_SRC ipython
     from bs4 import BeautifulSoup
 
     def souper(html):
@@ -3314,6 +3304,46 @@ def souper(html):
             print("\n"*3)
 #+END_SRC
 
+#+RESULTS:
+:RESULTS:
+# Out[14]:
+:END:
+****** call
+#+BEGIN_SRC ipython
+soupprint(df, 0, 10)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[15]:
+:END:
+
+**** soupprint as org function
+***** definition
+#+NAME: soupprint
+#+BEGIN_SRC python
+from bs4 import BeautifulSoup
+
+def souper(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    print(soup.get_text())
+
+def soupprint(df, begin, end):
+    for i in range(begin, end):
+        print(i, df.title.iloc[i])
+        print("\n")
+        print(df.company.iloc[i])
+        print("\n")
+        souper(df.desc.iloc[i])
+        print("\n"*3)
+        print("-"*100)
+        print("\n"*3)
+#+END_SRC
+
+#+RESULTS: soupprint
+:RESULTS:
+:END:
+
 ***** call
 #+CALL: soupprint()
 
@@ -3322,7 +3352,306 @@ def souper(html):
 #+BEGIN_SRC python 
     soupprint(dfk, 0, dfk.title.count())
 #+END_SRC
+** Queries
+*** get queries metadata
+**** dataframe using os results
+#+BEGIN_SRC ipython
+import os
+queries_name = []
+queries_size = []
+queries_path = []
+queries_time = []
+for dirpath, dirs, files in os.walk("../data/raw"): 
+  for filename in files:
+    if filename.endswith('.csv'):
+      
+      path = os.path.join(dirpath, filename)
+      queries_path.append(path)
+      
+      size = os.path.getsize(path)
+      queries_size.append(size)
+      
+      fname = filename.replace(".csv", "")
+      queries_name.append(fname)
+      
+      time = os.path.getmtime(path)
+      queries_time.append(time)
 
+queries = pd.DataFrame({"name" : queries_name, "path" : queries_path, "size" : queries_size, "time" : queries_time})      
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[235]:
+:END:
+**** remove oldests results 
+***** datetime time format
+#+BEGIN_SRC ipython
+queries["time"] = queries.time.apply(datetime.fromtimestamp)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[310]:
+:END:
+
+***** y-m-d format time
+#+BEGIN_SRC ipython
+def format_time(x):
+    y = x.strftime("%Y-%m-%d")
+    return y
+
+queries["time_formated"] = queries.time.apply(format_time)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[324]:
+:END:
+**** remove null size results 
+#+BEGIN_SRC ipython
+queries_null = queries[queries["size"] < 1]
+queries = queries[queries["size"] > 1]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[369]:
+:END:
+**** number of entries in csv file
+***** read as pandas dataframe
+#+BEGIN_SRC ipython
+def entries_count(csv):
+    return len(pd.read_csv(csv))
+
+queries["entries"] = queries.path.apply(entries_count)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[471]:
+:END:
+
+**** inspection
+#+BEGIN_SRC ipython
+import humanize
+queries["size_for_humans"] = queries["size"].apply(humanize.naturalsize)
+queries.sort_values("size", ascending=False)[["name", "size_for_humans", "entries"]].reset_index()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[480]:
+#+BEGIN_EXAMPLE
+  index                         name size_for_humans  entries
+  0      134                         data          3.5 MB     1363
+  1      133                       python          3.4 MB     1291
+  2      121                 intelligence          3.2 MB     1108
+  3      126                       pyjobs          3.2 MB     1260
+  4      122  python-jobs-berlin-21-05-18          3.2 MB     1260
+  5      119            software engineer          2.7 MB      774
+  6      130                          aws          2.7 MB     1247
+  7      127                    marketing          2.4 MB      956
+  8      136                     database          2.3 MB      630
+  9      124                      finance          2.3 MB      849
+  10     114                      analyst          2.2 MB      873
+  11     131                    developer          2.2 MB     1077
+  12     112             business_analyst          1.7 MB      632
+  13     113                       oracle        921.4 kB      417
+  14     129                   internship        789.4 kB      356
+  15      83                   e business        601.2 kB      160
+  16      70                 intelligence        581.0 kB      148
+  17      94                          sql        549.3 kB      158
+  18      40        business intelligence        546.2 kB      138
+  19     102                      startup        540.5 kB      143
+  20      51                       system        536.3 kB      161
+  21     178                       python        517.0 kB      146
+  22      74                      finance        501.8 kB      156
+  23      64                     engineer        492.5 kB      130
+  24     110                     frontend        487.3 kB      128
+  25      75                         html        459.5 kB      149
+  26     103                         data        449.2 kB      125
+  27     177            software engineer        442.6 kB      129
+  28      89                          aws        439.1 kB      100
+  29     141                            c        434.8 kB      148
+  ..     ...                          ...             ...      ...
+  117    120                junior_python         21.1 kB       98
+  118    111                  live coding         19.6 kB        5
+  119    168                       camera         18.9 kB        6
+  120    140                        keras         17.5 kB        5
+  121     22                       museum         17.2 kB        7
+  122     57                 system admin         17.1 kB        5
+  123     88                     beginner         17.0 kB        5
+  124     23                advertisement         16.2 kB        5
+  125      1                     anfänger         12.1 kB        4
+  126    175                          dsp         11.3 kB        3
+  127     62                growth hacker         11.1 kB        3
+  128     32                       garden         10.9 kB        4
+  129     27                        movie         10.6 kB        3
+  130     60                      clojure         10.2 kB        3
+  131     38             kunst und medien          9.6 kB        4
+  132     65                     français          7.2 kB        2
+  133     42               growth hacking          6.9 kB        2
+  134     16                   buchhandel          6.3 kB        2
+  135    158            assembly language          6.0 kB        1
+  136     18               digital artist          5.7 kB        3
+  137     50                   audio unit          4.7 kB        2
+  138    157                          bsd          4.5 kB        1
+  139     67                 lean analyst          4.4 kB        1
+  140    165                         punk          3.4 kB        1
+  141     72                        flask          3.1 kB        1
+  142    142                         midi          3.0 kB        3
+  143     84                       webapp          2.6 kB        1
+  144     41                     fin tech          2.5 kB        1
+  145    143                        d3.js          1.7 kB        1
+  146     17                      flowers       900 Bytes        1
+  
+  [147 rows x 4 columns]
+#+END_EXAMPLE
+:END:
+
+**** time evolution
+**** return list for next scraper launch
+remove null size results before (or not)
+#+BEGIN_SRC ipython
+queries_list = list(set(queries.name))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[481]:
+#+BEGIN_EXAMPLE
+  ['garten',
+  'junior_python',
+  'aws',
+  'vr',
+  'startup',
+  'sensors',
+  'buchhandel',
+  'python internship',
+  'ic',
+  'keras',
+  'numpy',
+  'live coding',
+  'telearbeit',
+  'lean analytics',
+  'data',
+  'github',
+  'blockchain',
+  'c++',
+  'frontend',
+  'd3.js',
+  'electronics',
+  'restaurant',
+  'growth hacking',
+  'bio',
+  'blumen',
+  'javascript',
+  'kunst und medien',
+  'modeling',
+  'system',
+  'ruby',
+  'lean analyst',
+  'dsp',
+  'midi',
+  'docker',
+  'webapp',
+  'beginner',
+  'database',
+  'bsd',
+  'pyjobs',
+  'garden',
+  'c',
+  'unix',
+  'français',
+  'photography',
+  'embedded system',
+  'css',
+  'html',
+  'linux',
+  'küche',
+  'punk',
+  'investment',
+  'pandas',
+  'fin tech',
+  'camera',
+  'junior',
+  'show',
+  'movie',
+  'oracle',
+  'küchenhilfe',
+  'sql',
+  'python-jobs-berlin-21-05-18',
+  'jenkins',
+  'remote',
+  'intelligence',
+  'e business',
+  'finance',
+  'praktikum',
+  'teilzeit',
+  'spa',
+  'cuisine',
+  'flowers',
+  'yoga',
+  'anfänger',
+  'fintech',
+  'seo',
+  'online marketing',
+  'venture capital',
+  '3d',
+  'audio unit',
+  'advertisement',
+  'computer art',
+  'assembly language',
+  'computer vision',
+  'museum',
+  'virtual reality',
+  'data scientist',
+  'data visualization',
+  'certification_analysis',
+  'sem',
+  'google trends',
+  'django',
+  'real-time',
+  'scraping',
+  'french',
+  'backend',
+  'python_internship',
+  'python praktikum',
+  'facebook ads',
+  'kunst',
+  'music',
+  'digital art',
+  'zuhause',
+  'tableau',
+  'engineer',
+  'java',
+  'git',
+  'part-time',
+  'marketing',
+  'business intelligence',
+  'system admin',
+  'software engineer',
+  'clojure',
+  'developer',
+  'python',
+  'mapping',
+  'digital artist',
+  'heroku',
+  'graphql',
+  'sound',
+  'analyst',
+  'art',
+  'internship',
+  'architect',
+  'flask',
+  'growth hacker',
+  'business_analyst',
+  'rock']
+#+END_EXAMPLE
+:END:
+
+*** launch scraper with the list
 * Documentation
 ** doc : look for matching patern                                         :doc:
 #+BEGIN_SRC ipython :eval no
