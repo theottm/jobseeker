@@ -1,7 +1,11 @@
-newproject
-==============================
+JOBSEEKER
 
-test to try cookiecutter
+In construction project to scrap and analyse job offers from different websites (like Indeed).
+Aimed to become a tool for job market prospection and professional orientation.
+Data Science self-study project of Théo Tyburn.
+Litterate code available in /notebooks. Global view and reflexions are in /references. Web scraper is in /data/external.
+
+==============================
 
 Project Organization
 ------------
@@ -9,8 +13,9 @@ Project Organization
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
+    │
+    ├── data               
+    │   ├── external       <- Program to get data from third party sources. (scraper)
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
@@ -19,14 +24,13 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
+    ├── notebooks          <- Org-mode notebooks.
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
+    │   └── html            <- static website generated to browse data	
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`

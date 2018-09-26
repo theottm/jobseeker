@@ -1,6 +1,6 @@
 * Project description
 ** General Description
-Find jobs
+Goal : Find jobs
 *** Use
 **** [#A] target opportunities
 ***** sheets of wanted words
@@ -64,6 +64,7 @@ CLOCK: [2018-08-21 mar. 14:14]--[2018-08-21 mar. 15:29] =>  1:15
   :PROPERTIES:
   :header-args: :session explorer :results raw drawer
   :END:
+Proper program.
 ** Imports
 *** ipython
 #+BEGIN_SRC ipython
@@ -74,7 +75,7 @@ CLOCK: [2018-08-21 mar. 14:14]--[2018-08-21 mar. 15:29] =>  1:15
 
 #+RESULTS:
 :RESULTS:
-# Out[5]:
+# Out[1]:
 :END:
 *** pandas
 #+BEGIN_SRC ipython
@@ -88,7 +89,16 @@ import pandas as pd
 
 ** Data load
 *** load everything
-**** TODO time range selection
+**** file list with path
+#+BEGIN_SRC ipython
+import os
+csv_files = []
+for dirpath, dirs, files in os.walk("../data/raw"): 
+  for filename in files:
+    fname = os.path.join(dirpath,filename)
+    if fname.endswith('.csv'):
+      csv_files.append(fname)
+#+END_SRC
 
 #+RESULTS:
 :RESULTS:
@@ -141,22 +151,6 @@ import pandas as pd
   'spa.csv']
 #+END_EXAMPLE
 :END:
-**** file list with path
-#+BEGIN_SRC ipython
-import os
-csv_files = []
-for dirpath, dirs, files in os.walk("../data/raw"): 
-  for filename in files:
-    fname = os.path.join(dirpath,filename)
-    if fname.endswith('.csv'):
-      csv_files.append(fname)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[7]:
-:END:
-
 **** dataframe creation
 #+BEGIN_SRC ipython
     jobs = pd.DataFrame()
@@ -178,9 +172,9 @@ for dirpath, dirs, files in os.walk("../data/raw"):
 
 #+RESULTS:
 :RESULTS:
-# Out[8]:
+# Out[5]:
 :END:
-
+**** TODO time range selection
 *** rename
 use to quickly reset original df
 #+BEGIN_SRC ipython
@@ -189,7 +183,7 @@ df = jobs
 
 #+RESULTS:
 :RESULTS:
-# Out[100]:
+# Out[6]:
 :END:
 
 *** python example                                                  :test:
@@ -316,7 +310,7 @@ df.head()
 
 #+RESULTS:
 :RESULTS:
-# Out[101]:
+# Out[7]:
 :END:
 
 ***** count
@@ -358,7 +352,7 @@ df = df[df.days_ago.str.contains("30+")==False]
 
 #+RESULTS:
 :RESULTS:
-# Out[10]:
+# Out[8]:
 :END:
 
 ***** count
@@ -368,8 +362,8 @@ len(df)
 
 #+RESULTS:
 :RESULTS:
-# Out[11]:
-: 1673
+# Out[9]:
+: 5578
 :END:
 **** string numbers to integers
 ***** sol
@@ -3133,7 +3127,7 @@ df.title
 
 #+RESULTS:
 :RESULTS:
-# Out[16]:
+# Out[10]:
 :END:
 
 ***** html page generation
@@ -3164,7 +3158,7 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
         with tag("h1"):
             text(title + " - " + company)
         with tag("p"):
-            text(days)
+            text(str(days))
         with tag("div"):
             doc.asis(desc)
         doc.asis(linksgen(filename_base, pagenum, url))
@@ -3174,7 +3168,7 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
 
 #+RESULTS:
 :RESULTS:
-# Out[76]:
+# Out[15]:
 :END:
 
 ****** test pagegen                                                  :test:
@@ -3223,7 +3217,7 @@ def htmlexport(df, begin, end):
 
 #+RESULTS:
 :RESULTS:
-# Out[80]:
+# Out[12]:
 :END:
 
 ****** call
@@ -3233,7 +3227,7 @@ htmlexport(df, 0, len(df))
 
 #+RESULTS:
 :RESULTS:
-# Out[99]:
+# Out[13]:
 :END:
 *** server
 **** flask ? :D !!!

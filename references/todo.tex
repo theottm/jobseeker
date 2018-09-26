@@ -1,0 +1,318 @@
+% Created 2018-09-26 mer. 03:07
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{teddd}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={teddd},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.1 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{work environment}
+\label{sec:org5c6ddb7}
+\subsection{yas}
+\label{sec:orgcf23ccc}
+\subsubsection{\#+name:}
+\label{sec:org430f6fa}
+\subsection{org babel}
+\label{sec:orgb46666e}
+\subsubsection{ob : print tables}
+\label{sec:orgd9c8cc0}
+\subsubsection{ob : imports at the top}
+\label{sec:org76bacae}
+\begin{enumerate}
+\item use noweb ?
+\label{sec:orgb6a8974}
+\item {\bfseries\sffamily TODO} preamble
+\label{sec:org12dc924}
+\end{enumerate}
+\subsubsection{{\bfseries\sffamily TODO} tag subtrees to trigger different action on eval / tangling}
+\label{sec:org7e09477}
+\begin{enumerate}
+\item tag filter view / generated file/buffer
+\label{sec:org216a72d}
+\end{enumerate}
+\subsubsection{change prefix key}
+\label{sec:org62bfde6}
+\subsubsection{{\bfseries\sffamily TODO} go to discussion on mailing list / stack exchange}
+\label{sec:org348f4ff}
+\subsubsection{code fonts}
+\label{sec:orgd136882}
+\begin{enumerate}
+\item scimax
+\label{sec:org55e7dcc}
+\end{enumerate}
+\subsubsection{org database}
+\label{sec:org9c27b81}
+\subsection{{\bfseries\sffamily TODO} python kernel interaction}
+\label{sec:org97de51c}
+\subsubsection{{\bfseries\sffamily TODO} python debugging}
+\label{sec:org7740b7d}
+\subsubsection{{\bfseries\sffamily TODO} ob-ipython / jupyter kernel}
+\label{sec:org43c3ee7}
+\begin{enumerate}
+\item add scimax extensions
+\label{sec:orgf62fecc}
+\url{https://github.com/jkitchin/scimax/blob/master/scimax-org-babel-ipython.el}
+\item access running kernels
+\label{sec:org942564a}
+\item find a way to make jupyter run on python3
+\label{sec:orgf1cd701}
+\begin{enumerate}
+\item for now, using ipython3 console in ob-ipython
+\label{sec:org9abf161}
+\item add something to :session
+\label{sec:org2f2f44d}
+\item add :kernel
+\label{sec:orgb82c4f0}
+\item run jupyter in different envs
+\label{sec:org362f39f}
+then do :
+\begin{enumerate}
+\item start in a shell jupyter-console
+\item copy the json filename from /run/user/1000/jupyter to :session argument in the source code header.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\subsubsection{{\bfseries\sffamily TODO} set env}
+\label{sec:org8ca20db}
+\begin{enumerate}
+\item {\bfseries\sffamily TODO} choose for each session
+\label{sec:org3e8f558}
+\begin{enumerate}
+\item run jupyter kernels in different envs
+\label{sec:orgedebc5a}
+\end{enumerate}
+\item {\bfseries\sffamily DONE} manage different environments with envwrapper
+\label{sec:orge04f253}
+\end{enumerate}
+\subsection{Scimax test / merge}
+\label{sec:org8379992}
+\subsubsection{run scimax as standalone}
+\label{sec:org18e33f6}
+\subsubsection{implement whole scimax and remove bit by bit what is buggy}
+\label{sec:org99d8557}
+\subsubsection{implement scimax piece by piece}
+\label{sec:orga10c198}
+\section{Work directions}
+\label{sec:org689c87f}
+\subsection{Visualization}
+\label{sec:org30aa2af}
+\subsection{Big Data NLP}
+\label{sec:orgffdb288}
+\subsubsection{Clean data}
+\label{sec:org0257285}
+\subsubsection{spark / hive}
+\label{sec:orga94ba58}
+\subsubsection{Clustering}
+\label{sec:org3586c1e}
+\subsection{{\bfseries\sffamily TODO} store, browse and classify offers from different time/origin}
+\label{sec:org4793709}
+\subsubsection{{\bfseries\sffamily TODO} scraper pipeline}
+\label{sec:org47167a3}
+\begin{enumerate}
+\item store in a database and gain acces to it
+\label{sec:orgb1d808b}
+\item check date before crawling page
+\label{sec:org4bd0736}
+\item test matcher on title before crawling page
+\label{sec:org4e2cefc}
+\item if match but different query/website add to "original query/website" list
+\label{sec:org1eaed5a}
+\item new variables
+\label{sec:orgfab60fa}
+\begin{enumerate}
+\item date of scrap
+\label{sec:org7878873}
+\item post dates (if different matches / reposts)
+\label{sec:orgbcde5f6}
+\begin{enumerate}
+\item new / repost
+\label{sec:orgcac34e2}
+\item most recent date
+\label{sec:org9184b7a}
+\end{enumerate}
+\item original website
+\label{sec:orgee18d42}
+\item queries
+\label{sec:org3fc180c}
+\item read / unread
+\label{sec:org0098f2c}
+\end{enumerate}
+\end{enumerate}
+\subsubsection{Matcher program}
+\label{sec:org33a175a}
+\begin{enumerate}
+\item run benchmark test to compare speed of different programs
+\label{sec:orga76c57b}
+\begin{enumerate}
+\item pandas dataframes
+\label{sec:orgeb33198}
+\item sql
+\label{sec:org9a0e94d}
+\item no sql
+\label{sec:org3e41fae}
+\item c
+\label{sec:orge5f80ef}
+\end{enumerate}
+\item comparison methods
+\label{sec:org01d3a66}
+\begin{enumerate}
+\item similarity rate
+\label{sec:org18efc7d}
+\item hash tables / id
+\label{sec:orgf7b57c2}
+\end{enumerate}
+\item matching criterium
+\label{sec:orgf94656a}
+\begin{enumerate}
+\item is date \& firm \& title
+\label{sec:orga0cab4f}
+\item title is not too common
+\label{sec:orgb08a05b}
+\item run tests
+\label{sec:org855ebf6}
+\end{enumerate}
+\end{enumerate}
+\subsubsection{news alert system}
+\label{sec:org31d7839}
+\begin{enumerate}
+\item filter : rating value of a job
+\label{sec:org1b6e8c1}
+\begin{enumerate}
+\item criterium
+\label{sec:orga6c2763}
+\begin{enumerate}
+\item short term
+\label{sec:orgc87fe97}
+\begin{enumerate}
+\item contract
+\label{sec:orga06f97c}
+\item salary
+\label{sec:org5a8080a}
+\item domain
+\label{sec:org254c23e}
+\item location
+\label{sec:org5095899}
+\end{enumerate}
+\item long term
+\label{sec:org48bd139}
+\begin{enumerate}
+\item career
+\label{sec:org8717018}
+\item knowledge
+\label{sec:org7bc6af3}
+\end{enumerate}
+\end{enumerate}
+\item find data from other sources
+\label{sec:org36b0944}
+\item concentrate on available data for now
+\label{sec:orgad13777}
+\end{enumerate}
+\item UX
+\label{sec:org90b7042}
+\begin{enumerate}
+\item overview
+\label{sec:org4e0c4e0}
+\begin{enumerate}
+\item number of new offers
+\label{sec:orgdf86dae}
+\item print titles
+\label{sec:orgea1e460}
+\end{enumerate}
+\item browse offers
+\label{sec:orge9872a6}
+\item rate
+\label{sec:org87eb6ae}
+\item features valuation
+\label{sec:org41dc97d}
+\item keywords valuation
+\label{sec:org9162a7c}
+\begin{enumerate}
+\item banned
+\label{sec:org4f9563e}
+\item needed
+\label{sec:org58735bd}
+\item quckly give a weight to each word
+\label{sec:orgdbacae7}
+\end{enumerate}
+\end{enumerate}
+\item Process
+\label{sec:org7ac90bd}
+\begin{enumerate}
+\item Add new interesting offer to a queue
+\label{sec:orgb42b8af}
+\item News / RSS / Mail model ?
+\label{sec:org9abd098}
+\end{enumerate}
+\item run as a daemon on a server
+\label{sec:orgeb3fd74}
+\item send sms with a link
+\label{sec:org2f7122e}
+\item generate html ?
+\label{sec:orgac679b1}
+\end{enumerate}
+\subsection{{\bfseries\sffamily TODO} browse offers}
+\label{sec:orgf385ce2}
+\subsubsection{sql generated table}
+\label{sec:org98bfa7a}
+\subsubsection{generated on view by a server ?}
+\label{sec:orge9495a7}
+\url{http://kitchingroup.cheme.cmu.edu/blog/2017/01/03/Find-stuff-in-org-mode-anywhere/}
+\subsubsection{show in a browser}
+\label{sec:org4793025}
+\begin{enumerate}
+\item java app ?
+\label{sec:org781c498}
+\end{enumerate}
+\subsubsection{browse on by one}
+\label{sec:orgbaf9610}
+\subsubsection{export to a file / hyperlinked filesystem}
+\label{sec:org4820fa4}
+\begin{enumerate}
+\item pdf one job a page
+\label{sec:org4ab8afd}
+\item Custom column/agenda view ?
+\label{sec:org83e6f1e}
+\item org file ?
+\label{sec:org4fbc2ae}
+\begin{enumerate}
+\item {\bfseries\sffamily TODO} generate html
+\label{sec:org70a9380}
+\end{enumerate}
+\end{enumerate}
+\subsubsection{emacs mode / standalone lightweight emacs distribution}
+\label{sec:orga8ace41}
+\subsubsection{index page with redirect  links to original offers ?}
+\label{sec:org7d5c863}
+\subsection{Environment}
+\label{sec:orgb5946bd}
+\subsection{SQL database}
+\label{sec:org6e84ee5}
+\subsection{scrapper}
+\label{sec:orga6f25d1}
+\subsection{frontend}
+\label{sec:org7df9e1f}
+\section{{\bfseries\sffamily TODO} set PATH env}
+\label{sec:org38d1a3e}
+\end{document}
