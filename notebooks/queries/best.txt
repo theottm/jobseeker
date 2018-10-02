@@ -1,0 +1,32 @@
+flask
+french
+midi
+frontend
+business intelligence
+linux
+data
+css
+startup
+numpy
+unix
+online marketing
+analyst
+bsd
+git
+heroku
+e business
+pandas
+github
+data scientist
+backend
+intelligence
+analyst
+venture capital
+html
+live coding
+python
+aws
+sql
+scraping
+data visualization
+marketing

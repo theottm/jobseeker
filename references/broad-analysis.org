@@ -1,3 +1,5 @@
+#+SETUPFILE: ~/code/emacs/org-html-themes/setup/theme-readtheorg.setup
+
 * Information sources
 ** stathead / qualitative
 ** scout / quantitative

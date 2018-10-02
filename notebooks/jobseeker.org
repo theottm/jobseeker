@@ -1,3 +1,4 @@
+#+SETUPFILE: ./exports/theme-readtheorg.setup
 * Project description
 ** General Description
 Goal : Find jobs
@@ -93,7 +94,8 @@ import pandas as pd
 #+BEGIN_SRC ipython
 import os
 csv_files = []
-for dirpath, dirs, files in os.walk("../data/raw"): 
+date = "2018-09-30"
+for dirpath, dirs, files in os.walk("../data/raw/" + date): 
   for filename in files:
     fname = os.path.join(dirpath,filename)
     if fname.endswith('.csv'):
@@ -102,54 +104,7 @@ for dirpath, dirs, files in os.walk("../data/raw"):
 
 #+RESULTS:
 :RESULTS:
-# Out[6]:
-#+BEGIN_EXAMPLE
-  ['bücherei.csv',
-  'anfänger.csv',
-  'digital art.csv',
-  'graphql.log',
-  'google trends.log',
-  'jenkins.log',
-  'cuisine.csv',
-  'blumen.csv',
-  'computer vision.csv',
-  'küchenhilfe.csv',
-  'scrapping.csv',
-  'pilzen.csv',
-  'virtual reality.csv',
-  'google trends.csv',
-  'vr.csv',
-  'computer vision.log',
-  'mushrooms.csv',
-  'docker.log',
-  'advertisment.csv',
-  'buchhandel.csv',
-  'flowers.csv',
-  'digital artist.csv',
-  'graphql.csv',
-  'yoga.csv',
-  'jenkins.csv',
-  'museum.csv',
-  'advertisement.csv',
-  'küche.csv',
-  'fintech.csv',
-  'flower.csv',
-  'movie.csv',
-  'restaurant.csv',
-  'crackers.csv',
-  'docker.csv',
-  'bio.csv',
-  'crackers.log',
-  'garden.csv',
-  'short movie.csv',
-  'gardening.csv',
-  'schneiderei.csv',
-  'heroku.csv',
-  'hammam.csv',
-  'advertisement.log',
-  'kunst und medien.csv',
-  'spa.csv']
-#+END_EXAMPLE
+# Out[49]:
 :END:
 **** dataframe creation
 #+BEGIN_SRC ipython
@@ -172,8 +127,9 @@ for dirpath, dirs, files in os.walk("../data/raw"):
 
 #+RESULTS:
 :RESULTS:
-# Out[5]:
+# Out[50]:
 :END:
+
 **** TODO time range selection
 *** rename
 use to quickly reset original df
@@ -183,7 +139,7 @@ df = jobs
 
 #+RESULTS:
 :RESULTS:
-# Out[6]:
+# Out[51]:
 :END:
 
 *** python example                                                  :test:
@@ -203,11 +159,6 @@ return int(x)+1
 | 2 |
 | 3 |
 | 4 |
-
-#+NAME: table-length
-#+BEGIN_SRC emacs-lisp :var table=example-table
-(length table)
-#+END_SRC
 
 *** python                                                            :python:
 #+NAME: data-path
@@ -249,105 +200,33 @@ return int(x)+1
 
 #+RESULTS[bd39a59c82b8b878b05fac0296a88e2e3182efd4]: data-se
 [[file:None]]
-** Manipulation
-*** Pioneer
-**** get data from path as org variable
-#+BEGIN_SRC ipython :var data=data-path
-    import pandas as pd
-    df = pd.read_csv(data)
- #+END_SRC
-
-**** infos about data
-#+BEGIN_SRC ipython
-    df.count()
-#+END_SRC
-
-**** show short data insight
-***** raw pandas output
-#+BEGIN_SRC ipython
-df.head()
-#+END_SRC
-
-***** COMMENT in an org table                                         :slow:
-#+BEGIN_SRC ipython :eval no
-    head = df.head()
-    [list(head)] + [None] + head.values.tolist()
-#+END_SRC
-
-**** browse offers
-***** add custom function to pretyfy
-#+BEGIN_SRC ipython
-    from bs4 import BeautifulSoup
-
-    def souper(html):
-        soup = BeautifulSoup(html, 'html.parser')
-        print(soup.get_text())
-
-
-    def soupprint(df, begin, end):
-        for i in range(begin, end):
-            print(i, df.title.iloc[i])
-            print("\n")
-            print(df.company.iloc[i])
-            print("\n")
-            souper(df.desc.iloc[i])
-            print("\n"*3)
-            print("-"*100)
-            print("\n"*3)
-
-#+END_SRC
-
-***** print it !
-#+BEGIN_SRC ipython 
-    soupprint(head,0,3)
-#+END_SRC
-*** cleansing                                                          :clean:
-**** duplicates
-***** drop_duplicates
+** Cleansing / Formating                                                :clean:
+*** duplicates
+**** drop_duplicates
 #+BEGIN_SRC ipython
     df.drop_duplicates(subset="desc", inplace=True)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[7]:
+# Out[52]:
 :END:
 
-***** count
+**** count
 #+BEGIN_SRC ipython
 df.title.count()
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[102]:
-: 11636
+# Out[53]:
+: 1837
 :END:
 
-**** olders
-***** map lambda                                                      :test:
+*** olders
+**** map lambda                                                        :test:
 #+BEGIN_SRC ipython
 df = df[df.days_ago.str.contains("30+").map(lambda x: not x)]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[26]:
-:END:
-
-***** ~                                                               :test:
-#+BEGIN_SRC ipython
-df = ~df[df.days_ago.str.contains("30+")]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[16]:
-:END:
-
-***** ==False
-#+BEGIN_SRC ipython
-df = df[df.days_ago.str.contains("30+")==False]
 #+END_SRC
 
 #+RESULTS:
@@ -355,18 +234,28 @@ df = df[df.days_ago.str.contains("30+")==False]
 # Out[8]:
 :END:
 
-***** count
+**** ==False
+#+BEGIN_SRC ipython
+df = df[df.days_ago.str.contains("30+")==False]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[54]:
+:END:
+
+**** count
 #+BEGIN_SRC ipython
 len(df)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[9]:
-: 5578
+# Out[28]:
+: 934
 :END:
-**** string numbers to integers
-***** sol
+
+*** string numbers to integers
 #+BEGIN_SRC ipython
     df["days_ago"] = df.days_ago.apply(lambda x: int(x))
 #+END_SRC
@@ -375,18 +264,8 @@ len(df)
 :RESULTS:
 # Out[39]:
 :END:
-***** test
-#+BEGIN_SRC ipython
-df.days_ago.iloc[12]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[37]:
-: 3
-:END:
-**** drop erratic values
-***** run 
+*** drop erratic values
+**** run 
 #+BEGIN_SRC ipython
     df = df[df.days_ago.lt(30)]
 #+END_SRC
@@ -395,7 +274,7 @@ df.days_ago.iloc[12]
 :RESULTS:
 # Out[81]:
 :END:
-***** tests
+**** tests
 #+BEGIN_SRC ipython
     df.days_ago.lt(30)
 #+END_SRC
@@ -468,10 +347,20 @@ df.days_ago.iloc[12]
   Name: days_ago, Length: 1625, dtype: bool
 #+END_EXAMPLE
 :END:
-*** filtering
-**** look for keywords
-***** keyword definiton
-****** org variable
+*** rename
+#+BEGIN_SRC ipython
+df_clean = df
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[55]:
+:END:
+
+** Filtering
+*** Look for 1 keywords
+**** keyword definiton
+***** org variable
 #+NAME: keyword
 #+BEGIN_SRC python :nosession
 "kunst und medien"
@@ -482,8 +371,8 @@ df.days_ago.iloc[12]
 kunst und medien
 :END:
 
-***** look in title
-****** boolean serie construction                                    :test:
+**** look in title
+***** boolean serie construction                                      :test:
 #+BEGIN_SRC ipython :var k=keyword
 df.title.str.contains(k, case=False)
 #+END_SRC
@@ -557,7 +446,7 @@ df.title.str.contains(k, case=False)
 #+END_EXAMPLE
 :END:
 
-****** reduction of our dataset
+***** reduction of our dataset
 #+BEGIN_SRC ipython :var k=keyword
     df = df[df.title.str.contains(k, case=False, na=False)]
 #+END_SRC
@@ -567,7 +456,7 @@ df.title.str.contains(k, case=False)
 # Out[92]:
 :END:
 
-***** look in description
+**** look in description
 #+BEGIN_SRC ipython :var k=keyword
     df = df[df.desc.str.contains(k, case=False, na=False)]
 #+END_SRC
@@ -577,7 +466,7 @@ df.title.str.contains(k, case=False)
 # Out[104]:
 :END:
 
-***** TODO test 
+**** TODO test 
 goto Johnny Kitchin
 #+BEGIN_SRC ipython
 k
@@ -588,7 +477,424 @@ k
 # Out[94]:
 : "# Out[91]:\n: 'database'"
 :END:
-**** companies
+*** Queries
+**** get queries metadata
+***** dataframe using os results
+#+BEGIN_SRC ipython
+import os
+queries_name = []
+queries_size = []
+queries_path = []
+queries_time = []
+for dirpath, dirs, files in os.walk("../data/raw"): 
+  for filename in files:
+    if filename.endswith('.csv'):
+      
+      path = os.path.join(dirpath, filename)
+      queries_path.append(path)
+      
+      size = os.path.getsize(path)
+      queries_size.append(size)
+      
+      fname = filename.replace(".csv", "")
+      queries_name.append(fname)
+      
+      time = os.path.getmtime(path)
+      queries_time.append(time)
+
+queries = pd.DataFrame({"name" : queries_name, "path" : queries_path, "size" : queries_size, "time" : queries_time})      
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[33]:
+:END:
+***** remove oldests results 
+****** datetime time format
+#+BEGIN_SRC ipython
+from datetime import datetime
+queries["time"] = queries.time.apply(datetime.fromtimestamp)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[34]:
+:END:
+
+****** y-m-d format time
+#+BEGIN_SRC ipython
+def format_time(x):
+    y = x.strftime("%Y-%m-%d")
+    return y
+
+queries["time_formated"] = queries.time.apply(format_time)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[35]:
+:END:
+***** remove null size results 
+#+BEGIN_SRC ipython
+queries_null = queries[queries["size"] < 1]
+queries = queries[queries["size"] > 1]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[36]:
+:END:
+***** number of entries in csv file
+****** read as pandas dataframe
+#+BEGIN_SRC ipython
+def entries_count(csv):
+    return len(pd.read_csv(csv))
+
+queries["entries"] = queries.path.apply(entries_count)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[37]:
+:END:
+
+***** inspection
+#+BEGIN_SRC ipython
+import humanize
+queries["size_for_humans"] = queries["size"].apply(humanize.naturalsize)
+queries.sort_values("size", ascending=False)[["name", "size_for_humans", "entries"]].reset_index()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[38]:
+#+BEGIN_EXAMPLE
+  index                         name size_for_humans  entries
+  0      134                         data          3.5 MB     1363
+  1      133                       python          3.4 MB     1291
+  2      121                 intelligence          3.2 MB     1108
+  3      126                       pyjobs          3.2 MB     1260
+  4      122  python-jobs-berlin-21-05-18          3.2 MB     1260
+  5      119            software engineer          2.7 MB      774
+  6      130                          aws          2.7 MB     1247
+  7      127                    marketing          2.4 MB      956
+  8      136                     database          2.3 MB      630
+  9      124                      finance          2.3 MB      849
+  10     114                      analyst          2.2 MB      873
+  11     131                    developer          2.2 MB     1077
+  12     112             business_analyst          1.7 MB      632
+  13     113                       oracle        921.4 kB      417
+  14     129                   internship        789.4 kB      356
+  15      83                   e business        601.2 kB      160
+  16      70                 intelligence        581.0 kB      148
+  17      94                          sql        549.3 kB      158
+  18      40        business intelligence        546.2 kB      138
+  19     102                      startup        540.5 kB      143
+  20      51                       system        536.3 kB      161
+  21     178                       python        517.0 kB      146
+  22      74                      finance        501.8 kB      156
+  23      64                     engineer        492.5 kB      130
+  24     110                     frontend        487.3 kB      128
+  25      75                         html        459.5 kB      149
+  26     103                         data        449.2 kB      125
+  27     177            software engineer        442.6 kB      129
+  28      89                          aws        439.1 kB      100
+  29     141                            c        434.8 kB      148
+  ..     ...                          ...             ...      ...
+  117    120                junior_python         21.1 kB       98
+  118    111                  live coding         19.6 kB        5
+  119    168                       camera         18.9 kB        6
+  120    140                        keras         17.5 kB        5
+  121     22                       museum         17.2 kB        7
+  122     57                 system admin         17.1 kB        5
+  123     88                     beginner         17.0 kB        5
+  124     23                advertisement         16.2 kB        5
+  125      1                     anfänger         12.1 kB        4
+  126    175                          dsp         11.3 kB        3
+  127     62                growth hacker         11.1 kB        3
+  128     32                       garden         10.9 kB        4
+  129     27                        movie         10.6 kB        3
+  130     60                      clojure         10.2 kB        3
+  131     38             kunst und medien          9.6 kB        4
+  132     65                     français          7.2 kB        2
+  133     42               growth hacking          6.9 kB        2
+  134     16                   buchhandel          6.3 kB        2
+  135    158            assembly language          6.0 kB        1
+  136     18               digital artist          5.7 kB        3
+  137     50                   audio unit          4.7 kB        2
+  138    157                          bsd          4.5 kB        1
+  139     67                 lean analyst          4.4 kB        1
+  140    165                         punk          3.4 kB        1
+  141     72                        flask          3.1 kB        1
+  142    142                         midi          3.0 kB        3
+  143     84                       webapp          2.6 kB        1
+  144     41                     fin tech          2.5 kB        1
+  145    143                        d3.js          1.7 kB        1
+  146     17                      flowers       900 Bytes        1
+  
+  [147 rows x 4 columns]
+#+END_EXAMPLE
+:END:
+
+***** time evolution
+***** return list for next scraper launch
+****** remove null size results before (or not)
+#+BEGIN_SRC ipython
+queries_list = list(set(queries.name))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[60]:
+:END:
+****** save in a file for editing
+#+BEGIN_SRC ipython
+with open("/queries/queries.txt", "w") as f:
+    for query in queries_list:
+        f.write(query + "\n")
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[67]:
+:END:
+**** launch scraper with the list
+***** get list from file
+#+BEGIN_SRC ipython
+with open("queries/best.txt", "r") as f:
+    queries_selected = f.read()
+    queries_selected = queries_selected.splitlines()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[30]:
+:END:
+
+***** run shell script as subprocess
+****** variables and imports
+#+BEGIN_SRC ipython
+import subprocess
+from subprocess import Popen, PIPE
+import shlex
+
+cwd = '/home/teddd/data/projects/jobseeker/data/external/indeed/'
+bash_script = [cwd + 'local_crawler_launch.sh']
+arguments = queries_selected
+command = bash_script + arguments
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[276]:
+:END:
+
+****** execution
+******* stdout to buffer
+#+BEGIN_SRC ipython
+session = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
+stdout, stderr = session.communicate()
+
+if stderr:
+    raise Exception("Error "+str(stderr))
+
+stdout
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[255]:
+: b'\n\n\nScraping query : flask \nrunning command : scrapy crawl job_offers_spider -a query=flask -o flask.csv\n\n\n\nScraping query : frontend \nrunning command : scrapy crawl job_offers_spider -a query=frontend -o frontend.csv\n\n\n\nScraping query : french \nrunning command : scrapy crawl job_offers_spider -a query=french -o french.csv\n\n\n\nScraping query : css \nrunning command : scrapy crawl job_offers_spider -a query=css -o css.csv\n\n\n\nScraping query : midi \nrunning command : scrapy crawl job_offers_spider -a query=midi -o midi.csv\n\n\n\nScraping query : startup \nrunning command : scrapy crawl job_offers_spider -a query=startup -o startup.csv\n\n\n\nScraping query : busine
+ss intelligence \nrunning command : scrapy crawl job_offers_spider -a query=business intelligence -o business intelligence.csv\n\n\n\nScraping query : numpy \nrunning command : scrapy crawl job_offers_spider -a query=numpy -o numpy.csv\n\n\n\nScraping query : linux \nrunning command : scrapy crawl job_offers_spider -a query=linux -o linux.csv\n\n\n\nScraping query : e business \nrunning command : scrapy crawl job_offers_spider -a query=e business -o e business.csv\n\n\n\nScraping query : unix \n\nrunning command : scrapy crawl job_offers_spider -a query=unix -o unix.csv\n\n\nScraping query : pandas \nrunning command : scrapy crawl job_offers_spider -a query=pandas -o pandas.csv\n\n\n\nScraping query : github \nrunning command : scrapy crawl job_offers_spider -a query=github -o github.csv\n\n\n\nScraping query : data \n\n\n\nScraping query : online marketing \nrunning command : scrapy crawl job_offers_spider -a query=online marketing -o online marketing.csv\nrunning command : scrapy crawl job_offers_spider -a query=data -o data.csv\n\n\n\nScraping query : data scientist \nrunning command : scrapy crawl job_offers_spider -a query=data scientist -o data scientist.csv\n\n\n\nScraping query : intelligence \nrunning command : scrapy crawl job_offers_spider -a query=intelligence -o intelligence.csv\n\n\n\nScraping query : analyst \nrunning command : scrapy crawl job_offers_spider -a query=analyst -o analyst.csv\n\n\n\nScraping query : analyst \nrunning command : scrapy crawl job_offers_spider -a query=analyst -o analyst.csv\n\n\n\nScraping query : venture capital \nrunning command : scrapy crawl job_offers_spider -a query=venture capital -o venture capital.csv\n\n\n\nScraping query : html \n\n\n\nScraping query : backend \nrunning command : scrapy crawl job_offers_spider -a query=html -o html.csv\nrunning command : scrapy crawl job_offers_spider -a query=backend -o backend.csv\n\n\n\nScraping query : live coding \n\nrunning command : scrapy crawl job_offers_spider -a query=live coding -o live coding.csv\n\n\nScraping query : bsd \nrunning command : scrapy crawl job_offers_spider -a query=bsd -o bsd.csv\n\n\n\nScraping query : git \n\nrunning command : scrapy crawl job_offers_spider -a query=git -o git.csv\n\n\nScraping query : python \nrunning command : scrapy crawl job_offers_spider -a query=python -o python.csv\n\n\n\nScraping query : aws \nrunning command : scrapy crawl job_offers_spider -a query=aws -o aws.csv\n\n\n\nScraping query : sql \nrunning command : scrapy crawl job_offers_spider -a query=sql -o sql.csv\n\n\n\nScraping query : heroku \nrunning command : scrapy crawl job_offers_spider -a query=heroku -o heroku.csv\n\n\n\nScraping query : scraping \nrunning command : scrapy crawl job_offers_spider -a query=scraping -o scraping.csv\n\n\n\nScraping query : data visualization \n\n\n\nScraping query : marketing \nrunning command : scrapy crawl job_offers_spider -a query=data visualization -o data visualization.csv\nrunning command : scrapy crawl job_offers_spider -a query=marketing -o marketing.csv\n'
+:END:
+
+******* stdout to file
+#+BEGIN_SRC ipython
+from datetime import datetime
+date = str(datetime.now())
+with open("../data/external/crawl-log-" + date + ".txt",'w') as temp_file:
+    crawl = subprocess.Popen(command, stdout=temp_file, cwd=cwd)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[278]:
+:END:
+*** Look for multiple keywords
+**** tool: keywords list
+use results from Queries
+**** reduce dataframe
+***** boolean serie
+#+BEGIN_SRC ipython
+df_bool = pd.DataFrame()
+for query in queries_selected:
+    df_bool[query] = df.desc.str.contains(query)
+    #+END_SRC
+
+    #+RESULTS:
+    :RESULTS:
+    # Out[75]:
+    :END:
+
+***** binary serie
+#+BEGIN_SRC ipython
+def bool_to_bin(x):
+    if x is True:
+        return 1
+    else:
+        return 0
+
+df_bin = pd.DataFrame()
+
+for query in queries_selected:
+    df_bin[query] = df_bool[query].apply(bool_to_bin)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[76]:
+:END:
+
+***** score attribution
+
+****** overview
+#+BEGIN_SRC ipython
+pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("score", ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[121]:
+#+BEGIN_EXAMPLE
+  score                                              title
+  1       10           Head of Software Development // mediaire
+  120      7         Senior Business Intelligence Analyst (m/f)
+  110      6               Backend Developer (m/f) // Piloteers
+  12       5                             Communications Manager
+  51       5                  Frontend Engineer (m/f) // deevio
+  22       5                           Lead Engineer Full Stack
+  25       5                                Lead Data Scientist
+  62       5              Senior Business Intelligence Engineer
+  42       5   Conversion Rate Optimization (CRO) Manager (m/f)
+  55       5                         IT Technical Support (m/w)
+  113      5                    Backend Software Engineer (m/f)
+  5        5                 Growth Hacker/Performance Marketer
+  79       5                 Junior B2B Marketing Manager (f/m)
+  68       5                           Software Developer (f/m)
+  99       5  Analytics - Internship (m/f) for at least 6 mo...
+  53       5  Senior Financial Planning & Analysis Controlle...
+  124      5  Business Intelligence Analyst (f/m), Global BI...
+  61       5                        Marketing Manager B2B (m/f)
+  8        5                    Business Development internship
+  19       5                Senior Ruby Engineer // Priori Data
+  10       5                       Senior UX Researcher (f/m/d)
+  105      5            (Senior) Data Analyst - Marketing (m/f)
+  104      4                            Marketing Analyst (m/f)
+  130      4         Big Data Engineer (m/f) (Part-or Fulltime)
+  147      4    Intern (m/f) Sales Analyst – Europe // Applause
+  22       4                         Frontend Developer / React
+  103      4                             Intern/Working Student
+  2        4  Front-End Developer / Financial Reporting & Da...
+  59       4                         Back-End Software Engineer
+  40       4           Senior Data Analyst (m/w) - HelloFreshGO
+  ..     ...                                                ...
+  60       0                                             Intern
+  51       0     Praktikum Marketing Bio-Lebensmittel in Berlin
+  112      0                             Network Engineer (m/w)
+  49       0     Grafiker ab sofort (m/w) möglichst in Teilzeit
+  129      0         Marketing- und Kommunikationsmanager (w/m)
+  133      0                     Online Marketing Manager (m/w)
+  134      0                  Ausbildung Marketingkommunikation
+  8        0                             Fachinformatiker (m/w)
+  110      0                  Business Analyst Commercial (m/w)
+  108      0       Datenmanager (m/w) für Portfoliomodellierung
+  22       0                 Data Scientist (m/w) Industrie 4.0
+  96       0   Mitarbeiter IT-Support und -Administration (m/w)
+  85       0              Senior Inhouse Consultant (m/w) (SRM)
+  82       0  IT-Betreuer (w/m) für das Evangelische Waldkra...
+  19       0                           Android Entwickler (m/w)
+  79       0             Werkstudent Operations Analytics (w/m)
+  71       0  Head of Supply Analysis and Logistics (m/w) be...
+  20       0                  (Senior) Consultant: DevOps (m/w)
+  21       0                           Webentwickler (m/w) Java
+  22       0  Softwareentwickler Java (w/m) für Indexplattfo...
+  50       0                      Pricing & Yield Manager (m/w)
+  46       0                       Werkstudent Informatik (m/w)
+  36       0  Web Developer (m/w) mit Drupal Kenntnissen ges...
+  42       0                   Senior PHP-Entwickler m:w Berlin
+  39       0    Product Data Manager (m/w) E-Commerce in Berlin
+  44       0         Java Developer / Software Entwickler (m/w)
+  34       0                                QA Engineer (m/f/x)
+  27       0        Projektleiter (m/w) Lagerverwaltungssysteme
+  18       0  Praktikant / Werkstudent (m/w) in der Full-Sta...
+  0        0  Praktikant Einführung Business Intelligence-An...
+  
+  [934 rows x 2 columns]
+#+END_EXAMPLE
+:END:
+
+****** reduce dataframe for visual exploration
+#+BEGIN_SRC ipython
+df_print = df
+df_print["score"] = df_bin.sum(axis=1)
+df_print = df_print.sort_values("score", ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[122]:
+:END:
+
+**** guide: used words
+***** amongst keywords
+#+BEGIN_SRC ipython
+df_bin.sum().sort_values(ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[101]:
+#+BEGIN_EXAMPLE
+  git                      301
+  data                     243
+  marketing                105
+  startup                  105
+  backend                   72
+  e business                64
+  frontend                  50
+  intelligence              44
+  analyst                   22
+  data scientist            16
+  venture capital           12
+  data visualization         9
+  business intelligence      8
+  online marketing           8
+  python                     6
+  html                       5
+  sql                        5
+  aws                        4
+  french                     4
+  github                     4
+  numpy                      3
+  pandas                     3
+  linux                      2
+  flask                      2
+  css                        2
+  live coding                2
+  bsd                        1
+  midi                       1
+  unix                       0
+  scraping                   0
+  heroku                     0
+  dtype: int64
+#+END_EXAMPLE
+:END:
+
+**** which contains most of the querie keywords ?  
+**** add weight to keywords ?
+**** keywords distance map
+with all keywords, you are at the center
+*** companies
 #+BEGIN_SRC ipython
 df = df[df.company.str.contains("berlin", case=False, na=False)]
 #+END_SRC
@@ -597,7 +903,6 @@ df = df[df.company.str.contains("berlin", case=False, na=False)]
 :RESULTS:
 # Out[86]:
 :END:
-
 ** Stats
 *** overview
 **** head
@@ -3127,7 +3432,7 @@ df.title
 
 #+RESULTS:
 :RESULTS:
-# Out[10]:
+# Out[142]:
 :END:
 
 ***** html page generation
@@ -3136,14 +3441,18 @@ df.title
 def linksgen(filename_base, pagenum, url):
     doc, tag, text = Doc().tagtext()
 
-    with tag('a', href = "."):
-        text('Home page ')
-    with tag("a", href = filename_base + str(pagenum - 1) + ".html"):
-        text("Previous page ")
-    with tag("a", href = filename_base + str(pagenum + 1) + ".html"):
-        text("Next page ")
-    with tag("a", href = url):
-        text("Original page ")
+    with tag("div"):
+        with tag('a', href = "."):
+            text('Home page')
+        with tag("div"):
+            with tag("a", href = filename_base + str(pagenum - 1) + ".html"):
+                text("Previous page")
+            text(" ")
+            with tag("a", href = filename_base + str(pagenum + 1) + ".html"):
+                text("Next page")
+        with tag("a", href = url, target="_blank"):
+            text("Original page")
+            
     return doc.getvalue()
 
 
@@ -3156,9 +3465,11 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
     with tag("body"):
         doc.asis(linksgen(filename_base, pagenum, url))
         with tag("h1"):
-            text(title + " - " + company)
+            text(title)
+        with tag("h2"):
+            text(company)
         with tag("p"):
-            text(str(days))
+            text(str(days) + " days ago")
         with tag("div"):
             doc.asis(desc)
         doc.asis(linksgen(filename_base, pagenum, url))
@@ -3168,7 +3479,7 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
 
 #+RESULTS:
 :RESULTS:
-# Out[15]:
+# Out[143]:
 :END:
 
 ****** test pagegen                                                  :test:
@@ -3178,8 +3489,8 @@ pagegen("nom", 0, "titre", "desc", "firm", "days", "www")
 
 #+RESULTS:
 :RESULTS:
-# Out[79]:
-: '<meta charset="UTF-8"><title>titre</title><body><a href=".">Home page </a><a href="nom-1.html">Previous page </a><a href="nom1.html">Next page </a><a href="www">Original page </a><h1>titre - firm</h1><p>days</p><div>desc</div><a href=".">Home page </a><a href="nom-1.html">Previous page </a><a href="nom1.html">Next page </a><a href="www">Original page </a></body>'
+# Out[144]:
+: '<meta charset="UTF-8"><title>titre</title><body><div><a href=".">Home page</a> <a href="nom-1.html">Previous page</a> <a href="nom1.html">Next page</a> <a href="www" target="_blank">Original page</a></div><h1>titre</h1><h2>firm</h2><p>days days ago</p><div>desc</div><div><a href=".">Home page</a> <a href="nom-1.html">Previous page</a> <a href="nom1.html">Next page</a> <a href="www" target="_blank">Original page</a></div></body>'
 :END:
 
 ****** test linksgen                                                 :test:
@@ -3189,8 +3500,8 @@ linksgen("file", 10, "wwwww")
 
 #+RESULTS:
 :RESULTS:
-# Out[78]:
-: '<a href=".">Home page </a><a href="file9.html">Previous page </a><a href="file11.html">Next page </a><a href="wwwww">Original page </a>'
+# Out[145]:
+: '<div><a href=".">Home page</a> <a href="file9.html">Previous page</a> <a href="file11.html">Next page</a> <a href="wwwww" target="_blank">Original page</a></div>'
 :END:
 ***** htmlexport function
 ****** definition
@@ -3217,18 +3528,21 @@ def htmlexport(df, begin, end):
 
 #+RESULTS:
 :RESULTS:
-# Out[12]:
+# Out[146]:
 :END:
 
 ****** call
 #+BEGIN_SRC ipython
-htmlexport(df, 0, len(df))
+htmlexport(df_print, 0, 40)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[13]:
+# Out[147]:
 :END:
+
+****** link
+file:home/teddd/data/projects/jobseeker/reports/html/
 *** server
 **** flask ? :D !!!
 *** org  table (python)                                               :python:
@@ -3346,306 +3660,6 @@ def soupprint(df, begin, end):
 #+BEGIN_SRC python 
     soupprint(dfk, 0, dfk.title.count())
 #+END_SRC
-** Queries
-*** get queries metadata
-**** dataframe using os results
-#+BEGIN_SRC ipython
-import os
-queries_name = []
-queries_size = []
-queries_path = []
-queries_time = []
-for dirpath, dirs, files in os.walk("../data/raw"): 
-  for filename in files:
-    if filename.endswith('.csv'):
-      
-      path = os.path.join(dirpath, filename)
-      queries_path.append(path)
-      
-      size = os.path.getsize(path)
-      queries_size.append(size)
-      
-      fname = filename.replace(".csv", "")
-      queries_name.append(fname)
-      
-      time = os.path.getmtime(path)
-      queries_time.append(time)
-
-queries = pd.DataFrame({"name" : queries_name, "path" : queries_path, "size" : queries_size, "time" : queries_time})      
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[235]:
-:END:
-**** remove oldests results 
-***** datetime time format
-#+BEGIN_SRC ipython
-queries["time"] = queries.time.apply(datetime.fromtimestamp)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[310]:
-:END:
-
-***** y-m-d format time
-#+BEGIN_SRC ipython
-def format_time(x):
-    y = x.strftime("%Y-%m-%d")
-    return y
-
-queries["time_formated"] = queries.time.apply(format_time)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[324]:
-:END:
-**** remove null size results 
-#+BEGIN_SRC ipython
-queries_null = queries[queries["size"] < 1]
-queries = queries[queries["size"] > 1]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[369]:
-:END:
-**** number of entries in csv file
-***** read as pandas dataframe
-#+BEGIN_SRC ipython
-def entries_count(csv):
-    return len(pd.read_csv(csv))
-
-queries["entries"] = queries.path.apply(entries_count)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[471]:
-:END:
-
-**** inspection
-#+BEGIN_SRC ipython
-import humanize
-queries["size_for_humans"] = queries["size"].apply(humanize.naturalsize)
-queries.sort_values("size", ascending=False)[["name", "size_for_humans", "entries"]].reset_index()
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[480]:
-#+BEGIN_EXAMPLE
-  index                         name size_for_humans  entries
-  0      134                         data          3.5 MB     1363
-  1      133                       python          3.4 MB     1291
-  2      121                 intelligence          3.2 MB     1108
-  3      126                       pyjobs          3.2 MB     1260
-  4      122  python-jobs-berlin-21-05-18          3.2 MB     1260
-  5      119            software engineer          2.7 MB      774
-  6      130                          aws          2.7 MB     1247
-  7      127                    marketing          2.4 MB      956
-  8      136                     database          2.3 MB      630
-  9      124                      finance          2.3 MB      849
-  10     114                      analyst          2.2 MB      873
-  11     131                    developer          2.2 MB     1077
-  12     112             business_analyst          1.7 MB      632
-  13     113                       oracle        921.4 kB      417
-  14     129                   internship        789.4 kB      356
-  15      83                   e business        601.2 kB      160
-  16      70                 intelligence        581.0 kB      148
-  17      94                          sql        549.3 kB      158
-  18      40        business intelligence        546.2 kB      138
-  19     102                      startup        540.5 kB      143
-  20      51                       system        536.3 kB      161
-  21     178                       python        517.0 kB      146
-  22      74                      finance        501.8 kB      156
-  23      64                     engineer        492.5 kB      130
-  24     110                     frontend        487.3 kB      128
-  25      75                         html        459.5 kB      149
-  26     103                         data        449.2 kB      125
-  27     177            software engineer        442.6 kB      129
-  28      89                          aws        439.1 kB      100
-  29     141                            c        434.8 kB      148
-  ..     ...                          ...             ...      ...
-  117    120                junior_python         21.1 kB       98
-  118    111                  live coding         19.6 kB        5
-  119    168                       camera         18.9 kB        6
-  120    140                        keras         17.5 kB        5
-  121     22                       museum         17.2 kB        7
-  122     57                 system admin         17.1 kB        5
-  123     88                     beginner         17.0 kB        5
-  124     23                advertisement         16.2 kB        5
-  125      1                     anfänger         12.1 kB        4
-  126    175                          dsp         11.3 kB        3
-  127     62                growth hacker         11.1 kB        3
-  128     32                       garden         10.9 kB        4
-  129     27                        movie         10.6 kB        3
-  130     60                      clojure         10.2 kB        3
-  131     38             kunst und medien          9.6 kB        4
-  132     65                     français          7.2 kB        2
-  133     42               growth hacking          6.9 kB        2
-  134     16                   buchhandel          6.3 kB        2
-  135    158            assembly language          6.0 kB        1
-  136     18               digital artist          5.7 kB        3
-  137     50                   audio unit          4.7 kB        2
-  138    157                          bsd          4.5 kB        1
-  139     67                 lean analyst          4.4 kB        1
-  140    165                         punk          3.4 kB        1
-  141     72                        flask          3.1 kB        1
-  142    142                         midi          3.0 kB        3
-  143     84                       webapp          2.6 kB        1
-  144     41                     fin tech          2.5 kB        1
-  145    143                        d3.js          1.7 kB        1
-  146     17                      flowers       900 Bytes        1
-  
-  [147 rows x 4 columns]
-#+END_EXAMPLE
-:END:
-
-**** time evolution
-**** return list for next scraper launch
-remove null size results before (or not)
-#+BEGIN_SRC ipython
-queries_list = list(set(queries.name))
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[481]:
-#+BEGIN_EXAMPLE
-  ['garten',
-  'junior_python',
-  'aws',
-  'vr',
-  'startup',
-  'sensors',
-  'buchhandel',
-  'python internship',
-  'ic',
-  'keras',
-  'numpy',
-  'live coding',
-  'telearbeit',
-  'lean analytics',
-  'data',
-  'github',
-  'blockchain',
-  'c++',
-  'frontend',
-  'd3.js',
-  'electronics',
-  'restaurant',
-  'growth hacking',
-  'bio',
-  'blumen',
-  'javascript',
-  'kunst und medien',
-  'modeling',
-  'system',
-  'ruby',
-  'lean analyst',
-  'dsp',
-  'midi',
-  'docker',
-  'webapp',
-  'beginner',
-  'database',
-  'bsd',
-  'pyjobs',
-  'garden',
-  'c',
-  'unix',
-  'français',
-  'photography',
-  'embedded system',
-  'css',
-  'html',
-  'linux',
-  'küche',
-  'punk',
-  'investment',
-  'pandas',
-  'fin tech',
-  'camera',
-  'junior',
-  'show',
-  'movie',
-  'oracle',
-  'küchenhilfe',
-  'sql',
-  'python-jobs-berlin-21-05-18',
-  'jenkins',
-  'remote',
-  'intelligence',
-  'e business',
-  'finance',
-  'praktikum',
-  'teilzeit',
-  'spa',
-  'cuisine',
-  'flowers',
-  'yoga',
-  'anfänger',
-  'fintech',
-  'seo',
-  'online marketing',
-  'venture capital',
-  '3d',
-  'audio unit',
-  'advertisement',
-  'computer art',
-  'assembly language',
-  'computer vision',
-  'museum',
-  'virtual reality',
-  'data scientist',
-  'data visualization',
-  'certification_analysis',
-  'sem',
-  'google trends',
-  'django',
-  'real-time',
-  'scraping',
-  'french',
-  'backend',
-  'python_internship',
-  'python praktikum',
-  'facebook ads',
-  'kunst',
-  'music',
-  'digital art',
-  'zuhause',
-  'tableau',
-  'engineer',
-  'java',
-  'git',
-  'part-time',
-  'marketing',
-  'business intelligence',
-  'system admin',
-  'software engineer',
-  'clojure',
-  'developer',
-  'python',
-  'mapping',
-  'digital artist',
-  'heroku',
-  'graphql',
-  'sound',
-  'analyst',
-  'art',
-  'internship',
-  'architect',
-  'flask',
-  'growth hacker',
-  'business_analyst',
-  'rock']
-#+END_EXAMPLE
-:END:
-
-*** launch scraper with the list
 * Documentation
 ** doc : look for matching patern                                         :doc:
 #+BEGIN_SRC ipython :eval no

@@ -1,0 +1,2226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-10-02 mar. 16:07 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="teddd" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org15b3a60">1. Project description</a>
+<ul>
+<li><a href="#orgf0e9141">1.1. General Description</a>
+<ul>
+<li><a href="#orgbbfdf01">1.1.1. Use</a></li>
+<li><a href="#org0ea3e54">1.1.2. Features</a></li>
+</ul>
+</li>
+<li><a href="#orga58c5b8">1.2. Plan</a>
+<ul>
+<li><a href="#orgadb89ce">1.2.1. Ebay jobs quick scrap</a></li>
+<li><a href="#orga113f1e">1.2.2. Blogging</a></li>
+<li><a href="#orga07a244">1.2.3. Courses</a></li>
+<li><a href="#orgc7a2f73">1.2.4. Jobs seeker</a></li>
+</ul>
+</li>
+<li><a href="#orgcd3d49a">1.3. Implementation</a>
+<ul>
+<li><a href="#org0773588">1.3.1. Start a clean project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcc5a794">2. Explorer</a>
+<ul>
+<li><a href="#org89970e6">2.1. Imports</a>
+<ul>
+<li><a href="#org6de8abb">2.1.1. ipython</a></li>
+<li><a href="#org1c6e549">2.1.2. pandas</a></li>
+</ul>
+</li>
+<li><a href="#org7a90560">2.2. Data load</a>
+<ul>
+<li><a href="#orgf34a77f">2.2.1. load everything</a></li>
+<li><a href="#org28833e8">2.2.2. rename</a></li>
+<li><a href="#org5b555d0">2.2.3. python example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></a></li>
+<li><a href="#orgb776c6d">2.2.4. org doc elisp example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></a></li>
+<li><a href="#org0413b6e">2.2.5. python&#xa0;&#xa0;&#xa0;<span class="tag"><span class="python">python</span></span></a></li>
+</ul>
+</li>
+<li><a href="#org8edee8a">2.3. Cleansing / Formating&#xa0;&#xa0;&#xa0;<span class="tag"><span class="clean">clean</span></span></a>
+<ul>
+<li><a href="#org1076984">2.3.1. duplicates</a></li>
+<li><a href="#org0906ec5">2.3.2. olders</a></li>
+<li><a href="#org287ba9f">2.3.3. string numbers to integers</a></li>
+<li><a href="#orge6c48d6">2.3.4. drop erratic values</a></li>
+<li><a href="#org41429d3">2.3.5. rename</a></li>
+</ul>
+</li>
+<li><a href="#orgb1b8ced">2.4. Filtering</a>
+<ul>
+<li><a href="#orgcb8fea6">2.4.1. Look for 1 keywords</a></li>
+<li><a href="#orgf70367c">2.4.2. Queries</a></li>
+<li><a href="#orgb61445d">2.4.3. Look for multiple keywords</a></li>
+<li><a href="#orgd33019c">2.4.4. companies</a></li>
+</ul>
+</li>
+<li><a href="#org0a50877">2.5. Stats</a>
+<ul>
+<li><a href="#orgfef0360">2.5.1. overview</a></li>
+<li><a href="#orge420316">2.5.2. days ago</a></li>
+<li><a href="#org7dd8bf6">2.5.3. companies</a></li>
+</ul>
+</li>
+<li><a href="#orgeced867">2.6. Words</a>
+<ul>
+<li><a href="#org414aa8f">2.6.1. most used word</a></li>
+</ul>
+</li>
+<li><a href="#org7382d73">2.7. Printing</a>
+<ul>
+<li><a href="#orgdb20550">2.7.1. quick overview</a></li>
+<li><a href="#orgf29fddf">2.7.2. html pages</a></li>
+<li><a href="#orgac34790">2.7.3. server</a></li>
+<li><a href="#orgb085881">2.7.4. org  table (python)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="python">python</span></span></a></li>
+<li><a href="#org3e9bca1">2.7.5. org results: html&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></a></li>
+<li><a href="#orgca3b963">2.7.6. soupprint</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org3c8d8b1">3. Documentation</a>
+<ul>
+<li><a href="#org0c0e514">3.1. doc : look for matching patern&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></a></li>
+<li><a href="#org5ad804c">3.2. pandas</a></li>
+</ul>
+</li>
+<li><a href="#orge4a584f">4. Tests</a>
+<ul>
+<li><a href="#org80a7867">4.1. ob-ipython</a>
+<ul>
+<li><a href="#orga2d03ad">4.1.1. hands-on tryout</a></li>
+<li><a href="#org9b5d081">4.1.2. doc tutorial</a></li>
+<li><a href="#orgc6868e2">4.1.3. other tryouts</a></li>
+</ul>
+</li>
+<li><a href="#org80641ca">4.2. nltk</a>
+<ul>
+<li><a href="#orge4b99fe">4.2.1. text selection</a></li>
+<li><a href="#orgfeb338c">4.2.2. search</a></li>
+<li><a href="#org173ff83">4.2.3. generation&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></a></li>
+<li><a href="#org4bca144">4.2.4. normalizing</a></li>
+<li><a href="#org1de0351">4.2.5. vocabulary</a></li>
+<li><a href="#org8263ead">4.2.6. <span class="todo TODO">TODO</span> Build a corpus !</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org15b3a60" class="outline-2">
+<h2 id="org15b3a60"><span class="section-number-2">1</span> Project description</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orgf0e9141" class="outline-3">
+<h3 id="orgf0e9141"><span class="section-number-3">1.1</span> General Description</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Goal : Find jobs
+</p>
+</div>
+<div id="outline-container-orgbbfdf01" class="outline-4">
+<h4 id="orgbbfdf01"><span class="section-number-4">1.1.1</span> Use</h4>
+<div class="outline-text-4" id="text-1-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org4fe92ab"></a>target opportunities<br />
+<ol class="org-ol">
+<li><a id="orgf2a167b"></a>sheets of wanted words<br /></li>
+<li><a id="org519e421"></a>query matching algorithms<br /></li>
+</ol>
+</li>
+<li><a id="orgf7df83a"></a>data exploration<br /></li>
+<li><a id="org9c2f9ff"></a>cluster<br />
+<ol class="org-ol">
+<li><a id="org8248f50"></a>nlp<br /></li>
+</ol>
+</li>
+<li><a id="org24b8717"></a>find jobs I didn't know about<br /></li>
+<li><a id="orga9a8428"></a>get warned if new opportunities<br /></li>
+<li><a id="org798dbb3"></a>use it as a model for finding my perfect match in the world / exploring the economy<br /></li>
+<li><a id="orgb914d41"></a>make it open source and useable by anyone<br /></li>
+</ol>
+</div>
+<div id="outline-container-org0ea3e54" class="outline-4">
+<h4 id="org0ea3e54"><span class="section-number-4">1.1.2</span> Features</h4>
+<div class="outline-text-4" id="text-1-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="org90933ee"></a>Update<br /></li>
+<li><a id="org2ca1554"></a>Clustering<br /></li>
+<li><a id="orge40ca85"></a>Visualization<br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga58c5b8" class="outline-3">
+<h3 id="orga58c5b8"><span class="section-number-3">1.2</span> Plan</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgadb89ce" class="outline-4">
+<h4 id="orgadb89ce"><span class="section-number-4">1.2.1</span> Ebay jobs quick scrap</h4>
+<div class="outline-text-4" id="text-1-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org80634d1"></a>Think about it while normal digging<br /></li>
+<li><a id="org77bfeb6"></a>Build a simple tool to access the info offline and stay up to date<br /></li>
+<li><a id="orgb60702a"></a>List the wanted features and their learning prerequisites<br /></li>
+</ol>
+</div>
+<div id="outline-container-orga113f1e" class="outline-4">
+<h4 id="orga113f1e"><span class="section-number-4">1.2.2</span> Blogging</h4>
+<div class="outline-text-4" id="text-1-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgb9297a0"></a>Org babel<br /></li>
+<li><a id="org4eea5bd"></a>Website<br /></li>
+</ol>
+</div>
+<div id="outline-container-orga07a244" class="outline-4">
+<h4 id="orga07a244"><span class="section-number-4">1.2.3</span> Courses</h4>
+<div class="outline-text-4" id="text-1-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="org4670022"></a>Databases<br /></li>
+<li><a id="org371ea27"></a>Visualization<br /></li>
+<li><a id="org647dde1"></a>Machine learning<br /></li>
+<li><a id="orgfddf4db"></a>NLP<br /></li>
+<li><a id="org48d5bc0"></a>Hash tables / numpy computation<br /></li>
+<li><a id="orgfe60de8"></a>Proba / stats<br /></li>
+</ol>
+</div>
+<div id="outline-container-orgc7a2f73" class="outline-4">
+<h4 id="orgc7a2f73"><span class="section-number-4">1.2.4</span> Jobs seeker</h4>
+</div>
+</div>
+<div id="outline-container-orgcd3d49a" class="outline-3">
+<h3 id="orgcd3d49a"><span class="section-number-3">1.3</span> Implementation</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-org0773588" class="outline-4">
+<h4 id="org0773588"><span class="section-number-4">1.3.1</span> Start a clean project</h4>
+<div class="outline-text-4" id="text-1-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="org168d32b"></a><span class="todo TODO">TODO</span> git<br />
+<ol class="org-ol">
+<li><a id="org117b9e5"></a>a branch per functionality<br /></li>
+</ol>
+</li>
+<li><a id="org5c6c386"></a><span class="todo TODO">TODO</span> projectile<br /></li>
+<li><a id="orgf14227e"></a>file system<br />
+<ol class="org-ol">
+<li><a id="org4389c76"></a>/<br />
+<ol class="org-ol">
+<li><a id="org72b025e"></a>org<br /></li>
+<li><a id="orgd4239e7"></a>scraper<br /></li>
+<li><a id="orga3fa331"></a>database<br /></li>
+<li><a id="orgae94508"></a>explorer<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a id="orgdc8d85e"></a>database<br />
+<ol class="org-ol">
+<li><a id="orgc52a25f"></a>sql ?<br /></li>
+<li><a id="orgf9e0399"></a>csv ?<br /></li>
+</ol>
+</li>
+<li><a id="org1782a0c"></a>org babel file / emacs env<br />
+<ol class="org-ol">
+<li><a id="orgb7e8eef"></a>snippets<br />
+<div class="outline-text-6" id="text-1-3-1-5-1">
+<p>
+C-c &amp; &#x2026;
+Tables
+C-c C-t is snippet mode for test
+</p>
+</div>
+</li>
+<li><a id="orgab0f7d5"></a><span class="todo TODO">TODO</span> track time<br />
+<div class="outline-text-6" id="text-1-3-1-5-2">
+</div>
+</li>
+<li><a id="org6c835aa"></a>track habits<br />
+<div class="outline-text-6" id="text-1-3-1-5-3">
+</div>
+</li>
+<li><a id="orga6994ea"></a>decide what goes public and what does not at expension<br /></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc5a794" class="outline-2">
+<h2 id="orgcc5a794"><span class="section-number-2">2</span> Explorer</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Proper program.
+</p>
+</div>
+<div id="outline-container-org89970e6" class="outline-3">
+<h3 id="org89970e6"><span class="section-number-3">2.1</span> Imports</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+<div id="outline-container-org6de8abb" class="outline-4">
+<h4 id="org6de8abb"><span class="section-number-4">2.1.1</span> ipython</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">%matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1c6e549" class="outline-4">
+<h4 id="org1c6e549"><span class="section-number-4">2.1.2</span> pandas</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">import pandas as pd    
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a90560" class="outline-3">
+<h3 id="org7a90560"><span class="section-number-3">2.2</span> Data load</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-orgf34a77f" class="outline-4">
+<h4 id="orgf34a77f"><span class="section-number-4">2.2.1</span> load everything</h4>
+<div class="outline-text-4" id="text-2-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org4b5ebd4"></a>file list with path<br />
+<div class="outline-text-5" id="text-2-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import os
+csv_files = []
+date = "2018-09-30"
+for dirpath, dirs, files in os.walk("../data/raw/" + date): 
+  for filename in files:
+    fname = os.path.join(dirpath,filename)
+    if fname.endswith('.csv'):
+      csv_files.append(fname)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgb0eee83"></a>dataframe creation<br />
+<div class="outline-text-5" id="text-2-2-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">jobs = pd.DataFrame()
+
+for fl in csv_files:
+    print(fl+(30-len(fl)//2)*" *")
+    try:
+	jobs_set = pd.read_csv(fl)
+	jobs_set.dropna(axis=0, how='any', subset=["desc"], inplace=True)
+	jobs_set.drop_duplicates(subset="desc", inplace=True)            
+	try:                                                             
+	    jobs.iloc[0,0]                                               
+	    jobs = jobs.append(jobs_set)                                 
+	except IndexError:                                               
+	    jobs = jobs_set                                              
+    except pd.errors.EmptyDataError:
+	pass
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org95c00dc"></a><span class="todo TODO">TODO</span> time range selection<br /></li>
+</ol>
+</div>
+<div id="outline-container-org28833e8" class="outline-4">
+<h4 id="org28833e8"><span class="section-number-4">2.2.2</span> rename</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+use to quickly reset original df
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">df = jobs
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b555d0" class="outline-4">
+<h4 id="org5b555d0"><span class="section-number-4">2.2.3</span> python example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></h4>
+<div class="outline-text-4" id="text-2-2-3">
+<div class="org-src-container">
+<pre class="src src-python" id="orge55521b"><span style="font-weight: bold; font-style: italic;">x</span> = 12
+<span style="font-weight: bold;">return</span> x
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">return</span> <span style="font-weight: bold;">int</span>(x)+1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb776c6d" class="outline-4">
+<h4 id="orgb776c6d"><span class="section-number-4">2.2.4</span> org doc elisp example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></h4>
+<div class="outline-text-4" id="text-2-2-4">
+<table id="orgde1557a" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org0413b6e" class="outline-4">
+<h4 id="org0413b6e"><span class="section-number-4">2.2.5</span> python&#xa0;&#xa0;&#xa0;<span class="tag"><span class="python">python</span></span></h4>
+<div class="outline-text-4" id="text-2-2-5">
+<div class="org-src-container">
+<pre class="src src-python" id="org185572f"><span style="font-style: italic;">"~/data/projects/jobseeker/data/raw/18-09-07/dsp.csv"</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python" id="org0f3399e"><span style="font-style: italic;">"~/data/projects/jobseeker/data/raw/18-09-07/dsp.csv"</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python" id="org3156ca0"><span style="font-style: italic;">"~/data/projects/jobseeker/data/raw/18-09-07/python.csv"</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python" id="orga2f46ec"><span style="font-style: italic;">"~/data/projects/jobseeker/data/raw/18-09-07/data scientist.csv"</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python" id="org7116eab"><span style="font-style: italic;">"~/data/projects/jobseeker/data/raw/18-09-07/software engineer.csv"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org8edee8a" class="outline-3">
+<h3 id="org8edee8a"><span class="section-number-3">2.3</span> Cleansing / Formating&#xa0;&#xa0;&#xa0;<span class="tag"><span class="clean">clean</span></span></h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-org1076984" class="outline-4">
+<h4 id="org1076984"><span class="section-number-4">2.3.1</span> duplicates</h4>
+<div class="outline-text-4" id="text-2-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgd573db7"></a>drop<sub>duplicates</sub><br />
+<div class="outline-text-5" id="text-2-3-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.drop_duplicates(subset="desc", inplace=True)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org5af4846"></a>count<br />
+<div class="outline-text-5" id="text-2-3-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df.title.count()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org0906ec5" class="outline-4">
+<h4 id="org0906ec5"><span class="section-number-4">2.3.2</span> olders</h4>
+<div class="outline-text-4" id="text-2-3-2">
+</div>
+<ol class="org-ol">
+<li><a id="org9919280"></a>map lambda&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<div class="outline-text-5" id="text-2-3-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.days_ago.str.contains("30+").map(lambda x: not x)]
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orga5c8701"></a>==False<br />
+<div class="outline-text-5" id="text-2-3-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.days_ago.str.contains("30+")==False]
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgea22121"></a>count<br />
+<div class="outline-text-5" id="text-2-3-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">len(df)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org287ba9f" class="outline-4">
+<h4 id="org287ba9f"><span class="section-number-4">2.3.3</span> string numbers to integers</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<div class="org-src-container">
+<pre class="src src-ipython">df["days_ago"] = df.days_ago.apply(lambda x: int(x))
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge6c48d6" class="outline-4">
+<h4 id="orge6c48d6"><span class="section-number-4">2.3.4</span> drop erratic values</h4>
+<div class="outline-text-4" id="text-2-3-4">
+</div>
+<ol class="org-ol">
+<li><a id="org4dce103"></a>run<br />
+<div class="outline-text-5" id="text-2-3-4-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.days_ago.lt(30)]
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgce40870"></a>tests<br />
+<div class="outline-text-5" id="text-2-3-4-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df.days_ago.lt(30)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org41429d3" class="outline-4">
+<h4 id="org41429d3"><span class="section-number-4">2.3.5</span> rename</h4>
+<div class="outline-text-4" id="text-2-3-5">
+<div class="org-src-container">
+<pre class="src src-ipython">df_clean = df
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb1b8ced" class="outline-3">
+<h3 id="orgb1b8ced"><span class="section-number-3">2.4</span> Filtering</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-orgcb8fea6" class="outline-4">
+<h4 id="orgcb8fea6"><span class="section-number-4">2.4.1</span> Look for 1 keywords</h4>
+<div class="outline-text-4" id="text-2-4-1">
+</div>
+<ol class="org-ol">
+<li><a id="org4b77e82"></a>keyword definiton<br />
+<ol class="org-ol">
+<li><a id="org6c343c3"></a>org variable<br />
+<div class="outline-text-6" id="text-2-4-1-1-1">
+<div class="org-src-container">
+<pre class="src src-python" id="org5e3f13f"><span style="font-style: italic;">"kunst und medien"</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org20c38ce"></a>look in title<br />
+<ol class="org-ol">
+<li><a id="org849602f"></a>boolean serie construction&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<div class="outline-text-6" id="text-2-4-1-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.title.str.contains(k, case=False)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org528b935"></a>reduction of our dataset<br />
+<div class="outline-text-6" id="text-2-4-1-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.title.str.contains(k, case=False, na=False)]
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgcd6cf93"></a>look in description<br />
+<div class="outline-text-5" id="text-2-4-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.desc.str.contains(k, case=False, na=False)]
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org4069c69"></a><span class="todo TODO">TODO</span> test<br />
+<div class="outline-text-5" id="text-2-4-1-4">
+<p>
+goto Johnny Kitchin
+</p>
+<div class="org-src-container">
+<pre class="src src-ipython">k
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgf70367c" class="outline-4">
+<h4 id="orgf70367c"><span class="section-number-4">2.4.2</span> Queries</h4>
+<div class="outline-text-4" id="text-2-4-2">
+</div>
+<ol class="org-ol">
+<li><a id="org54d8b6e"></a>get queries metadata<br />
+<ol class="org-ol">
+<li><a id="org7af54d9"></a>dataframe using os results<br />
+<div class="outline-text-6" id="text-2-4-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import os
+queries_name = []
+queries_size = []
+queries_path = []
+queries_time = []
+for dirpath, dirs, files in os.walk("../data/raw"): 
+  for filename in files:
+    if filename.endswith('.csv'):
+
+      path = os.path.join(dirpath, filename)
+      queries_path.append(path)
+
+      size = os.path.getsize(path)
+      queries_size.append(size)
+
+      fname = filename.replace(".csv", "")
+      queries_name.append(fname)
+
+      time = os.path.getmtime(path)
+      queries_time.append(time)
+
+queries = pd.DataFrame({"name" : queries_name, "path" : queries_path, "size" : queries_size, "time" : queries_time})      
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgae0aaf5"></a>remove oldests results<br />
+<ol class="org-ol">
+<li><a id="org24c0669"></a>datetime time format<br />
+<div class="outline-text-7" id="text-2-4-2-1-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from datetime import datetime
+queries["time"] = queries.time.apply(datetime.fromtimestamp)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orge2ddbbb"></a>y-m-d format time<br />
+<div class="outline-text-7" id="text-2-4-2-1-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def format_time(x):
+    y = x.strftime("%Y-%m-%d")
+    return y
+
+queries["time_formated"] = queries.time.apply(format_time)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org60961e8"></a>remove null size results<br />
+<div class="outline-text-6" id="text-2-4-2-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">queries_null = queries[queries["size"] &lt; 1]
+queries = queries[queries["size"] &gt; 1]
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org44bbf5a"></a>number of entries in csv file<br />
+<ol class="org-ol">
+<li><a id="org781b644"></a>read as pandas dataframe<br />
+<div class="outline-text-7" id="text-2-4-2-1-4-1">
+<div class="org-src-container">
+<pre class="src src-ipython">def entries_count(csv):
+    return len(pd.read_csv(csv))
+
+queries["entries"] = queries.path.apply(entries_count)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgdaec28d"></a>inspection<br />
+<div class="outline-text-6" id="text-2-4-2-1-5">
+<div class="org-src-container">
+<pre class="src src-ipython">import humanize
+queries["size_for_humans"] = queries["size"].apply(humanize.naturalsize)
+queries.sort_values("size", ascending=False)[["name", "size_for_humans", "entries"]].reset_index()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org0bc0c69"></a>time evolution<br /></li>
+<li><a id="org174e316"></a>return list for next scraper launch<br />
+<ol class="org-ol">
+<li><a id="org68b0607"></a>remove null size results before (or not)<br />
+<div class="outline-text-7" id="text-2-4-2-1-7-1">
+<div class="org-src-container">
+<pre class="src src-ipython">queries_list = list(set(queries.name))
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org9d0c2da"></a>save in a file for editing<br />
+<div class="outline-text-7" id="text-2-4-2-1-7-2">
+<div class="org-src-container">
+<pre class="src src-ipython">with open("/queries/queries.txt", "w") as f:
+    for query in queries_list:
+	f.write(query + "\n")
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a id="orgd05b4fb"></a>launch scraper with the list<br />
+<ol class="org-ol">
+<li><a id="org7edd6ce"></a>get list from file<br />
+<div class="outline-text-6" id="text-2-4-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">with open("queries/best.txt", "r") as f:
+    queries_selected = f.read()
+    queries_selected = queries_selected.splitlines()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgd9e850a"></a>run shell script as subprocess<br />
+<ol class="org-ol">
+<li><a id="org76b85ff"></a>variables and imports<br />
+<div class="outline-text-7" id="text-2-4-2-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import subprocess
+from subprocess import Popen, PIPE
+import shlex
+
+cwd = '/home/teddd/data/projects/jobseeker/data/external/indeed/'
+bash_script = [cwd + 'local_crawler_launch.sh']
+arguments = queries_selected
+command = bash_script + arguments
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgccf8ea1"></a>execution<br />
+<ol class="org-ol">
+<li><a id="orgc49805d"></a>stdout to buffer<br />
+<div class="outline-text-8" id="text-2-4-2-2-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">session = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
+stdout, stderr = session.communicate()
+
+if stderr:
+    raise Exception("Error "+str(stderr))
+
+stdout
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org6e31e1b"></a>stdout to file<br />
+<div class="outline-text-8" id="text-2-4-2-2-2-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">from datetime import datetime
+date = str(datetime.now())
+with open("../data/external/crawl-log-" + date + ".txt",'w') as temp_file:
+    crawl = subprocess.Popen(command, stdout=temp_file, cwd=cwd)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgb61445d" class="outline-4">
+<h4 id="orgb61445d"><span class="section-number-4">2.4.3</span> Look for multiple keywords</h4>
+<div class="outline-text-4" id="text-2-4-3">
+</div>
+<ol class="org-ol">
+<li><a id="org8c2a76f"></a>tool: keywords list<br />
+<div class="outline-text-5" id="text-2-4-3-1">
+<p>
+use results from Queries
+</p>
+</div>
+</li>
+<li><a id="org1774e4d"></a>reduce dataframe<br />
+<ol class="org-ol">
+<li><a id="org7e030fa"></a>boolean serie<br />
+<div class="outline-text-6" id="text-2-4-3-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df_bool = pd.DataFrame()
+for query in queries_selected:
+    df_bool[query] = df.desc.str.contains(query)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org3e07e8d"></a>binary serie<br />
+<div class="outline-text-6" id="text-2-4-3-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def bool_to_bin(x):
+    if x is True:
+	return 1
+    else:
+	return 0
+
+df_bin = pd.DataFrame()
+
+for query in queries_selected:
+    df_bin[query] = df_bool[query].apply(bool_to_bin)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgc4698b7"></a>score attribution<br />
+<ol class="org-ol">
+<li><a id="org7775991"></a>overview<br />
+<div class="outline-text-7" id="text-2-4-3-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("score", ascending=False)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgee0f9ad"></a>reduce dataframe for visual exploration<br />
+<div class="outline-text-7" id="text-2-4-3-2-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df_print = df
+df_print["score"] = df_bin.sum(axis=1)
+df_print = df_print.sort_values("score", ascending=False)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="org7d6e13f"></a>guide: used words<br />
+<ol class="org-ol">
+<li><a id="org8ca1ae0"></a>amongst keywords<br />
+<div class="outline-text-6" id="text-2-4-3-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df_bin.sum().sort_values(ascending=False)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org6079e96"></a>which contains most of the querie keywords ?<br /></li>
+<li><a id="orgf1eb003"></a>add weight to keywords ?<br /></li>
+<li><a id="org81724ea"></a>keywords distance map<br />
+<div class="outline-text-5" id="text-2-4-3-6">
+<p>
+with all keywords, you are at the center
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd33019c" class="outline-4">
+<h4 id="orgd33019c"><span class="section-number-4">2.4.4</span> companies</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<div class="org-src-container">
+<pre class="src src-ipython">df = df[df.company.str.contains("berlin", case=False, na=False)]
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org0a50877" class="outline-3">
+<h3 id="org0a50877"><span class="section-number-3">2.5</span> Stats</h3>
+<div class="outline-text-3" id="text-2-5">
+</div>
+<div id="outline-container-orgfef0360" class="outline-4">
+<h4 id="orgfef0360"><span class="section-number-4">2.5.1</span> overview</h4>
+<div class="outline-text-4" id="text-2-5-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgcea4940"></a>head<br />
+<div class="outline-text-5" id="text-2-5-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.head()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgb77b14a"></a>count<br />
+<div class="outline-text-5" id="text-2-5-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">len(df)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orge420316" class="outline-4">
+<h4 id="orge420316"><span class="section-number-4">2.5.2</span> days ago</h4>
+<div class="outline-text-4" id="text-2-5-2">
+</div>
+<ol class="org-ol">
+<li><a id="org8d02668"></a>histogram<br />
+<ol class="org-ol">
+<li><a id="orgb8effb4"></a>pd plot<br />
+<div class="outline-text-6" id="text-2-5-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.days_ago.plot.hist()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org48cf253"></a>value count<br />
+<div class="outline-text-5" id="text-2-5-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df.days_ago.value_counts()
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org38bcc69"></a>groupby<br />
+<ol class="org-ol">
+<li><a id="orgfa5e77c"></a>basic output<br />
+<div class="outline-text-6" id="text-2-5-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.groupby(["days_ago"]).groups
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org68a9817"></a>loop print<br />
+<div class="outline-text-6" id="text-2-5-2-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">grouped = df.groupby("days_ago")
+
+for name,group in grouped:
+    print(name)
+    print(group)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgb51d678"></a>documentation&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span><br />
+<ol class="org-ol">
+<li><a id="org5b13807"></a>pandas doc<br />
+<div class="outline-text-7" id="text-2-5-2-3-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">help(df.groupby(["days_ago"]))
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org1ddba3e"></a>tutorial<br />
+<div class="outline-text-7" id="text-2-5-2-3-3-2">
+<p>
+<a href="https://www.tutorialspoint.com/python_pandas/python_pandas_groupby.htm">https://www.tutorialspoint.com/python_pandas/python_pandas_groupby.htm</a>
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="orgf751b63"></a>use<br />
+<div class="outline-text-6" id="text-2-5-2-3-4">
+<div class="org-src-container">
+<pre class="src src-ipython">grouped = df.groupby(["days_ago"])
+grouped.title.count().sort_values(ascending=False)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-org7dd8bf6" class="outline-4">
+<h4 id="org7dd8bf6"><span class="section-number-4">2.5.3</span> companies</h4>
+<div class="outline-text-4" id="text-2-5-3">
+</div>
+<ol class="org-ol">
+<li><a id="orgc0aac05"></a>groupby<br />
+<ol class="org-ol">
+<li><a id="org9321d23"></a>define group<br />
+<div class="outline-text-6" id="text-2-5-3-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">comp_group = df.groupby(["company"])
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org12d9954"></a>print groups<br />
+<div class="outline-text-6" id="text-2-5-3-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">comp_group.groups
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org070d5a2"></a>count groups<br />
+<div class="outline-text-6" id="text-2-5-3-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">len(comp_group.groups)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org2ed1269"></a>number of job per company<br />
+<ol class="org-ol">
+<li><a id="orgdb6f829"></a>hack<br />
+<ol class="org-ol">
+<li><a id="org3e7fa34"></a>loop<br />
+<div class="outline-text-8" id="text-2-5-3-1-4-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">for company in comp_group.groups.keys():
+	    lenght = len(comp_group.groups[company])
+	    if lenght &gt; 1:
+			print(company, lenght)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgbb6327f"></a>single<br />
+<div class="outline-text-8" id="text-2-5-3-1-4-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">key = list(comp_group.groups.keys())[0]
+list(comp_group.groups[key])
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8d41077"></a>test<br />
+<div class="outline-text-8" id="text-2-5-3-1-4-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut"])
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org67d4bf4"></a>pandas<br />
+<div class="outline-text-7" id="text-2-5-3-1-4-2">
+<div class="org-src-container">
+<pre class="src src-ipython">count = comp_group.title.count()
+count.sort_values(ascending=False)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="orgb3b9a9a"></a>value count<br />
+<div class="outline-text-5" id="text-2-5-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df.company.value_counts()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgeced867" class="outline-3">
+<h3 id="orgeced867"><span class="section-number-3">2.6</span> Words</h3>
+<div class="outline-text-3" id="text-2-6">
+</div>
+<div id="outline-container-org414aa8f" class="outline-4">
+<h4 id="org414aa8f"><span class="section-number-4">2.6.1</span> most used word</h4>
+<div class="outline-text-4" id="text-2-6-1">
+</div>
+<ol class="org-ol">
+<li><a id="org540eeac"></a>category to look in<br />
+<div class="outline-text-5" id="text-2-6-1-1">
+<div class="org-src-container">
+<pre class="src src-python" id="orgf883f14"><span style="font-style: italic;">"desc"</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org987a132"></a><br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org7382d73" class="outline-3">
+<h3 id="org7382d73"><span class="section-number-3">2.7</span> Printing</h3>
+<div class="outline-text-3" id="text-2-7">
+</div>
+<div id="outline-container-orgdb20550" class="outline-4">
+<h4 id="orgdb20550"><span class="section-number-4">2.7.1</span> quick overview</h4>
+<div class="outline-text-4" id="text-2-7-1">
+</div>
+<ol class="org-ol">
+<li><a id="org7a3c2a5"></a>head<br />
+<div class="outline-text-5" id="text-2-7-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">df.head()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org0d9f267"></a>count<br />
+<div class="outline-text-5" id="text-2-7-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">df.title.count()
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org371d1e3"></a>titles<br />
+<div class="outline-text-5" id="text-2-7-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">df.title
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgf29fddf" class="outline-4">
+<h4 id="orgf29fddf"><span class="section-number-4">2.7.2</span> html pages</h4>
+<div class="outline-text-4" id="text-2-7-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgb7d52fc"></a>hacked around solution&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<ol class="org-ol">
+<li><a id="orgeb52446"></a>function to save results to html<br />
+<div class="outline-text-6" id="text-2-7-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython" id="orgd5d2154">from datetime import datetime
+from os import mkdir
+
+def htmlexport(df, begin, end):
+	    date = str(datetime.now())
+	    path = "../reports/html/" + date + "/"
+	    mkdir(path)
+	    for i in range(begin, end):
+			html = ""
+			html = html + "\n"
+			html = html + "Job number " + str(i)
+			html = html + "\n"
+			html = html + "-"*100
+			html = html + "\n" + df.title.iloc[i]
+			html = html + "\n"
+			html = html + df.company.iloc[i]
+			html = html + "\n"
+			html = html + "-"*100
+			html = html + "\n"
+			html = html + df.desc.iloc[i]
+			html = html + "\n"*3
+			html = html + "-"*100
+			html = html + "\n"*3
+			filename = path + "job-" + str(i) + ".html"
+			with open(filename, "a") as file:
+				    file.write(html)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org9b72fd4"></a>call function<br />
+<div class="outline-text-6" id="text-2-7-2-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">htmlexport(dfk, 0, dfk.title.count())
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org0e0042a"></a>PB : imossible to add links because of some encoding pb<br /></li>
+</ol>
+</li>
+<li><a id="org18ac815"></a>use xml.dom&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<ol class="org-ol">
+<li><a id="orge11d3e8"></a>use<br />
+<div class="outline-text-6" id="text-2-7-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from xml.dom import minidom
+minidom.parseString(dfk.desc.iloc[10])
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orge3a5cd1"></a>PB : some descs are separated by comas<br />
+<ol class="org-ol">
+<li><a id="orgf981c98"></a>change spider<br /></li>
+<li><a id="orgc8cbea3"></a>use regexp to parse again<br /></li>
+<li><a id="orgf65fd84"></a>test with proper html files : maybe it is just not working with html ?<br />
+<div class="outline-text-7" id="text-2-7-2-2-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">from xml.dom import minidom
+minidom.parseString("~/code/web/plasma-city/application/static/front.html")
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="org67f47cf"></a>use yattag<br />
+<ol class="org-ol">
+<li><a id="org28a7d2d"></a>imports<br />
+<div class="outline-text-6" id="text-2-7-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from datetime import datetime
+from os import mkdir
+from yattag import Doc
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org9120d9e"></a>html page generation<br />
+<ol class="org-ol">
+<li><a id="orge45e62b"></a>functions definition<br />
+<div class="outline-text-7" id="text-2-7-2-3-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">def linksgen(filename_base, pagenum, url):
+    doc, tag, text = Doc().tagtext()
+
+    with tag("div"):
+	with tag('a', href = "."):
+	    text('Home page')
+	with tag("div"):
+	    with tag("a", href = filename_base + str(pagenum - 1) + ".html"):
+		text("Previous page")
+	    text(" ")
+	    with tag("a", href = filename_base + str(pagenum + 1) + ".html"):
+		text("Next page")
+	with tag("a", href = url, target="_blank"):
+	    text("Original page")
+
+    return doc.getvalue()
+
+
+def pagegen(filename_base, pagenum, title, desc, company, days, url):
+    doc, tag, text = Doc().tagtext()
+
+    doc.asis('&lt;meta charset="UTF-8"&gt;')
+    with tag("title"):
+	text(title)
+    with tag("body"):
+	doc.asis(linksgen(filename_base, pagenum, url))
+	with tag("h1"):
+	    text(title)
+	with tag("h2"):
+	    text(company)
+	with tag("p"):
+	    text(str(days) + " days ago")
+	with tag("div"):
+	    doc.asis(desc)
+	doc.asis(linksgen(filename_base, pagenum, url))
+
+    return doc.getvalue()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orga6c4f1c"></a>test pagegen&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<div class="outline-text-7" id="text-2-7-2-3-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">pagegen("nom", 0, "titre", "desc", "firm", "days", "www")
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8289266"></a>test linksgen&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<div class="outline-text-7" id="text-2-7-2-3-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">linksgen("file", 10, "wwwww")
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org7bcb47d"></a>htmlexport function<br />
+<ol class="org-ol">
+<li><a id="orgf75090b"></a>definition<br />
+<div class="outline-text-7" id="text-2-7-2-3-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">def htmlexport(df, begin, end):
+    date = str(datetime.now())
+    path = "../reports/html/" + date + "/"
+    mkdir(path)
+    for i in range(begin, end):
+	filename_base = "job-"
+	html = pagegen(filename_base,
+		       i,
+		       df.title.iloc[i],
+		       df.desc.iloc[i],
+		       df.company.iloc[i],
+		       df.days_ago.iloc[i],
+		       df.url.iloc[i]
+	)
+	filename = path + filename_base +  str(i) + ".html"
+	with open(filename, "a") as file:
+	    file.write(html)
+
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org0484ba0"></a>call<br />
+<div class="outline-text-7" id="text-2-7-2-3-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">htmlexport(df_print, 0, 40)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8223113"></a>link<br />
+<div class="outline-text-7" id="text-2-7-2-3-3-3">
+<p>
+<a href="home/teddd/data/projects/jobseeker/reports/html/">home/teddd/data/projects/jobseeker/reports/html/</a>
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgac34790" class="outline-4">
+<h4 id="orgac34790"><span class="section-number-4">2.7.3</span> server</h4>
+<div class="outline-text-4" id="text-2-7-3">
+</div>
+<ol class="org-ol">
+<li><a id="org7529263"></a>flask ? :D !!!<br /></li>
+</ol>
+</div>
+<div id="outline-container-orgb085881" class="outline-4">
+<h4 id="orgb085881"><span class="section-number-4">2.7.4</span> org  table (python)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="python">python</span></span></h4>
+<div class="outline-text-4" id="text-2-7-4">
+</div>
+<ol class="org-ol">
+<li><a id="org17fbb46"></a>john kitchin example&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span><br />
+<div class="outline-text-5" id="text-2-7-4-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">import</span> pandas <span style="font-weight: bold;">as</span> pd
+<span style="font-weight: bold; font-style: italic;">test</span> = pd.DataFrame({<span style="font-style: italic;">'A'</span>: [1000, 1000], <span style="font-style: italic;">'B'</span> : [60, 100]})
+<span style="font-weight: bold; font-style: italic;">test2</span> = [<span style="font-weight: bold;">list</span>(test)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + test.values.tolist()
+<span style="font-weight: bold; font-style: italic;">test3</span> = test.values.tolist()
+<span style="font-weight: bold;">return</span> (test, test2, test3)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org87c2710"></a>my program&#xa0;&#xa0;&#xa0;<span class="tag"><span class="slow">slow</span></span><br />
+<div class="outline-text-5" id="text-2-7-4-2">
+<div class="org-src-container">
+<pre class="src src-python" id="org01b4528"><span style="font-weight: bold;">import</span> pandas <span style="font-weight: bold;">as</span> pd
+<span style="font-weight: bold; font-style: italic;">df</span> = pd.read_csv(data)
+<span style="font-weight: bold;">return</span>  [<span style="font-weight: bold;">list</span>(df)] + [<span style="font-weight: bold; text-decoration: underline;">None</span>] + df.values.tolist()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org3e9bca1" class="outline-4">
+<h4 id="org3e9bca1"><span class="section-number-4">2.7.5</span> org results: html&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></h4>
+<div class="outline-text-4" id="text-2-7-5">
+<div class="org-src-container">
+<pre class="src src-python">dfk.desc.iloc[0]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgca3b963" class="outline-4">
+<h4 id="orgca3b963"><span class="section-number-4">2.7.6</span> soupprint</h4>
+<div class="outline-text-4" id="text-2-7-6">
+</div>
+<ol class="org-ol">
+<li><a id="org6c75218"></a>session functions<br />
+<ol class="org-ol">
+<li><a id="org6b98a98"></a>souper (using get text)<br />
+<div class="outline-text-6" id="text-2-7-6-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from bs4 import BeautifulSoup
+
+def souper(html):
+    "returns only the text from a html string"
+    soup = BeautifulSoup(html, 'html.parser')
+    return soup.get_text()
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org3226ca9"></a>soupprint<br />
+<ol class="org-ol">
+<li><a id="orgf36bedf"></a>definition<br />
+<div class="outline-text-7" id="text-2-7-6-1-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from bs4 import BeautifulSoup
+
+def souper(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    print(soup.get_text())
+
+def soupprint(df, begin, end):
+    for i in range(begin, end):
+	print(i, df.title.iloc[i])
+	print("\n")
+	print(df.company.iloc[i])
+	print("\n")
+	souper(df.desc.iloc[i])
+	print("\n"*3)
+	print("-"*100)
+	print("\n"*3)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgee563b8"></a>call<br />
+<div class="outline-text-7" id="text-2-7-6-1-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">soupprint(df, 0, 10)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="org442c7a5"></a>soupprint as org function<br />
+<ol class="org-ol">
+<li><a id="orgeea7c72"></a>definition<br />
+<div class="outline-text-6" id="text-2-7-6-2-1">
+<div class="org-src-container">
+<pre class="src src-python" id="orge95e88c"><span style="font-weight: bold;">from</span> bs4 <span style="font-weight: bold;">import</span> BeautifulSoup
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">souper</span>(html):
+    <span style="font-weight: bold; font-style: italic;">soup</span> = BeautifulSoup(html, <span style="font-style: italic;">'html.parser'</span>)
+    <span style="font-weight: bold;">print</span>(soup.get_text())
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">soupprint</span>(df, begin, end):
+    <span style="font-weight: bold;">for</span> i <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">range</span>(begin, end):
+        <span style="font-weight: bold;">print</span>(i, df.title.iloc[i])
+        <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"\n"</span>)
+        <span style="font-weight: bold;">print</span>(df.company.iloc[i])
+        <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"\n"</span>)
+        souper(df.desc.iloc[i])
+        <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"\n"</span>*3)
+        <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"-"</span>*100)
+        <span style="font-weight: bold;">print</span>(<span style="font-style: italic;">"\n"</span>*3)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org6fb9437"></a>call<br />
+<div class="outline-text-6" id="text-2-7-6-2-2">
+<div class="org-src-container">
+<pre class="src src-python">soupprint(dfk, 0, dfk.title.count())
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org3c8d8b1" class="outline-2">
+<h2 id="org3c8d8b1"><span class="section-number-2">3</span> Documentation</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org0c0e514" class="outline-3">
+<h3 id="org0c0e514"><span class="section-number-3">3.1</span> doc : look for matching patern&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">help(df.title.str.contains)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5ad804c" class="outline-3">
+<h3 id="org5ad804c"><span class="section-number-3">3.2</span> pandas</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+<a href="file:///home/teddd/Cours/Data/cheat-sheets/Pandas_Cheat_Sheet.pdf">Pandas cheat sheet</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge4a584f" class="outline-2">
+<h2 id="orge4a584f"><span class="section-number-2">4</span> Tests</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org80a7867" class="outline-3">
+<h3 id="org80a7867"><span class="section-number-3">4.1</span> ob-ipython</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orga2d03ad" class="outline-4">
+<h4 id="orga2d03ad"><span class="section-number-4">4.1.1</span> hands-on tryout</h4>
+<div class="outline-text-4" id="text-4-1-1">
+</div>
+<ol class="org-ol">
+<li><a id="org50fb71f"></a>hello world<br />
+<div class="outline-text-5" id="text-4-1-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">print 'hello world'
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org1566ff1"></a>function definition<br />
+<div class="outline-text-5" id="text-4-1-1-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def fn():
+    print "I am in the session !"
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org209f91d"></a>function call<br />
+<div class="outline-text-5" id="text-4-1-1-3">
+<div class="org-src-container">
+<pre class="src src-ipython">fn()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org9b5d081" class="outline-4">
+<h4 id="org9b5d081"><span class="section-number-4">4.1.2</span> doc tutorial</h4>
+<div class="outline-text-4" id="text-4-1-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgad4f0c5"></a>imports<br />
+<div class="outline-text-5" id="text-4-1-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">%matplotlib inline
+import matplotlib.pyplot as plt
+import numpy as np
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgddc1123"></a>ex2<br />
+<div class="outline-text-5" id="text-4-1-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def foo(x):
+    return x + 9
+
+[foo(x) + 7 for x in range(7)]
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org76aae97"></a>images<br />
+<ol class="org-ol">
+<li><a id="orgf2448f1"></a>ex1<br />
+<div class="outline-text-6" id="text-4-1-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">plt.hist(np.random.randn(20000), bins=200)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org6724c11"></a>ex2<br />
+<div class="outline-text-6" id="text-4-1-2-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">plt.hist(np.random.randn(20000), bins=200)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgfdb96f8"></a>config<br />
+<div class="outline-text-6" id="text-4-1-2-3-3">
+<div class="org-src-container">
+<pre class="src src-ipython">%config InlineBackend.figure_format = 'svg'
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org41c972b"></a>other kernel<br />
+<div class="outline-text-5" id="text-4-1-2-4">
+<div class="org-src-container">
+<pre class="src src-ipython">(+ 1 2)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgaf41878"></a>async<br />
+<div class="outline-text-5" id="text-4-1-2-5">
+<div class="org-src-container">
+<pre class="src src-ipython">import time
+time.sleep(3)
+plt.hist(np.random.randn(20000), bins=200)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgc6868e2" class="outline-4">
+<h4 id="orgc6868e2"><span class="section-number-4">4.1.3</span> other tryouts</h4>
+<div class="outline-text-4" id="text-4-1-3">
+</div>
+<ol class="org-ol">
+<li><a id="orga7b8a60"></a>functions<br />
+<div class="outline-text-5" id="text-4-1-3-1">
+</div>
+<ol class="org-ol">
+<li><a id="orge917f25"></a>call<br />
+<div class="outline-text-6" id="text-4-1-3-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">lol()
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org5a59654"></a>formater<br />
+<div class="outline-text-5" id="text-4-1-3-2">
+</div>
+<ol class="org-ol">
+<li><a id="org703dd98"></a>init<br />
+<div class="outline-text-6" id="text-4-1-3-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import IPython
+from tabulate import tabulate
+
+class OrgFormatter(IPython.core.formatters.BaseFormatter):
+    def __call__(self, obj):
+	try:
+	    return tabulate(obj, headers='keys',
+			    tablefmt='orgtbl', showindex='always')
+	except:
+	    return None
+
+ip = get_ipython()
+ip.display_formatter.formatters['text/org'] = OrgFormatter()
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgde96fbc"></a>arrays<br /></li>
+</ol>
+</li>
+
+<li><a id="org6574e95"></a>kernel tests<br />
+<ol class="org-ol">
+<li><a id="orgb546174"></a>session header arg after run console<br />
+<div class="outline-text-6" id="text-4-1-3-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">print("hello")
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgfd82652"></a>kernel headerarg<br />
+<div class="outline-text-6" id="text-4-1-3-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">print("hello")
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org80641ca" class="outline-3">
+<h3 id="org80641ca"><span class="section-number-3">4.2</span> nltk</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orge4b99fe" class="outline-4">
+<h4 id="orge4b99fe"><span class="section-number-4">4.2.1</span> text selection</h4>
+<div class="outline-text-4" id="text-4-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="orgf82c742"></a>sample text base<br />
+<div class="outline-text-5" id="text-4-2-1-1">
+<div class="org-src-container">
+<pre class="src src-ipython">from nltk.book import *
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org0883d95"></a>access text as string<br />
+<ol class="org-ol">
+<li><a id="org49e3c60"></a>imports<br />
+<div class="outline-text-6" id="text-4-2-1-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">import nltk, re, pprint
+from nltk import word_tokenize
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgcab7da3"></a>with one description<br />
+<ol class="org-ol">
+<li><a id="orge3695d2"></a>definition<br />
+<div class="outline-text-7" id="text-4-2-1-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">string = df.iloc[0].desc
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org036217b"></a>formating<br />
+<ol class="org-ol">
+<li><a id="org73c9d5f"></a>html<br />
+<div class="outline-text-8" id="text-4-2-1-2-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">string = souper(string)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org99ab361"></a>case<br />
+<div class="outline-text-8" id="text-4-2-1-2-2-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">string = string.lower()
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgfb555f8"></a>punctiations<br />
+<ol class="org-ol">
+<li><a id="org9924037"></a>definition<br />
+<div class="outline-text-9" id="text-4-2-1-2-2-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">def multi_replace(string, *args, replace=" "):
+    for target in args:
+	string = string.replace(target, replace)
+    return string
+
+trash_car = (",", "\'", "\"", "&amp;", "#", "{", "}",
+	     "(", ")", "[", "]", "_", "\\", "~", "-",
+	     ",", ";", ":", ".", "?", "!", "+", "|",
+	     "@", "/", "–", "*", "“", "„", "%", " ",
+	     "€")
+
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orga9ad41d"></a>call<br />
+<div class="outline-text-9" id="text-4-2-1-2-2-2-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">string = multi_replace(string, *trash_car)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+
+
+<li><a id="org3296c89"></a>to ntlk text object<br />
+<ol class="org-ol">
+<li><a id="orgecc7b0c"></a>tokenizing<br />
+<div class="outline-text-7" id="text-4-2-1-2-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">tokens = word_tokenize(string)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgf1e4edf"></a>use as nltk text<br />
+<div class="outline-text-7" id="text-4-2-1-2-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">text = nltk.Text(tokens)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgfeb338c" class="outline-4">
+<h4 id="orgfeb338c"><span class="section-number-4">4.2.2</span> search</h4>
+<div class="outline-text-4" id="text-4-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgd8bcfdb"></a>concordance<br />
+<div class="outline-text-5" id="text-4-2-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">text.concordance("data")
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org5cdab9e"></a>similar word<br />
+<div class="outline-text-5" id="text-4-2-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">text.similar("analyst")
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org677c74e"></a>dispersion<br />
+<div class="outline-text-5" id="text-4-2-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">text.dispersion_plot(["up", "with", "in", "the", "for", "team"])
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org173ff83" class="outline-4">
+<h4 id="org173ff83"><span class="section-number-4">4.2.3</span> generation&#xa0;&#xa0;&#xa0;<span class="tag"><span class="test">test</span></span></h4>
+<div class="outline-text-4" id="text-4-2-3">
+<div class="org-src-container">
+<pre class="src src-ipython">text.generate(["The", "job", "is", "for", "data", "team"])
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4bca144" class="outline-4">
+<h4 id="org4bca144"><span class="section-number-4">4.2.4</span> normalizing</h4>
+<div class="outline-text-4" id="text-4-2-4">
+</div>
+<ol class="org-ol">
+<li><a id="org5404bd0"></a>steaming<br /></li>
+<li><a id="orga19932f"></a>lemmatization<br /></li>
+</ol>
+</div>
+<div id="outline-container-org1de0351" class="outline-4">
+<h4 id="org1de0351"><span class="section-number-4">4.2.5</span> vocabulary</h4>
+<div class="outline-text-4" id="text-4-2-5">
+</div>
+<ol class="org-ol">
+<li><a id="org17156f3"></a>sorted set<br />
+<div class="outline-text-5" id="text-4-2-5-1">
+<div class="org-src-container">
+<pre class="src src-ipython">sorted(set(text))
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org373daa7"></a>lexical richness<br />
+<ol class="org-ol">
+<li><a id="org798d77c"></a>tryout<br />
+<div class="outline-text-6" id="text-4-2-5-2-1">
+<div class="org-src-container">
+<pre class="src src-ipython">len(text) / len(set(text))
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org875ade7"></a>function<br />
+<div class="outline-text-6" id="text-4-2-5-2-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def lexical_diversity(text):
+    return len(text) / len(set(text))
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="org5895d51"></a>specific word<br />
+<ol class="org-ol">
+<li><a id="org9d8fbf6"></a>tryout<br />
+<div class="outline-text-6" id="text-4-2-5-3-1">
+<div class="org-src-container">
+<pre class="src src-ipython">100 * text.count('for') / len(text)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org4719cce"></a>functyion<br />
+<div class="outline-text-6" id="text-4-2-5-3-2">
+<div class="org-src-container">
+<pre class="src src-ipython">def word_percentage(word):
+    return 100 * text.count(word) / len(text)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org8263ead" class="outline-4">
+<h4 id="org8263ead"><span class="section-number-4">4.2.6</span> <span class="todo TODO">TODO</span> Build a corpus !</h4>
+<div class="outline-text-4" id="text-4-2-6">
+</div>
+<ol class="org-ol">
+<li><a id="org104632e"></a>sklearn<br />
+<div class="outline-text-5" id="text-4-2-6-1">
+<div class="org-src-container">
+<pre class="src src-ipython">docs = df['desc']
+
+tfs = tfidf.fit_transform(docs)
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: teddd</p>
+<p class="date">Created: 2018-10-02 mar. 16:07</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -24,7 +24,7 @@ Project Organization
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Org-mode notebooks.
+    ├── notebooks          <- Notebooks. Originals are org file. Exports to ipynb, tex, pdf.
     │
     ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
     │
