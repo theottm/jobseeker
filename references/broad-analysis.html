@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2018-10-05 ven. 17:39 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="teddd" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org7058680">1. Problem description</a>
+<ul>
+<li><a href="#org5843285">1.1. Definitions</a>
+<ul>
+<li><a href="#orgc7c1d0f">1.1.1. What is the Target Data ?</a></li>
+<li><a href="#org66d94fb">1.1.2. What problem sould this tool solve ?</a></li>
+</ul>
+</li>
+<li><a href="#org59aaa7b">1.2. Objectives</a>
+<ul>
+<li><a href="#org76ce7e7">1.2.1. Needs</a></li>
+<li><a href="#orgb1d93f1">1.2.2. Will</a></li>
+<li><a href="#org7ebd855">1.2.3. Use</a></li>
+<li><a href="#org03bd679">1.2.4. Features</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orga8742ec">2. Approches</a>
+<ul>
+<li><a href="#org69b7601">2.1. stathead / qualitative</a></li>
+<li><a href="#org8cac028">2.2. scout / quantitative</a></li>
+</ul>
+</li>
+<li><a href="#org05ec29e">3. Project management</a>
+<ul>
+<li><a href="#org093548c">3.1. Time constraints</a>
+<ul>
+<li><a href="#org056795c">3.1.1. run test / small steps / prototypes</a></li>
+</ul>
+</li>
+<li><a href="#org8f513e0">3.2. Limits</a>
+<ul>
+<li><a href="#org6f81b4d">3.2.1. quantitative unknown</a></li>
+<li><a href="#orgb4d8169">3.2.2. is it useful ?</a></li>
+<li><a href="#org4446066">3.2.3. data acquisition is costly</a></li>
+</ul>
+</li>
+<li><a href="#org86cee41">3.3. Crossovers</a>
+<ul>
+<li><a href="#orgca55946">3.3.1. test features / ideas</a></li>
+<li><a href="#orgce07f38">3.3.2. build prototype project to show</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org357babc">4. Plan</a>
+<ul>
+<li><a href="#org9e11ba2">4.1. Blogging</a>
+<ul>
+<li><a href="#orgc67a82a">4.1.1. Org babel</a></li>
+<li><a href="#orgd3c4019">4.1.2. Website</a></li>
+</ul>
+</li>
+<li><a href="#orgf100c1b">4.2. Courses</a>
+<ul>
+<li><a href="#orga0e666f">4.2.1. Databases</a></li>
+<li><a href="#org8e73378">4.2.2. Visualization</a></li>
+<li><a href="#org4cb941b">4.2.3. Machine learning</a></li>
+<li><a href="#orgaba230c">4.2.4. NLP</a></li>
+<li><a href="#org7725fca">4.2.5. Hash tables / numpy computation</a></li>
+<li><a href="#org4b73c5b">4.2.6. Proba / stats</a></li>
+</ul>
+</li>
+<li><a href="#orgae147a2">4.3. Jobs seeker</a></li>
+<li><a href="#org94c4add">4.4. Implementation</a>
+<ul>
+<li><a href="#org8b84184">4.4.1. Start a clean project</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7058680" class="outline-2">
+<h2 id="org7058680"><span class="section-number-2">1</span> Problem description</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+What do I want to achieve with this tool ? 
+</p>
+</div>
+<div id="outline-container-org5843285" class="outline-3">
+<h3 id="org5843285"><span class="section-number-3">1.1</span> Definitions</h3>
+<div class="outline-text-3" id="text-1-1">
+</div>
+<div id="outline-container-orgc7c1d0f" class="outline-4">
+<h4 id="orgc7c1d0f"><span class="section-number-4">1.1.1</span> What is the Target Data ?</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+I want to have access to the key data that make a job or a carreer path interesting. Here is a non-exhaustive list.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgc00584d"></a>is it easy to access ?<br />
+<ol class="org-ol">
+<li><a id="orgbb2b91f"></a>is it new ?<br /></li>
+<li><a id="org842852c"></a>what formation is required ?<br /></li>
+<li><a id="orgd583fbb"></a>what is the entrance cost ?<br /></li>
+<li><a id="org516122a"></a>what success stories ?<br /></li>
+</ol>
+</li>
+<li><a id="org42eadbe"></a>demand &gt; supply<br /></li>
+<li><a id="org5c9370c"></a>loan<br /></li>
+<li><a id="org9e9eb9b"></a>re-usability<br />
+<ol class="org-ol">
+<li><a id="org413785b"></a>tremplin<br /></li>
+<li><a id="org6e38f00"></a>multiple use case<br /></li>
+</ol>
+</li>
+<li><a id="orgc50892d"></a>connection with your parcours<br /></li>
+</ol>
+</div>
+<div id="outline-container-org66d94fb" class="outline-4">
+<h4 id="org66d94fb"><span class="section-number-4">1.1.2</span> What problem sould this tool solve ?</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+what is it you want to solve / answer ?
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org4556732"></a>can there be a tool to help me find a job / seek for opportunities ?<br />
+<ol class="org-ol">
+<li><a id="org14bd0f8"></a>can this be quicker the reading / regular digging ?<br />
+<div class="outline-text-6" id="text-1-1-2-1-1">
+<p>
+What this tool could/should  bring :
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orge197e60"></a>have an overview of field to dig further in<br /></li>
+<li><a id="org16fea8c"></a>needs to be quick to browse : efficient summary<br /></li>
+<li><a id="org3598bec"></a>needs to be reliable : data quality / second check<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org59aaa7b" class="outline-3">
+<h3 id="org59aaa7b"><span class="section-number-3">1.2</span> Objectives</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-org76ce7e7" class="outline-4">
+<h4 id="org76ce7e7"><span class="section-number-4">1.2.1</span> Needs</h4>
+<div class="outline-text-4" id="text-1-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org6e1ed31"></a>need to find a job quickly<br /></li>
+<li><a id="orga4c6740"></a>need to be able to have a market overview<br /></li>
+<li><a id="org6932f98"></a>need to be able to propose a data product<br />
+<ol class="org-ol">
+<li><a id="orgc89b43d"></a>for my portfolio<br /></li>
+<li><a id="org42edf1e"></a>as an open source webapp<br /></li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgb1d93f1" class="outline-4">
+<h4 id="orgb1d93f1"><span class="section-number-4">1.2.2</span> Will</h4>
+<div class="outline-text-4" id="text-1-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orgc207bc1"></a>want to have alerts for job opportunities<br /></li>
+<li><a id="orgdc01a82"></a>want to reveal career paths / market trends<br /></li>
+<li><a id="orgf3e3aae"></a>want to keep track of my interests to have suggestions of paths<br /></li>
+</ol>
+</div>
+<div id="outline-container-org7ebd855" class="outline-4">
+<h4 id="org7ebd855"><span class="section-number-4">1.2.3</span> Use</h4>
+<div class="outline-text-4" id="text-1-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="org629e862"></a>target opportunities<br />
+<ol class="org-ol">
+<li><a id="org7e9ea08"></a>sheets of wanted words<br /></li>
+<li><a id="orgc5d0cd0"></a>query matching algorithms<br /></li>
+</ol>
+</li>
+<li><a id="org83cc4ec"></a>data exploration<br /></li>
+<li><a id="org65e2f15"></a>cluster<br />
+<ol class="org-ol">
+<li><a id="org174f862"></a>nlp<br /></li>
+</ol>
+</li>
+<li><a id="orgb74c822"></a>find jobs I didn't know about<br /></li>
+<li><a id="org969d512"></a>get warned if new opportunities<br /></li>
+<li><a id="org585e8ba"></a>use it as a model for finding my perfect match in the world / exploring the economy<br /></li>
+<li><a id="org231e8e0"></a>make it open source and useable by anyone<br /></li>
+</ol>
+</div>
+<div id="outline-container-org03bd679" class="outline-4">
+<h4 id="org03bd679"><span class="section-number-4">1.2.4</span> Features</h4>
+<div class="outline-text-4" id="text-1-2-4">
+</div>
+<ol class="org-ol">
+<li><a id="org9925bf6"></a>Update<br /></li>
+<li><a id="orgbf8b50a"></a>Clustering<br /></li>
+<li><a id="org2f232d2"></a>Visualization<br /></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8742ec" class="outline-2">
+<h2 id="orga8742ec"><span class="section-number-2">2</span> Approches</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+There are two approches to keep in mind.
+</p>
+</div>
+<div id="outline-container-org69b7601" class="outline-3">
+<h3 id="org69b7601"><span class="section-number-3">2.1</span> stathead / qualitative</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+use available data, stats and probability
+</p>
+</div>
+</div>
+<div id="outline-container-org8cac028" class="outline-3">
+<h3 id="org8cac028"><span class="section-number-3">2.2</span> scout / quantitative</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Get humanly involved in the question to avoid using data science where it is not needed and to know where it can be of cruitial help. Helps keeping DS work pertinent.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org05ec29e" class="outline-2">
+<h2 id="org05ec29e"><span class="section-number-2">3</span> Project management</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+How do I overcome :
+</p>
+</div>
+<div id="outline-container-org093548c" class="outline-3">
+<h3 id="org093548c"><span class="section-number-3">3.1</span> Time constraints</h3>
+<div class="outline-text-3" id="text-3-1">
+</div>
+<div id="outline-container-org056795c" class="outline-4">
+<h4 id="org056795c"><span class="section-number-4">3.1.1</span> run test / small steps / prototypes</h4>
+</div>
+</div>
+<div id="outline-container-org8f513e0" class="outline-3">
+<h3 id="org8f513e0"><span class="section-number-3">3.2</span> Limits</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+what is shaky about this approach ?
+</p>
+</div>
+<div id="outline-container-org6f81b4d" class="outline-4">
+<h4 id="org6f81b4d"><span class="section-number-4">3.2.1</span> quantitative unknown</h4>
+<div class="outline-text-4" id="text-3-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org8ee350a"></a>former predictions / insights : find and evaluate<br /></li>
+<li><a id="org1f645e6"></a>trending/ubiquitous ideas/concepts<br /></li>
+</ol>
+</div>
+<div id="outline-container-orgb4d8169" class="outline-4">
+<h4 id="orgb4d8169"><span class="section-number-4">3.2.2</span> is it useful ?</h4>
+<div class="outline-text-4" id="text-3-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="orga6576af"></a>what would be the user case ?<br />
+<ol class="org-ol">
+<li><a id="org2e80b86"></a>for individuals : orientation<br /></li>
+<li><a id="orgfe6ef86"></a>for firms : market analysis<br /></li>
+</ol>
+</li>
+</ol>
+</div>
+<div id="outline-container-org4446066" class="outline-4">
+<h4 id="org4446066"><span class="section-number-4">3.2.3</span> data acquisition is costly</h4>
+<div class="outline-text-4" id="text-3-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="org7275f6c"></a>if the approach is not efficient : pb<br /></li>
+<li><a id="org3028af9"></a><span class="todo TODO">TODO</span> can only be tested if large amount of data<br /></li>
+<li><a id="orge956195"></a>need to gain faith / enthusiasm<br />
+<ol class="org-ol">
+<li><a id="orgf7665c6"></a>take small step achievements<br />
+<ol class="org-ol">
+<li><a id="orgafe7267"></a>small jobs market<br /></li>
+<li><a id="org84efc46"></a>data science / computing<br /></li>
+</ol>
+</li>
+<li><a id="org4e51f8a"></a>select exciting data sources<br /></li>
+<li><a id="org0e702cc"></a>readings<br />
+<ol class="org-ol">
+<li><a id="orgea27c76"></a>signal and the noise<br /></li>
+<li><a id="org216cf61"></a>use cases<br /></li>
+<li><a id="orga2d0030"></a>data culture / world<br /></li>
+</ol>
+</li>
+<li><a id="orgacc8c7f"></a>methods / milstones<br />
+<ol class="org-ol">
+<li><a id="org5528dd6"></a>doubt is good<br /></li>
+<li><a id="org25be01c"></a><span class="todo TODO">TODO</span> testing is good<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org86cee41" class="outline-3">
+<h3 id="org86cee41"><span class="section-number-3">3.3</span> Crossovers</h3>
+<div class="outline-text-3" id="text-3-3">
+</div>
+<div id="outline-container-orgca55946" class="outline-4">
+<h4 id="orgca55946"><span class="section-number-4">3.3.1</span> test features / ideas</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+to gain confidence / go in the right direction
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgf5e9e37"></a>UI / UX<br />
+<ol class="org-ol">
+<li><a id="org5751bf6"></a>possible on small amounts of data<br /></li>
+<li><a id="org378ec2a"></a>test on real users (friends, colleages)<br /></li>
+</ol>
+</li>
+<li><a id="org869a48f"></a>broader analysis<br />
+<ol class="org-ol">
+<li><a id="org4978c35"></a>only possible on larger amount<br /></li>
+</ol>
+</li>
+<li><a id="org3e201d6"></a>application to other fields ?<br /></li>
+<li><a id="org520aa0f"></a>sponsoring ?<br /></li>
+</ol>
+</div>
+<div id="outline-container-orgce07f38" class="outline-4">
+<h4 id="orgce07f38"><span class="section-number-4">3.3.2</span> build prototype project to show</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-org357babc" class="outline-2">
+<h2 id="org357babc"><span class="section-number-2">4</span> Plan</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org9e11ba2" class="outline-3">
+<h3 id="org9e11ba2"><span class="section-number-3">4.1</span> Blogging</h3>
+<div class="outline-text-3" id="text-4-1">
+</div>
+<div id="outline-container-orgc67a82a" class="outline-4">
+<h4 id="orgc67a82a"><span class="section-number-4">4.1.1</span> Org babel</h4>
+</div>
+<div id="outline-container-orgd3c4019" class="outline-4">
+<h4 id="orgd3c4019"><span class="section-number-4">4.1.2</span> Website</h4>
+</div>
+</div>
+<div id="outline-container-orgf100c1b" class="outline-3">
+<h3 id="orgf100c1b"><span class="section-number-3">4.2</span> Courses</h3>
+<div class="outline-text-3" id="text-4-2">
+</div>
+<div id="outline-container-orga0e666f" class="outline-4">
+<h4 id="orga0e666f"><span class="section-number-4">4.2.1</span> Databases</h4>
+</div>
+<div id="outline-container-org8e73378" class="outline-4">
+<h4 id="org8e73378"><span class="section-number-4">4.2.2</span> Visualization</h4>
+</div>
+<div id="outline-container-org4cb941b" class="outline-4">
+<h4 id="org4cb941b"><span class="section-number-4">4.2.3</span> Machine learning</h4>
+</div>
+<div id="outline-container-orgaba230c" class="outline-4">
+<h4 id="orgaba230c"><span class="section-number-4">4.2.4</span> NLP</h4>
+</div>
+<div id="outline-container-org7725fca" class="outline-4">
+<h4 id="org7725fca"><span class="section-number-4">4.2.5</span> Hash tables / numpy computation</h4>
+</div>
+<div id="outline-container-org4b73c5b" class="outline-4">
+<h4 id="org4b73c5b"><span class="section-number-4">4.2.6</span> Proba / stats</h4>
+</div>
+</div>
+<div id="outline-container-orgae147a2" class="outline-3">
+<h3 id="orgae147a2"><span class="section-number-3">4.3</span> Jobs seeker</h3>
+</div>
+<div id="outline-container-org94c4add" class="outline-3">
+<h3 id="org94c4add"><span class="section-number-3">4.4</span> Implementation</h3>
+<div class="outline-text-3" id="text-4-4">
+</div>
+<div id="outline-container-org8b84184" class="outline-4">
+<h4 id="org8b84184"><span class="section-number-4">4.4.1</span> Start a clean project</h4>
+<div class="outline-text-4" id="text-4-4-1">
+</div>
+<ol class="org-ol">
+<li><a id="org52a4034"></a><span class="todo TODO">TODO</span> git<br />
+<ol class="org-ol">
+<li><a id="org0e9d8bf"></a>a branch per functionality<br /></li>
+</ol>
+</li>
+<li><a id="org349921f"></a><span class="todo TODO">TODO</span> projectile<br /></li>
+<li><a id="org307f6bf"></a>file system<br />
+<ol class="org-ol">
+<li><a id="orgd4bb46d"></a>/<br />
+<ol class="org-ol">
+<li><a id="orgdfdb507"></a>org<br /></li>
+<li><a id="org2a93cab"></a>scraper<br /></li>
+<li><a id="orgb75ab5b"></a>database<br /></li>
+<li><a id="org33bfce8"></a>explorer<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><a id="orgd6154bc"></a>database<br />
+<ol class="org-ol">
+<li><a id="org80405c1"></a>sql ?<br /></li>
+<li><a id="org720a707"></a>csv ?<br /></li>
+</ol>
+</li>
+<li><a id="orgf9b3110"></a>org babel file / emacs env<br />
+<ol class="org-ol">
+<li><a id="org295d60f"></a>snippets<br />
+<div class="outline-text-6" id="text-4-4-1-5-1">
+<p>
+C-c &amp; &#x2026;
+Tables
+C-c C-t is snippet mode for test
+</p>
+</div>
+</li>
+<li><a id="org6ad9b13"></a><span class="todo TODO">TODO</span> track time<br />
+<div class="outline-text-6" id="text-4-4-1-5-2">
+</div>
+</li>
+<li><a id="orgfed6431"></a>track habits<br />
+<div class="outline-text-6" id="text-4-4-1-5-3">
+</div>
+</li>
+<li><a id="orge94e437"></a>decide what goes public and what does not at expension<br /></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: teddd</p>
+<p class="date">Created: 2018-10-05 ven. 17:39</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

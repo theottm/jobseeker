@@ -1,0 +1,164 @@
+% Created 2018-10-05 ven. 17:39
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{teddd}
+\date{\today}
+\title{}
+\hypersetup{
+ pdfauthor={teddd},
+ pdftitle={},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 26.1 (Org mode 9.1.9)}, 
+ pdflang={English}}
+\begin{document}
+
+\tableofcontents
+
+\section{Prototype 1}
+\label{sec:org25a23be}
+For this first version of the program that should be ready for use in a portfolio, objectives are to select jobs depending on word apparitions, browse offers, and have some basic stats of word usage.
+\subsection{Tool to look for jobs}
+\label{sec:orgee9390d}
+\subsubsection{static backend}
+\label{sec:orgee12e0a}
+\begin{enumerate}
+\item scrapping
+\label{sec:org093fe64}
+\begin{enumerate}
+\item {\bfseries\sffamily DONE} check result of today 2018-09-14 ven. 20:20
+\label{sec:org66f38f2}
+\item {\bfseries\sffamily TODO} launch everyday from query list
+\label{sec:org6425cf9}
+\begin{enumerate}
+\item {\bfseries\sffamily DONE} make query list out of already made queries
+\label{sec:orgfd468cf}
+\item cron
+\label{sec:orgf0a24c2}
+\end{enumerate}
+\item add source query to features
+\label{sec:org0e58d35}
+\item spped up
+\label{sec:orgc434ffe}
+\begin{enumerate}
+\item remove self set limits ?
+\label{sec:org70da6fe}
+\item server bans ?
+\label{sec:orga694587}
+\item vpn ?
+\label{sec:org432e219}
+\item tor ?
+\label{sec:orge312263}
+\end{enumerate}
+\item test : make scrap of the whole website
+\label{sec:org803d69e}
+\end{enumerate}
+\item data selection
+\label{sec:orga6fbe1d}
+\begin{enumerate}
+\item org : form interface
+\label{sec:org9458269}
+\item {\bfseries\sffamily DONE} add tags to actual dataset / save working dataset
+\label{sec:orgf9727c8}
+\end{enumerate}
+\item filtering
+\label{sec:org81562b5}
+\begin{enumerate}
+\item {\bfseries\sffamily DONE} resolve ipython output
+\label{sec:org09ccf7d}
+\end{enumerate}
+\item internal correlations
+\label{sec:org889d5eb}
+\begin{enumerate}
+\item nlp
+\label{sec:org9a4287b}
+\begin{enumerate}
+\item nltk
+\label{sec:orge2cd82d}
+\item similarity / clustering
+\label{sec:org14f9f39}
+\item speed !
+\label{sec:org60fff77}
+\begin{enumerate}
+\item numpy
+\label{sec:org547e501}
+\item sql
+\label{sec:orgced6461}
+\item cython
+\label{sec:org6c77ffa}
+\end{enumerate}
+\end{enumerate}
+\item historic
+\label{sec:orga7bbd07}
+\begin{enumerate}
+\item redondancy / new
+\label{sec:org9007280}
+\item database sorted per date
+\label{sec:org0233f70}
+\end{enumerate}
+\end{enumerate}
+\item external correlations
+\label{sec:org90fb522}
+\begin{enumerate}
+\item identify big firms / small ventures
+\label{sec:orgc950745}
+\item geolocalize headquarters on a map
+\label{sec:org875997f}
+\end{enumerate}
+\item querying system
+\label{sec:orgfd16ee8}
+\end{enumerate}
+\subsubsection{front end}
+\label{sec:orgd3261f3}
+\begin{enumerate}
+\item {\bfseries\sffamily TODO} queries management
+\label{sec:org4c8b4e9}
+\begin{enumerate}
+\item {\bfseries\sffamily DONE} query bag
+\label{sec:org8e26722}
+\begin{enumerate}
+\item simple plain text file
+\label{sec:org62f8685}
+\item prompt : "add to query bag ?" when running a crawl
+\label{sec:org4391664}
+\item autofill : get all previously used queries
+\label{sec:org89bbf7d}
+\end{enumerate}
+\end{enumerate}
+\item fiche job
+\label{sec:org069b2ae}
+\item analysis viz
+\label{sec:org599592e}
+\end{enumerate}
+\subsection{potfolio}
+\label{sec:orgf854df9}
+\subsubsection{blog : Gandi / git}
+\label{sec:org1d2683c}
+\begin{enumerate}
+\item article présentation
+\label{sec:org358c771}
+\item extensions futur
+\label{sec:org045bbc2}
+\end{enumerate}
+\subsubsection{Portability}
+\label{sec:orged790cc}
+\begin{enumerate}
+\item docker / makefile package
+\label{sec:orgc1ea952}
+\item Test with a friend
+\label{sec:org2d74594}
+\end{enumerate}
+\end{document}

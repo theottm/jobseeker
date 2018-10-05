@@ -1,4 +1,4 @@
-% Created 2018-10-02 mar. 16:07
+% Created 2018-10-05 ven. 17:39
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -28,165 +28,31 @@
 
 \tableofcontents
 
-\section{Project description}
-\label{sec:org5d73a31}
-\subsection{General Description}
-\label{sec:orgd7025d0}
-Goal : Find jobs
-\subsubsection{Use}
-\label{sec:org4a57949}
-\begin{enumerate}
-\item target opportunities
-\label{sec:org0733151}
-\begin{enumerate}
-\item sheets of wanted words
-\label{sec:org05a9acb}
-\item query matching algorithms
-\label{sec:org996a336}
-\end{enumerate}
-\item data exploration
-\label{sec:orgdba73f5}
-\item cluster
-\label{sec:org800a7fb}
-\begin{enumerate}
-\item nlp
-\label{sec:org860c87d}
-\end{enumerate}
-\item find jobs I didn't know about
-\label{sec:org8700713}
-\item get warned if new opportunities
-\label{sec:org8a1ac34}
-\item use it as a model for finding my perfect match in the world / exploring the economy
-\label{sec:orgc7650f6}
-\item make it open source and useable by anyone
-\label{sec:org4ccd3a0}
-\end{enumerate}
-\subsubsection{Features}
-\label{sec:org4c643df}
-\begin{enumerate}
-\item Update
-\label{sec:orgd324c12}
-\item Clustering
-\label{sec:orge495072}
-\item Visualization
-\label{sec:org0ae0224}
-\end{enumerate}
-\subsection{Plan}
-\label{sec:org61cd138}
-\subsubsection{Ebay jobs quick scrap}
-\label{sec:orgb52a3e2}
-\begin{enumerate}
-\item Think about it while normal digging
-\label{sec:org943e3e7}
-\item Build a simple tool to access the info offline and stay up to date
-\label{sec:org183919c}
-\item List the wanted features and their learning prerequisites
-\label{sec:orgf12c628}
-\end{enumerate}
-\subsubsection{Blogging}
-\label{sec:org01462ee}
-\begin{enumerate}
-\item Org babel
-\label{sec:orgc088fe8}
-\item Website
-\label{sec:org3fdd88e}
-\end{enumerate}
-\subsubsection{Courses}
-\label{sec:orge6f4216}
-\begin{enumerate}
-\item Databases
-\label{sec:orgc7797f3}
-\item Visualization
-\label{sec:org3a80613}
-\item Machine learning
-\label{sec:org79df7f9}
-\item NLP
-\label{sec:org93bbaa9}
-\item Hash tables / numpy computation
-\label{sec:org870dae6}
-\item Proba / stats
-\label{sec:orgeb743f5}
-\end{enumerate}
-\subsubsection{Jobs seeker}
-\label{sec:orgefbdabc}
-\subsection{Implementation}
-\label{sec:orgadb3841}
-\subsubsection{Start a clean project}
-\label{sec:orgdd4c535}
-\begin{enumerate}
-\item {\bfseries\sffamily TODO} git
-\label{sec:orgc0f0156}
-\begin{enumerate}
-\item a branch per functionality
-\label{sec:orgc7f3440}
-\end{enumerate}
-\item {\bfseries\sffamily TODO} projectile
-\label{sec:orge84c594}
-\item file system
-\label{sec:org11fe25d}
-\begin{enumerate}
-\item /
-\label{sec:orgbb2ce02}
-\begin{enumerate}
-\item org
-\label{sec:org6b0e0bc}
-\item scraper
-\label{sec:orgfe16469}
-\item database
-\label{sec:orgb9dfdcd}
-\item explorer
-\label{sec:org48a93ac}
-\end{enumerate}
-\end{enumerate}
-\item database
-\label{sec:org35dc1bd}
-\begin{enumerate}
-\item sql ?
-\label{sec:orga3fdb89}
-\item csv ?
-\label{sec:orgeaccb63}
-\end{enumerate}
-\item org babel file / emacs env
-\label{sec:orgad61787}
-\begin{enumerate}
-\item snippets
-\label{sec:orga7a6f57}
-C-c \& \ldots{}
-Tables
-C-c C-t is snippet mode for test
-\item {\bfseries\sffamily TODO} track time
-\label{sec:org5f4007e}
-\item track habits
-\label{sec:org941eaae}
-\item decide what goes public and what does not at expension
-\label{sec:org497a888}
-\end{enumerate}
-\end{enumerate}
 \section{Explorer}
-\label{sec:org961d6b8}
+\label{sec:org60d7d67}
 Proper program.
 \subsection{Imports}
-\label{sec:orgc9a0115}
+\label{sec:org68087d8}
 \subsubsection{ipython}
-\label{sec:orgfca6a0f}
+\label{sec:orgb3733d1}
 \begin{verbatim}
 %matplotlib inline
 import matplotlib.pyplot as plt
 import numpy as np
 \end{verbatim}
 \subsubsection{pandas}
-\label{sec:orgf8d91d1}
+\label{sec:orgf814322}
 \begin{verbatim}
 import pandas as pd    
 \end{verbatim}
 
 \subsection{Data load}
-\label{sec:org18efb36}
+\label{sec:org42a236d}
 \subsubsection{load everything}
-\label{sec:orgacbe5d9}
+\label{sec:org2d6df79}
 \begin{enumerate}
 \item file list with path
-\label{sec:org2f745f4}
+\label{sec:org4930762}
 \begin{verbatim}
 import os
 csv_files = []
@@ -198,7 +64,7 @@ for dirpath, dirs, files in os.walk("../data/raw/" + date):
       csv_files.append(fname)
 \end{verbatim}
 \item dataframe creation
-\label{sec:orgf6914d4}
+\label{sec:orgd3123c3}
 \begin{verbatim}
 jobs = pd.DataFrame()
 
@@ -218,17 +84,17 @@ for fl in csv_files:
 \end{verbatim}
 
 \item {\bfseries\sffamily TODO} time range selection
-\label{sec:org6dec77c}
+\label{sec:orga67fd7a}
 \end{enumerate}
 \subsubsection{rename}
-\label{sec:orgcb33b0b}
+\label{sec:orgdeb5e15}
 use to quickly reset original df
 \begin{verbatim}
 df = jobs
 \end{verbatim}
 
 \subsubsection{python example\hfill{}\textsc{test}}
-\label{sec:org304b20a}
+\label{sec:org0c431f9}
 \begin{verbatim}
 x = 12
 return x
@@ -239,9 +105,9 @@ return int(x)+1
 \end{verbatim}
 
 \subsubsection{org doc elisp example\hfill{}\textsc{test}}
-\label{sec:orgcacffd1}
+\label{sec:org7e6ef07}
 \begin{center}
-\label{tab:org40e6bf5}
+\label{tab:orgab82199}
 \begin{tabular}{r}
 1\\
 2\\
@@ -251,7 +117,7 @@ return int(x)+1
 \end{center}
 
 \subsubsection{python\hfill{}\textsc{python}}
-\label{sec:org6803f30}
+\label{sec:org73176e5}
 \begin{verbatim}
 "~/data/projects/jobseeker/data/raw/18-09-07/dsp.csv"
 \end{verbatim}
@@ -272,122 +138,122 @@ return int(x)+1
 "~/data/projects/jobseeker/data/raw/18-09-07/software engineer.csv"
 \end{verbatim}
 \subsection{Cleansing / Formating\hfill{}\textsc{clean}}
-\label{sec:orgeb13c62}
+\label{sec:org622b296}
 \subsubsection{duplicates}
-\label{sec:org2315923}
+\label{sec:org6b51386}
 \begin{enumerate}
 \item drop\(_{\text{duplicates}}\)
-\label{sec:org0389113}
+\label{sec:orge8b194f}
 \begin{verbatim}
 df.drop_duplicates(subset="desc", inplace=True)
 \end{verbatim}
 
 \item count
-\label{sec:org4311707}
+\label{sec:orgf5405ab}
 \begin{verbatim}
 df.title.count()
 \end{verbatim}
 \end{enumerate}
 
 \subsubsection{olders}
-\label{sec:org0244041}
+\label{sec:orgef73d9b}
 \begin{enumerate}
 \item map lambda\hfill{}\textsc{test}
-\label{sec:orgc5bbda3}
+\label{sec:org3d79cd2}
 \begin{verbatim}
 df = df[df.days_ago.str.contains("30+").map(lambda x: not x)]
 \end{verbatim}
 
 \item ==False
-\label{sec:org71e1541}
+\label{sec:orgea15944}
 \begin{verbatim}
 df = df[df.days_ago.str.contains("30+")==False]
 \end{verbatim}
 
 \item count
-\label{sec:orgabbef3c}
+\label{sec:org4bdcd5f}
 \begin{verbatim}
 len(df)
 \end{verbatim}
 \end{enumerate}
 
 \subsubsection{string numbers to integers}
-\label{sec:org5f7f1db}
+\label{sec:orgda15a88}
 \begin{verbatim}
 df["days_ago"] = df.days_ago.apply(lambda x: int(x))
 \end{verbatim}
 \subsubsection{drop erratic values}
-\label{sec:orgef75dd9}
+\label{sec:orgb817458}
 \begin{enumerate}
 \item run
-\label{sec:org8215081}
+\label{sec:org055cea9}
 \begin{verbatim}
 df = df[df.days_ago.lt(30)]
 \end{verbatim}
 \item tests
-\label{sec:orgc692cd1}
+\label{sec:org1a8085d}
 \begin{verbatim}
 df.days_ago.lt(30)
 \end{verbatim}
 \end{enumerate}
 \subsubsection{rename}
-\label{sec:org748c7b6}
+\label{sec:org85be0fa}
 \begin{verbatim}
 df_clean = df
 \end{verbatim}
 
 \subsection{Filtering}
-\label{sec:org72742f0}
+\label{sec:orgfcffccc}
 \subsubsection{Look for 1 keywords}
-\label{sec:orge3e85e9}
+\label{sec:org3821769}
 \begin{enumerate}
 \item keyword definiton
-\label{sec:org4a257f4}
+\label{sec:orgc53f295}
 \begin{enumerate}
 \item org variable
-\label{sec:orge0d20f4}
+\label{sec:orgbdd6316}
 \begin{verbatim}
 "kunst und medien"
 \end{verbatim}
 \end{enumerate}
 
 \item look in title
-\label{sec:org3064c22}
+\label{sec:orgc8497ef}
 \begin{enumerate}
 \item boolean serie construction\hfill{}\textsc{test}
-\label{sec:org9c2d789}
+\label{sec:orgab64383}
 \begin{verbatim}
 df.title.str.contains(k, case=False)
 \end{verbatim}
 
 \item reduction of our dataset
-\label{sec:org3df851a}
+\label{sec:orgafbeaf0}
 \begin{verbatim}
 df = df[df.title.str.contains(k, case=False, na=False)]
 \end{verbatim}
 \end{enumerate}
 
 \item look in description
-\label{sec:org1f097d8}
+\label{sec:org9371280}
 \begin{verbatim}
 df = df[df.desc.str.contains(k, case=False, na=False)]
 \end{verbatim}
 
 \item {\bfseries\sffamily TODO} test
-\label{sec:orgced4613}
+\label{sec:org5c4155e}
 goto Johnny Kitchin
 \begin{verbatim}
 k
 \end{verbatim}
 \end{enumerate}
 \subsubsection{Queries}
-\label{sec:orgdd08e1e}
+\label{sec:org786efe9}
 \begin{enumerate}
 \item get queries metadata
-\label{sec:orgdb4db68}
+\label{sec:orgc5f46d8}
 \begin{enumerate}
 \item dataframe using os results
-\label{sec:org878c805}
+\label{sec:orgd72c48a}
 \begin{verbatim}
 import os
 queries_name = []
@@ -413,17 +279,17 @@ for dirpath, dirs, files in os.walk("../data/raw"):
 queries = pd.DataFrame({"name" : queries_name, "path" : queries_path, "size" : queries_size, "time" : queries_time})      
 \end{verbatim}
 \item remove oldests results
-\label{sec:org39c32e2}
+\label{sec:orgcf1382c}
 \begin{enumerate}
 \item datetime time format
-\label{sec:org9b8ba40}
+\label{sec:org3f01de2}
 \begin{verbatim}
 from datetime import datetime
 queries["time"] = queries.time.apply(datetime.fromtimestamp)
 \end{verbatim}
 
 \item y-m-d format time
-\label{sec:org9a76254}
+\label{sec:orge9b0b21}
 \begin{verbatim}
 def format_time(x):
     y = x.strftime("%Y-%m-%d")
@@ -433,16 +299,16 @@ queries["time_formated"] = queries.time.apply(format_time)
 \end{verbatim}
 \end{enumerate}
 \item remove null size results
-\label{sec:org2a096bd}
+\label{sec:orge33b0ab}
 \begin{verbatim}
 queries_null = queries[queries["size"] < 1]
 queries = queries[queries["size"] > 1]
 \end{verbatim}
 \item number of entries in csv file
-\label{sec:orge458d42}
+\label{sec:orgb1c7557}
 \begin{enumerate}
 \item read as pandas dataframe
-\label{sec:org21e8f7e}
+\label{sec:org6f531de}
 \begin{verbatim}
 def entries_count(csv):
     return len(pd.read_csv(csv))
@@ -452,7 +318,7 @@ queries["entries"] = queries.path.apply(entries_count)
 \end{enumerate}
 
 \item inspection
-\label{sec:org1431e0e}
+\label{sec:orgb47c0a0}
 \begin{verbatim}
 import humanize
 queries["size_for_humans"] = queries["size"].apply(humanize.naturalsize)
@@ -460,17 +326,17 @@ queries.sort_values("size", ascending=False)[["name", "size_for_humans", "entrie
 \end{verbatim}
 
 \item time evolution
-\label{sec:org1e0a461}
+\label{sec:orgd6d7736}
 \item return list for next scraper launch
-\label{sec:org497a434}
+\label{sec:org1a7dc62}
 \begin{enumerate}
 \item remove null size results before (or not)
-\label{sec:org646da0e}
+\label{sec:org2702d8a}
 \begin{verbatim}
 queries_list = list(set(queries.name))
 \end{verbatim}
 \item save in a file for editing
-\label{sec:orgc55e8dd}
+\label{sec:orge343e36}
 \begin{verbatim}
 with open("/queries/queries.txt", "w") as f:
     for query in queries_list:
@@ -479,10 +345,10 @@ with open("/queries/queries.txt", "w") as f:
 \end{enumerate}
 \end{enumerate}
 \item launch scraper with the list
-\label{sec:org7165614}
+\label{sec:org72f4e7f}
 \begin{enumerate}
 \item get list from file
-\label{sec:orgf1ae3d9}
+\label{sec:org3de758e}
 \begin{verbatim}
 with open("queries/best.txt", "r") as f:
     queries_selected = f.read()
@@ -490,10 +356,10 @@ with open("queries/best.txt", "r") as f:
 \end{verbatim}
 
 \item run shell script as subprocess
-\label{sec:orgb4bfbb2}
+\label{sec:org48e3984}
 \begin{enumerate}
 \item variables and imports
-\label{sec:orgb356488}
+\label{sec:org928346d}
 \begin{verbatim}
 import subprocess
 from subprocess import Popen, PIPE
@@ -506,10 +372,10 @@ command = bash_script + arguments
 \end{verbatim}
 
 \item execution
-\label{sec:org2a16f03}
+\label{sec:orge18a6a6}
 \begin{enumerate}
 \item stdout to buffer
-\label{sec:org203a985}
+\label{sec:org2ce2d87}
 \begin{verbatim}
 session = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
 stdout, stderr = session.communicate()
@@ -521,7 +387,7 @@ stdout
 \end{verbatim}
 
 \item stdout to file
-\label{sec:org34fcdd3}
+\label{sec:org66f6069}
 \begin{verbatim}
 from datetime import datetime
 date = str(datetime.now())
@@ -533,16 +399,16 @@ with open("../data/external/crawl-log-" + date + ".txt",'w') as temp_file:
 \end{enumerate}
 \end{enumerate}
 \subsubsection{Look for multiple keywords}
-\label{sec:org593843e}
+\label{sec:orgaa2ed6e}
 \begin{enumerate}
 \item tool: keywords list
-\label{sec:orge76e20e}
+\label{sec:org683d9e5}
 use results from Queries
 \item reduce dataframe
-\label{sec:org4bdc84d}
+\label{sec:org29a27ae}
 \begin{enumerate}
 \item boolean serie
-\label{sec:org5cebe69}
+\label{sec:orga60c44d}
 \begin{verbatim}
 df_bool = pd.DataFrame()
 for query in queries_selected:
@@ -550,7 +416,7 @@ for query in queries_selected:
 \end{verbatim}
 
 \item binary serie
-\label{sec:org1f7f9fb}
+\label{sec:org1b67522}
 \begin{verbatim}
 def bool_to_bin(x):
     if x is True:
@@ -565,17 +431,17 @@ for query in queries_selected:
 \end{verbatim}
 
 \item score attribution
-\label{sec:orgd11d3a6}
+\label{sec:org454e4c6}
 
 \begin{enumerate}
 \item overview
-\label{sec:org91f5757}
+\label{sec:org9571990}
 \begin{verbatim}
 pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("score", ascending=False)
 \end{verbatim}
 
 \item reduce dataframe for visual exploration
-\label{sec:org8401a16}
+\label{sec:orgedde591}
 \begin{verbatim}
 df_print = df
 df_print["score"] = df_bin.sum(axis=1)
@@ -585,73 +451,73 @@ df_print = df_print.sort_values("score", ascending=False)
 \end{enumerate}
 
 \item guide: used words
-\label{sec:org34dc34d}
+\label{sec:org2f64c5c}
 \begin{enumerate}
 \item amongst keywords
-\label{sec:org64a2567}
+\label{sec:org0068f76}
 \begin{verbatim}
 df_bin.sum().sort_values(ascending=False)
 \end{verbatim}
 \end{enumerate}
 
 \item which contains most of the querie keywords ?
-\label{sec:org4a2b941}
+\label{sec:org6a8109b}
 \item add weight to keywords ?
-\label{sec:org865ec73}
+\label{sec:orga82bb86}
 \item keywords distance map
-\label{sec:orgbddaa07}
+\label{sec:org74e0c6c}
 with all keywords, you are at the center
 \end{enumerate}
 \subsubsection{companies}
-\label{sec:org67abcfe}
+\label{sec:org7878e59}
 \begin{verbatim}
 df = df[df.company.str.contains("berlin", case=False, na=False)]
 \end{verbatim}
 \subsection{Stats}
-\label{sec:org2c2c7f7}
+\label{sec:orgbd19f4c}
 \subsubsection{overview}
-\label{sec:org0770043}
+\label{sec:org4700964}
 \begin{enumerate}
 \item head
-\label{sec:org18ae5c0}
+\label{sec:org2c5e1a9}
 \begin{verbatim}
 df.head()
 \end{verbatim}
 
 \item count
-\label{sec:org3991554}
+\label{sec:orgafb7bdd}
 \begin{verbatim}
 len(df)
 \end{verbatim}
 \end{enumerate}
 
 \subsubsection{days ago}
-\label{sec:org6df52dd}
+\label{sec:org951a2cb}
 \begin{enumerate}
 \item histogram
-\label{sec:org627f21e}
+\label{sec:orgbfe398c}
 \begin{enumerate}
 \item pd plot
-\label{sec:orgf772232}
+\label{sec:orgea18809}
 \begin{verbatim}
 df.days_ago.plot.hist()
 \end{verbatim}
 \end{enumerate}
 \item value count
-\label{sec:orgf9b361b}
+\label{sec:org0aace72}
 \begin{verbatim}
 df.days_ago.value_counts()
 \end{verbatim}
 \item groupby
-\label{sec:org8ce1252}
+\label{sec:org54017ed}
 \begin{enumerate}
 \item basic output
-\label{sec:org03aaabb}
+\label{sec:org2d28748}
 \begin{verbatim}
 df.groupby(["days_ago"]).groups
 \end{verbatim}
 \item loop print
-\label{sec:org9ae8962}
+\label{sec:org6e66ad8}
 \begin{verbatim}
 grouped = df.groupby("days_ago")
 
@@ -659,137 +525,39 @@ for name,group in grouped:
     print(name)
     print(group)
 \end{verbatim}
-\item documentation\hfill{}\textsc{doc}
-\label{sec:org416afbb}
-\begin{enumerate}
-\item pandas doc
-\label{sec:org9c3445c}
-\begin{verbatim}
-help(df.groupby(["days_ago"]))
-\end{verbatim}
-\item tutorial
-\label{sec:orgd9a4f16}
-\url{https://www.tutorialspoint.com/python\_pandas/python\_pandas\_groupby.htm}
 \end{enumerate}
-\item use
-\label{sec:org6cc200b}
-\begin{verbatim}
-grouped = df.groupby(["days_ago"])
-grouped.title.count().sort_values(ascending=False)
-\end{verbatim}
-\end{enumerate}
-\end{enumerate}
-\subsubsection{companies}
-\label{sec:orgbe85ddd}
-\begin{enumerate}
-\item groupby
-\label{sec:org1908700}
-\begin{enumerate}
-\item define group
-\label{sec:org2ef7af7}
-\begin{verbatim}
-comp_group = df.groupby(["company"])
-\end{verbatim}
-
-\item print groups
-\label{sec:org9c28d8b}
-\begin{verbatim}
-comp_group.groups
-\end{verbatim}
-\item count groups
-\label{sec:org6930f1d}
-\begin{verbatim}
-len(comp_group.groups)
-\end{verbatim}
-\item number of job per company
-\label{sec:org691ee97}
-\begin{enumerate}
-\item hack
-\label{sec:org04f9b52}
-\begin{enumerate}
-\item loop
-\label{sec:org7eaaf0a}
-\begin{verbatim}
-for company in comp_group.groups.keys():
-	    lenght = len(comp_group.groups[company])
-	    if lenght > 1:
-			print(company, lenght)
-\end{verbatim}
-
-\item single
-\label{sec:orgf061eda}
-\begin{verbatim}
-key = list(comp_group.groups.keys())[0]
-list(comp_group.groups[key])
-\end{verbatim}
-
-\item test
-\label{sec:orgc584759}
-\begin{verbatim}
-len(comp_group.groups["Fraunhofer-Institut für Nachrichtentechnik, Heinrich-Hertz-Institut"])
-\end{verbatim}
-\end{enumerate}
-\item pandas
-\label{sec:orgcf29eac}
-\begin{verbatim}
-count = comp_group.title.count()
-count.sort_values(ascending=False)
-\end{verbatim}
-\end{enumerate}
-\end{enumerate}
-
-\item value count
-\label{sec:org0287973}
-\begin{verbatim}
-df.company.value_counts()
-\end{verbatim}
-\end{enumerate}
-
-\subsection{Words}
-\label{sec:orge3c7301}
-\subsubsection{most used word}
-\label{sec:orgdc9d578}
-\begin{enumerate}
-\item category to look in
-\label{sec:org4401ae7}
-\begin{verbatim}
-"desc"
-\end{verbatim}
-
-\item 
-\label{sec:org3bc245e}
 \end{enumerate}
 \subsection{Printing}
-\label{sec:org52be9dc}
+\label{sec:org583de4c}
 \subsubsection{quick overview}
-\label{sec:org4fc5910}
+\label{sec:org6941a7a}
 \begin{enumerate}
 \item head
-\label{sec:orgc764aa3}
+\label{sec:org3ff91e6}
 \begin{verbatim}
 df.head()
 \end{verbatim}
 
 \item count
-\label{sec:org052cbd5}
+\label{sec:orgade2ad0}
 \begin{verbatim}
 df.title.count()
 \end{verbatim}
 \item titles
-\label{sec:orgcec092b}
+\label{sec:org846be09}
 \begin{verbatim}
 df.title
 \end{verbatim}
 \end{enumerate}
 
 \subsubsection{html pages}
-\label{sec:org317e9cb}
+\label{sec:org46ffa8f}
 \begin{enumerate}
 \item hacked around solution\hfill{}\textsc{test}
-\label{sec:org931eb2b}
+\label{sec:org2b8d5c6}
 \begin{enumerate}
 \item function to save results to html
-\label{sec:orgca488ef}
+\label{sec:orge7554f5}
 \begin{verbatim}
 from datetime import datetime
 from os import mkdir
@@ -820,32 +588,32 @@ def htmlexport(df, begin, end):
 \end{verbatim}
 
 \item call function
-\label{sec:org544b486}
+\label{sec:orgbfc9442}
 \begin{verbatim}
 htmlexport(dfk, 0, dfk.title.count())
 \end{verbatim}
 \item PB : imossible to add links because of some encoding pb
-\label{sec:org267f263}
+\label{sec:org578f566}
 \end{enumerate}
 \item use xml.dom\hfill{}\textsc{test}
-\label{sec:orga5b9486}
+\label{sec:org87b5fa2}
 \begin{enumerate}
 \item use
-\label{sec:org90e8503}
+\label{sec:orge49e067}
 \begin{verbatim}
 from xml.dom import minidom
 minidom.parseString(dfk.desc.iloc[10])
 \end{verbatim}
 
 \item PB : some descs are separated by comas
-\label{sec:org1cc5ebc}
+\label{sec:org92c00e8}
 \begin{enumerate}
 \item change spider
-\label{sec:orgb170fd3}
+\label{sec:orgb898115}
 \item use regexp to parse again
-\label{sec:org6fdc097}
+\label{sec:org302eac3}
 \item test with proper html files : maybe it is just not working with html ?
-\label{sec:org3496d50}
+\label{sec:org3326746}
 \begin{verbatim}
 from xml.dom import minidom
 minidom.parseString("~/code/web/plasma-city/application/static/front.html")
@@ -854,10 +622,10 @@ minidom.parseString("~/code/web/plasma-city/application/static/front.html")
 \end{enumerate}
 
 \item use yattag
-\label{sec:orgae80064}
+\label{sec:org0ee0b7c}
 \begin{enumerate}
 \item imports
-\label{sec:orgf5fd75b}
+\label{sec:org9d4d9f7}
 \begin{verbatim}
 from datetime import datetime
 from os import mkdir
@@ -865,10 +633,10 @@ from yattag import Doc
 \end{verbatim}
 
 \item html page generation
-\label{sec:org6135e12}
+\label{sec:org9ce33dd}
 \begin{enumerate}
 \item functions definition
-\label{sec:org26bd76f}
+\label{sec:org1113985}
 \begin{verbatim}
 def linksgen(filename_base, pagenum, url):
     doc, tag, text = Doc().tagtext()
@@ -910,22 +678,22 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
 \end{verbatim}
 
 \item test pagegen\hfill{}\textsc{test}
-\label{sec:org0f00d9b}
+\label{sec:orgfdc460d}
 \begin{verbatim}
 pagegen("nom", 0, "titre", "desc", "firm", "days", "www")
 \end{verbatim}
 
 \item test linksgen\hfill{}\textsc{test}
-\label{sec:org9617706}
+\label{sec:org34e6aae}
 \begin{verbatim}
 linksgen("file", 10, "wwwww")
 \end{verbatim}
 \end{enumerate}
 \item htmlexport function
-\label{sec:org6aa6727}
+\label{sec:orgbba83af}
 \begin{enumerate}
 \item definition
-\label{sec:org40b5f0d}
+\label{sec:org5707527}
 \begin{verbatim}
 def htmlexport(df, begin, end):
     date = str(datetime.now())
@@ -948,28 +716,28 @@ def htmlexport(df, begin, end):
 \end{verbatim}
 
 \item call
-\label{sec:orgdcf7a2c}
+\label{sec:org5e1d97c}
 \begin{verbatim}
 htmlexport(df_print, 0, 40)
 \end{verbatim}
 
 \item link
-\label{sec:org2f6ff40}
+\label{sec:org8b4a05f}
 \url{home/teddd/data/projects/jobseeker/reports/html/}
 \end{enumerate}
 \end{enumerate}
 \end{enumerate}
 \subsubsection{server}
-\label{sec:org9de03f6}
+\label{sec:orge555d4b}
 \begin{enumerate}
 \item flask ? :D !!!
-\label{sec:org178132b}
+\label{sec:org054f815}
 \end{enumerate}
 \subsubsection{org  table (python)\hfill{}\textsc{python}}
-\label{sec:org58e4d72}
+\label{sec:org968c930}
 \begin{enumerate}
 \item john kitchin example\hfill{}\textsc{test}
-\label{sec:orgd508bfb}
+\label{sec:org761b777}
 \begin{verbatim}
 import pandas as pd
 test = pd.DataFrame({'A': [1000, 1000], 'B' : [60, 100]})
@@ -979,7 +747,7 @@ return (test, test2, test3)
 \end{verbatim}
 
 \item my program\hfill{}\textsc{slow}
-\label{sec:org726a17e}
+\label{sec:orge6c64c9}
 \begin{verbatim}
 import pandas as pd
 df = pd.read_csv(data)
@@ -988,19 +756,19 @@ return  [list(df)] + [None] + df.values.tolist()
 \end{enumerate}
 
 \subsubsection{org results: html\hfill{}\textsc{test}}
-\label{sec:orgb19781b}
+\label{sec:org37a9d13}
 \begin{verbatim}
 dfk.desc.iloc[0]
 \end{verbatim}
 
 \subsubsection{soupprint}
-\label{sec:org06808a9}
+\label{sec:orge1f7a82}
 \begin{enumerate}
 \item session functions
-\label{sec:org5b46a82}
+\label{sec:org1206568}
 \begin{enumerate}
 \item souper (using get text)
-\label{sec:orgf425760}
+\label{sec:org5942cc6}
 \begin{verbatim}
 from bs4 import BeautifulSoup
 
@@ -1010,10 +778,10 @@ def souper(html):
     return soup.get_text()
 \end{verbatim}
 \item soupprint
-\label{sec:org649a126}
+\label{sec:org2ffefe5}
 \begin{enumerate}
 \item definition
-\label{sec:org77bdd10}
+\label{sec:org7bfdb6b}
 \begin{verbatim}
 from bs4 import BeautifulSoup
 
@@ -1033,7 +801,7 @@ def soupprint(df, begin, end):
 	print("\n"*3)
 \end{verbatim}
 \item call
-\label{sec:orgd70f969}
+\label{sec:org50f556c}
 \begin{verbatim}
 soupprint(df, 0, 10)
 \end{verbatim}
@@ -1041,10 +809,10 @@ soupprint(df, 0, 10)
 \end{enumerate}
 
 \item soupprint as org function
-\label{sec:org8118ff7}
+\label{sec:org54be24e}
 \begin{enumerate}
 \item definition
-\label{sec:org4958f80}
+\label{sec:org0cc5a6d}
 \begin{verbatim}
 from bs4 import BeautifulSoup
 
@@ -1065,54 +833,54 @@ def soupprint(df, begin, end):
 \end{verbatim}
 
 \item call
-\label{sec:org8a57ec2}
+\label{sec:org04d78bc}
 \begin{verbatim}
 soupprint(dfk, 0, dfk.title.count())
 \end{verbatim}
 \end{enumerate}
 \end{enumerate}
-\section{Documentation}
-\label{sec:org48ee3c9}
+\section{External Documentation}
+\label{sec:org5f715ff}
 \subsection{doc : look for matching patern\hfill{}\textsc{doc}}
-\label{sec:org4628bc7}
+\label{sec:org8f7419f}
 \begin{verbatim}
 help(df.title.str.contains)
 \end{verbatim}
 
 \subsection{pandas}
-\label{sec:org20ab6dc}
+\label{sec:orgddfcd81}
 \href{file:///home/teddd/Cours/Data/cheat-sheets/Pandas\_Cheat\_Sheet.pdf}{Pandas cheat sheet}
 \section{Tests}
-\label{sec:org8848e0e}
+\label{sec:org9e1bc7d}
 \subsection{ob-ipython}
-\label{sec:org4c5a0a0}
+\label{sec:orgd42efab}
 \subsubsection{hands-on tryout}
-\label{sec:orgf099a8f}
+\label{sec:orgf05595b}
 \begin{enumerate}
 \item hello world
-\label{sec:org2a634eb}
+\label{sec:org5ff9fa4}
 \begin{verbatim}
 print 'hello world'
 \end{verbatim}
 \item function definition
-\label{sec:orgbd6308f}
+\label{sec:org3b3c914}
 \begin{verbatim}
 def fn():
     print "I am in the session !"
 \end{verbatim}
 
 \item function call
-\label{sec:org8672a1a}
+\label{sec:orgc553fae}
 \begin{verbatim}
 fn()
 \end{verbatim}
 \end{enumerate}
 
 \subsubsection{doc tutorial}
-\label{sec:org7740034}
+\label{sec:org09f9b82}
 \begin{enumerate}
 \item imports
-\label{sec:orgcf399d4}
+\label{sec:orga43292f}
 \begin{verbatim}
 %matplotlib inline
 import matplotlib.pyplot as plt
@@ -1120,7 +888,7 @@ import numpy as np
 \end{verbatim}
 
 \item ex2
-\label{sec:org32b4f01}
+\label{sec:orgf063e3a}
 \begin{verbatim}
 def foo(x):
     return x + 9
@@ -1129,35 +897,35 @@ def foo(x):
 \end{verbatim}
 
 \item images
-\label{sec:org638ba17}
+\label{sec:org7973da4}
 \begin{enumerate}
 \item ex1
-\label{sec:org989986a}
+\label{sec:org6d487d3}
 \begin{verbatim}
 plt.hist(np.random.randn(20000), bins=200)
 \end{verbatim}
 
 \item ex2
-\label{sec:org3b79fe8}
+\label{sec:org9ebcf5b}
 \begin{verbatim}
 plt.hist(np.random.randn(20000), bins=200)
 \end{verbatim}
 
 \item config
-\label{sec:org6c15e48}
+\label{sec:orgaf18337}
 \begin{verbatim}
 %config InlineBackend.figure_format = 'svg'
 \end{verbatim}
 \end{enumerate}
 
 \item other kernel
-\label{sec:orgdcdb3e0}
+\label{sec:orga816da3}
 \begin{verbatim}
 (+ 1 2)
 \end{verbatim}
 
 \item async
-\label{sec:orge40ab31}
+\label{sec:orgba7a787}
 \begin{verbatim}
 import time
 time.sleep(3)
@@ -1166,23 +934,23 @@ plt.hist(np.random.randn(20000), bins=200)
 \end{enumerate}
 
 \subsubsection{other tryouts}
-\label{sec:orga8c34d4}
+\label{sec:org1142b13}
 \begin{enumerate}
 \item functions
-\label{sec:org28a6d80}
+\label{sec:org3d37983}
 \begin{enumerate}
 \item call
-\label{sec:orgda357e4}
+\label{sec:org84ed862}
 \begin{verbatim}
 lol()
 \end{verbatim}
 \end{enumerate}
 
 \item formater
-\label{sec:orgc80394b}
+\label{sec:org7dcd8e2}
 \begin{enumerate}
 \item init
-\label{sec:org0003edb}
+\label{sec:orgfc49b9d}
 \begin{verbatim}
 import IPython
 from tabulate import tabulate
@@ -1199,73 +967,73 @@ ip = get_ipython()
 ip.display_formatter.formatters['text/org'] = OrgFormatter()
 \end{verbatim}
 \item arrays
-\label{sec:orgd14c4d5}
+\label{sec:org798bba6}
 \end{enumerate}
 
 \item kernel tests
-\label{sec:org51fde7b}
+\label{sec:org8a7dc28}
 \begin{enumerate}
 \item session header arg after run console
-\label{sec:org54d6587}
+\label{sec:orgdad64e8}
 \begin{verbatim}
 print("hello")
 \end{verbatim}
 \item kernel headerarg
-\label{sec:org90ab166}
+\label{sec:orge023430}
 \begin{verbatim}
 print("hello")
 \end{verbatim}
 \end{enumerate}
 \end{enumerate}
 \subsection{nltk}
-\label{sec:org57492c4}
+\label{sec:org7d65765}
 \subsubsection{text selection}
-\label{sec:org67a5e09}
+\label{sec:org47540c3}
 \begin{enumerate}
 \item sample text base
-\label{sec:org590abb9}
+\label{sec:org20e381b}
 \begin{verbatim}
 from nltk.book import *
 \end{verbatim}
 \item access text as string
-\label{sec:orgff3ded8}
+\label{sec:orgecabd35}
 \begin{enumerate}
 \item imports
-\label{sec:orgae1a4ed}
+\label{sec:orga98fb27}
 \begin{verbatim}
 import nltk, re, pprint
 from nltk import word_tokenize
 \end{verbatim}
 \item with one description
-\label{sec:org71ed3f2}
+\label{sec:orgc97554d}
 \begin{enumerate}
 \item definition
-\label{sec:org91ad4c8}
+\label{sec:orgc267e96}
 \begin{verbatim}
 string = df.iloc[0].desc
 \end{verbatim}
 
 \item formating
-\label{sec:orgaba2352}
+\label{sec:org56300d8}
 \begin{enumerate}
 \item html
-\label{sec:orge6ac652}
+\label{sec:org8acab07}
 \begin{verbatim}
 string = souper(string)
 \end{verbatim}
 
 \item case
-\label{sec:org71bf074}
+\label{sec:org8825d46}
 \begin{verbatim}
 string = string.lower()
 \end{verbatim}
 
 \item punctiations
-\label{sec:org0dc4c74}
+\label{sec:org6dc4ba2}
 
 \begin{enumerate}
 \item definition
-\label{sec:org2c8e359}
+\label{sec:org799a504}
 \begin{verbatim}
 def multi_replace(string, *args, replace=" "):
     for target in args:
@@ -1281,7 +1049,7 @@ trash_car = (",", "\'", "\"", "&", "#", "{", "}",
 \end{verbatim}
 
 \item call
-\label{sec:orga58ab04}
+\label{sec:org4ed0c9f}
 \begin{verbatim}
 string = multi_replace(string, *trash_car)
 \end{verbatim}
@@ -1291,16 +1059,16 @@ string = multi_replace(string, *trash_car)
 
 
 \item to ntlk text object
-\label{sec:org50f8e28}
+\label{sec:orgf0eb58e}
 \begin{enumerate}
 \item tokenizing
-\label{sec:org641ee87}
+\label{sec:orgbd0ebcc}
 \begin{verbatim}
 tokens = word_tokenize(string)
 \end{verbatim}
 
 \item use as nltk text
-\label{sec:org083024c}
+\label{sec:org12f2b6e}
 \begin{verbatim}
 text = nltk.Text(tokens)
 \end{verbatim}
@@ -1308,72 +1076,72 @@ text = nltk.Text(tokens)
 \end{enumerate}
 \end{enumerate}
 \subsubsection{search}
-\label{sec:orgb650981}
+\label{sec:org6da83f8}
 \begin{enumerate}
 \item concordance
-\label{sec:org3a0731b}
+\label{sec:orgc2acf44}
 \begin{verbatim}
 text.concordance("data")
 \end{verbatim}
 \item similar word
-\label{sec:orgcb9bbce}
+\label{sec:org351d6ba}
 \begin{verbatim}
 text.similar("analyst")
 \end{verbatim}
 \item dispersion
-\label{sec:org120e34a}
+\label{sec:orgce88d4f}
 \begin{verbatim}
 text.dispersion_plot(["up", "with", "in", "the", "for", "team"])
 \end{verbatim}
 \end{enumerate}
 \subsubsection{generation\hfill{}\textsc{test}}
-\label{sec:org5bab624}
+\label{sec:org0108c10}
 \begin{verbatim}
 text.generate(["The", "job", "is", "for", "data", "team"])
 \end{verbatim}
 
 \subsubsection{normalizing}
-\label{sec:org2a2c376}
+\label{sec:orgbb0b3ab}
 \begin{enumerate}
 \item steaming
-\label{sec:org283f545}
+\label{sec:orgc59f17e}
 \item lemmatization
-\label{sec:org029bcff}
+\label{sec:org188e143}
 \end{enumerate}
 \subsubsection{vocabulary}
-\label{sec:orgdee898a}
+\label{sec:orgaf2d09a}
 \begin{enumerate}
 \item sorted set
-\label{sec:orgb126daa}
+\label{sec:orga50a113}
 \begin{verbatim}
 sorted(set(text))
 \end{verbatim}
 \item lexical richness
-\label{sec:org68ddc83}
+\label{sec:orge2266c6}
 \begin{enumerate}
 \item tryout
-\label{sec:orgddfd8b8}
+\label{sec:org6c83d74}
 \begin{verbatim}
 len(text) / len(set(text))
 \end{verbatim}
 
 \item function
-\label{sec:org63d231c}
+\label{sec:org8f10f8c}
 \begin{verbatim}
 def lexical_diversity(text):
     return len(text) / len(set(text))
 \end{verbatim}
 \end{enumerate}
 \item specific word
-\label{sec:org905ec00}
+\label{sec:orgf69a6d4}
 \begin{enumerate}
 \item tryout
-\label{sec:org750d4ac}
+\label{sec:org0aa45a4}
 \begin{verbatim}
 100 * text.count('for') / len(text)
 \end{verbatim}
 \item functyion
-\label{sec:org003537e}
+\label{sec:org7f585d8}
 \begin{verbatim}
 def word_percentage(word):
     return 100 * text.count(word) / len(text)
@@ -1382,11 +1150,11 @@ def word_percentage(word):
 \end{enumerate}
 
 \subsubsection{{\bfseries\sffamily TODO} Build a corpus !}
-\label{sec:orgd6c1245}
+\label{sec:orgc2e650f}
 
 \begin{enumerate}
 \item sklearn
-\label{sec:orgba20ed4}
+\label{sec:org8dc0f77}
 \begin{verbatim}
 docs = df['desc']
 

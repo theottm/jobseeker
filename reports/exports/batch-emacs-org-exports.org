@@ -1,0 +1,56 @@
+* Programm
+:PROPERTIES:
+:header-args: :session publish :results raw drawer :tangle /home/teddd/data/projects/jobseeker/reports/exports/batch-emacs-org-exports.py
+:END:
+** list files
+#+BEGIN_SRC ipython
+import os
+org_files = []
+for dirpath, dirs, files in os.walk("/home/teddd/data/projects/jobseeker/"): 
+  for filename in files:
+    fname = os.path.join(dirpath,filename)
+    if fname.endswith('.org'):
+      if "#" not in fname:
+        if "reports" not in fname:
+          org_files.append(fname)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[35]:
+:END:
+
+** run bash command
+*** definition 
+#+BEGIN_SRC ipython
+from subprocess import Popen, PIPE
+
+def publish_html(org):
+    bash_script = ['/home/teddd/data/projects/jobseeker/reports/exports/html.sh']
+    command = bash_script + [org]
+    session = Popen(command, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = session.communicate()
+    
+def publish_pdf(org):
+    bash_script = ['/home/teddd/data/projects/jobseeker/reports/exports/pdf.sh']
+    command = bash_script + [org]
+    session = Popen(command, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = session.communicate()
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[84]:
+:END:
+*** loop execution
+#+BEGIN_SRC ipython
+for org in org_files:
+    publish_html(org)
+    publish_pdf(org)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[85]:
+:END:
+

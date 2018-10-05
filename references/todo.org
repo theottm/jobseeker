@@ -1,6 +1,9 @@
+#+SETUPFILE: ../reports/exports/theme-readtheorg.setup
 * work environment
 ** yas
 *** #+name:
+** Project file system
+*** TODO set PATH env
 ** org babel
 *** ob : print tables
 *** ob : imports at the top
@@ -13,7 +16,7 @@
 *** code fonts
 **** scimax 
 *** org database
-** TODO python kernel interaction
+** python kernel interaction
 *** TODO python debugging
 *** TODO ob-ipython / jupyter kernel
 **** add scimax extensions
@@ -121,4 +124,4 @@ http://kitchingroup.cheme.cmu.edu/blog/2017/01/03/Find-stuff-in-org-mode-anywher
 ** SQL database
 ** scrapper
 ** frontend
-* TODO set PATH env
+

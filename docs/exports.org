@@ -1,0 +1,5 @@
+For pdf and html :
+Run in terminal : jobseeker/reports/exports/batch-emacs-org-exports.py
+
+For ipynb :
+Run in emacs : ox-ipynb-export

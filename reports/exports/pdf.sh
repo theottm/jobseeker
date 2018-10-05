@@ -1,4 +1,6 @@
 #! /bin/bash
+file=$1
+
 emacs --batch \
-	  /home/teddd/data/projects/jobseeker/notebooks/jobseeker.org \
+	  $file \
 	  --eval "(org-latex-export-to-pdf)"
