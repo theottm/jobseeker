@@ -1,0 +1,69 @@
+* score
+Do : org list
+
+flask
+french
+business intelligence
+linux
+data
+css
+startup
+numpy
+scipy
+unix
+online marketing
+bsd
+open bsd
+git
+heroku
+e business
+pandas
+github
+data scientist
+data science
+data mining
+data analyst
+data analysis
+business analyst
+growth hacker
+growth hacking
+vue.js
+venture capital
+html
+live coding
+python
+aws
+sql
+scraping
+data visualization
+online marketing
+scraping
+scrapy
+* research queries
+css
+javascript
+java
+python
+software developer
+web developer
+web development
+front end
+back end
+devops
+database
+algorithm
+system administrator
+system architect
+data
+Cloud computing
+business analysis
+business anylist
+quantitative
+research
+anaylist
+marketing
+online
+art
+technology
+real-time
+

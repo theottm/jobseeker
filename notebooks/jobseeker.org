@@ -26,14 +26,38 @@ import pandas as pd
 # Out[2]:
 :END:
 
+** Variables
+*** Uniques
+#+BEGIN_SRC ipython
+LOCATION="Basel"
+COUNTRY="ch"
+PROJECT_ROOT="~/data/projects/jobseeker"
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[35]:
+:END:
+*** Lists
+#+BEGIN_SRC ipython
+LOCATIONS={"Basel" : "ch",
+           "Berlin" : "de",
+           "Karlsruhe" : "de"}
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[39]:
+:END:
+
 ** Data load
 *** load everything
 **** file list with path
 #+BEGIN_SRC ipython
 import os
 csv_files = []
-date = "2018-09-30"
-for dirpath, dirs, files in os.walk("../data/raw/" + date): 
+crawl = "Berlin-2018-10-08"
+for dirpath, dirs, files in os.walk("../data/raw/" + crawl): 
   for filename in files:
     fname = os.path.join(dirpath,filename)
     if fname.endswith('.csv'):
@@ -42,7 +66,7 @@ for dirpath, dirs, files in os.walk("../data/raw/" + date):
 
 #+RESULTS:
 :RESULTS:
-# Out[49]:
+# Out[3]:
 :END:
 **** dataframe creation
 #+BEGIN_SRC ipython
@@ -65,7 +89,7 @@ for dirpath, dirs, files in os.walk("../data/raw/" + date):
 
 #+RESULTS:
 :RESULTS:
-# Out[50]:
+# Out[7]:
 :END:
 
 **** TODO time range selection
@@ -77,7 +101,7 @@ df = jobs
 
 #+RESULTS:
 :RESULTS:
-# Out[51]:
+# Out[38]:
 :END:
 
 *** python example                                                  :test:
@@ -147,7 +171,7 @@ return int(x)+1
 
 #+RESULTS:
 :RESULTS:
-# Out[52]:
+# Out[39]:
 :END:
 
 **** count
@@ -157,8 +181,8 @@ df.title.count()
 
 #+RESULTS:
 :RESULTS:
-# Out[53]:
-: 1837
+# Out[40]:
+: 8498
 :END:
 
 *** olders
@@ -174,12 +198,12 @@ df = df[df.days_ago.str.contains("30+").map(lambda x: not x)]
 
 **** ==False
 #+BEGIN_SRC ipython
-df = df[df.days_ago.str.contains("30+")==False]
+df = df[df.days_ago.str.contains("30")==False]
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[54]:
+# Out[19]:
 :END:
 
 **** count
@@ -189,102 +213,10 @@ len(df)
 
 #+RESULTS:
 :RESULTS:
-# Out[28]:
-: 934
+# Out[20]:
+: 374
 :END:
 
-*** string numbers to integers
-#+BEGIN_SRC ipython
-    df["days_ago"] = df.days_ago.apply(lambda x: int(x))
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[39]:
-:END:
-*** drop erratic values
-**** run 
-#+BEGIN_SRC ipython
-    df = df[df.days_ago.lt(30)]
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[81]:
-:END:
-**** tests
-#+BEGIN_SRC ipython
-    df.days_ago.lt(30)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[80]:
-#+BEGIN_EXAMPLE
-  3      True
-  12     True
-  14     True
-  15     True
-  19     True
-  23     True
-  27     True
-  28     True
-  35     True
-  38     True
-  45     True
-  48     True
-  55     True
-  57     True
-  59     True
-  62     True
-  63     True
-  64     True
-  65     True
-  66     True
-  75     True
-  79     True
-  82     True
-  87     True
-  91     True
-  92     True
-  93     True
-  94     True
-  96     True
-  100    True
-  ...
-  44     True
-  46     True
-  49     True
-  54     True
-  55     True
-  65     True
-  68     True
-  69     True
-  70     True
-  74     True
-  77     True
-  82     True
-  84     True
-  87     True
-  89     True
-  90     True
-  93     True
-  95     True
-  96     True
-  97     True
-  102    True
-  105    True
-  109    True
-  115    True
-  116    True
-  119    True
-  121    True
-  124    True
-  126    True
-  2      True
-  Name: days_ago, Length: 1625, dtype: bool
-#+END_EXAMPLE
-:END:
 *** rename
 #+BEGIN_SRC ipython
 df_clean = df
@@ -292,8 +224,9 @@ df_clean = df
 
 #+RESULTS:
 :RESULTS:
-# Out[55]:
+# Out[42]:
 :END:
+
 ** Queries
 *** get queries metadata
 **** dataframe using os results
@@ -478,18 +411,21 @@ with open("/queries/queries.txt", "w") as f:
 *** launch scraper with the list
 **** get list from file
 #+BEGIN_SRC ipython
-with open("queries/best.txt", "r") as f:
-    queries_selected = f.read()
-    queries_selected = queries_selected.splitlines()
+with open("queries/search_queries.txt", "r") as f:
+    queries_crawl = f.read()
+queries_crawl = queries_crawl.splitlines()
+queries_crawl = list(set(queries_crawl))
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[30]:
+# Out[67]:
 :END:
 
 **** run shell script as subprocess
-***** variables and imports
+
+***** Run one bash script
+****** variables and imports
 #+BEGIN_SRC ipython
 import subprocess
 from subprocess import Popen, PIPE
@@ -497,17 +433,19 @@ import shlex
 
 cwd = '/home/teddd/data/projects/jobseeker/data/external/indeed/'
 bash_script = [cwd + 'local_crawler_launch.sh']
-arguments = queries_selected
+location = ["-l"] + [LOCATION]
+country = ["-c"] + [COUNTRY]
+arguments = country + location + queries_crawl
 command = bash_script + arguments
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[276]:
+# Out[36]:
 :END:
 
-***** execution
-****** stdout to buffer
+****** execution
+******* stdout to buffer
 #+BEGIN_SRC ipython
 session = subprocess.Popen(command, stdout=PIPE, stderr=PIPE)
 stdout, stderr = session.communicate()
@@ -525,20 +463,67 @@ stdout
 ss intelligence \nrunning command : scrapy crawl job_offers_spider -a query=business intelligence -o business intelligence.csv\n\n\n\nScraping query : numpy \nrunning command : scrapy crawl job_offers_spider -a query=numpy -o numpy.csv\n\n\n\nScraping query : linux \nrunning command : scrapy crawl job_offers_spider -a query=linux -o linux.csv\n\n\n\nScraping query : e business \nrunning command : scrapy crawl job_offers_spider -a query=e business -o e business.csv\n\n\n\nScraping query : unix \n\nrunning command : scrapy crawl job_offers_spider -a query=unix -o unix.csv\n\n\nScraping query : pandas \nrunning command : scrapy crawl job_offers_spider -a query=pandas -o pandas.csv\n\n\n\nScraping query : github \nrunning command : scrapy crawl job_offers_spider -a query=github -o github.csv\n\n\n\nScraping query : data \n\n\n\nScraping query : online marketing \nrunning command : scrapy crawl job_offers_spider -a query=online marketing -o online marketing.csv\nrunning command : scrapy crawl job_offers_spider -a query=data -o data.csv\n\n\n\nScraping query : data scientist \nrunning command : scrapy crawl job_offers_spider -a query=data scientist -o data scientist.csv\n\n\n\nScraping query : intelligence \nrunning command : scrapy crawl job_offers_spider -a query=intelligence -o intelligence.csv\n\n\n\nScraping query : analyst \nrunning command : scrapy crawl job_offers_spider -a query=analyst -o analyst.csv\n\n\n\nScraping query : analyst \nrunning command : scrapy crawl job_offers_spider -a query=analyst -o analyst.csv\n\n\n\nScraping query : venture capital \nrunning command : scrapy crawl job_offers_spider -a query=venture capital -o venture capital.csv\n\n\n\nScraping query : html \n\n\n\nScraping query : backend \nrunning command : scrapy crawl job_offers_spider -a query=html -o html.csv\nrunning command : scrapy crawl job_offers_spider -a query=backend -o backend.csv\n\n\n\nScraping query : live coding \n\nrunning command : scrapy crawl job_offers_spider -a query=live coding -o live coding.csv\n\n\nScraping query : bsd \nrunning command : scrapy crawl job_offers_spider -a query=bsd -o bsd.csv\n\n\n\nScraping query : git \n\nrunning command : scrapy crawl job_offers_spider -a query=git -o git.csv\n\n\nScraping query : python \nrunning command : scrapy crawl job_offers_spider -a query=python -o python.csv\n\n\n\nScraping query : aws \nrunning command : scrapy crawl job_offers_spider -a query=aws -o aws.csv\n\n\n\nScraping query : sql \nrunning command : scrapy crawl job_offers_spider -a query=sql -o sql.csv\n\n\n\nScraping query : heroku \nrunning command : scrapy crawl job_offers_spider -a query=heroku -o heroku.csv\n\n\n\nScraping query : scraping \nrunning command : scrapy crawl job_offers_spider -a query=scraping -o scraping.csv\n\n\n\nScraping query : data visualization \n\n\n\nScraping query : marketing \nrunning command : scrapy crawl job_offers_spider -a query=data visualization -o data visualization.csv\nrunning command : scrapy crawl job_offers_spider -a query=marketing -o marketing.csv\n'
 :END:
 
-****** stdout to file
+******* stdout to file
 #+BEGIN_SRC ipython
 from datetime import datetime
 date = str(datetime.now())
-with open("../data/external/crawl-log-" + date + ".txt",'w') as temp_file:
+with open("../data/external/python-launched-crawl-" + date + ".txt",'w') as temp_file:
     crawl = subprocess.Popen(command, stdout=temp_file, cwd=cwd)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[278]:
+# Out[37]:
 :END:
 
-** Filtering
+***** Run multiple bash scripts
+
+****** defintion
+#+BEGIN_SRC ipython
+import subprocess
+from subprocess import Popen, PIPE
+import shlex
+
+cwd = '/home/teddd/data/projects/jobseeker/data/external/indeed/'
+bash_script = [cwd + 'local_crawler_launch.sh']
+
+for loc in LOCATIONS:
+    COUNTRY = LOCATIONS[loc]
+    LOCATION = loc
+    location = ["-l"] + [LOCATION]
+    country = ["-c"] + [COUNTRY]
+    arguments = country + location + queries_crawl
+    command = bash_script + arguments
+    from datetime import datetime
+    date = str(datetime.now())
+    with open("../data/external/python-launched-crawl-" + date + ".txt",'w') as temp_file:
+        crawl = subprocess.Popen(command, stdout=temp_file, cwd=cwd)
+
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[71]:
+:END:
+
+****** execution
+#+BEGIN_SRC ipython
+for loc in LOCATIONS:
+    COUNTRY = LOCATIONS[loc]
+    LOCATION = loc
+    location = ["-l"] + [LOCATION]
+    country = ["-c"] + [COUNTRY]
+    arguments = country + location + queries_crawl
+    command = bash_script + arguments
+    print(command)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[72]:
+:END:
+
+** Filtering  / Ranking
 *** Look for 1 keywords
 **** keyword definiton
 ***** org variable
@@ -660,9 +645,19 @@ k
 :END:
 *** Look for multiple keywords
 **** tool: keywords list
-use results from Queries
-**** reduce dataframe
-***** boolean serie
+#+BEGIN_SRC ipython
+with open("queries/queries_selected", "r") as f:
+    queries_selected = f.read()
+queries_selected = queries_selected.splitlines()
+queries_selected = list(set(queries_selected))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[70]:
+:END:
+
+**** boolean df
 #+BEGIN_SRC ipython
 df_bool = pd.DataFrame()
 for query in queries_selected:
@@ -671,10 +666,11 @@ for query in queries_selected:
 
     #+RESULTS:
     :RESULTS:
-    # Out[75]:
+    # Out[71]:
     :END:
 
-***** binary serie
+**** unweighted score
+***** binary df
 #+BEGIN_SRC ipython
 def bool_to_bin(x):
     if x is True:
@@ -690,11 +686,10 @@ for query in queries_selected:
 
 #+RESULTS:
 :RESULTS:
-# Out[76]:
+# Out[72]:
 :END:
 
 ***** score attribution
-
 ****** overview
 #+BEGIN_SRC ipython
 pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("score", ascending=False)
@@ -702,134 +697,317 @@ pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("s
 
 #+RESULTS:
 :RESULTS:
-# Out[121]:
+# Out[73]:
 #+BEGIN_EXAMPLE
   score                                              title
-  1       10           Head of Software Development // mediaire
-  120      7         Senior Business Intelligence Analyst (m/f)
-  110      6               Backend Developer (m/f) // Piloteers
-  12       5                             Communications Manager
-  51       5                  Frontend Engineer (m/f) // deevio
-  22       5                           Lead Engineer Full Stack
-  25       5                                Lead Data Scientist
-  62       5              Senior Business Intelligence Engineer
-  42       5   Conversion Rate Optimization (CRO) Manager (m/f)
-  55       5                         IT Technical Support (m/w)
-  113      5                    Backend Software Engineer (m/f)
-  5        5                 Growth Hacker/Performance Marketer
-  79       5                 Junior B2B Marketing Manager (f/m)
-  68       5                           Software Developer (f/m)
-  99       5  Analytics - Internship (m/f) for at least 6 mo...
-  53       5  Senior Financial Planning & Analysis Controlle...
-  124      5  Business Intelligence Analyst (f/m), Global BI...
-  61       5                        Marketing Manager B2B (m/f)
-  8        5                    Business Development internship
-  19       5                Senior Ruby Engineer // Priori Data
-  10       5                       Senior UX Researcher (f/m/d)
-  105      5            (Senior) Data Analyst - Marketing (m/f)
-  104      4                            Marketing Analyst (m/f)
-  130      4         Big Data Engineer (m/f) (Part-or Fulltime)
-  147      4    Intern (m/f) Sales Analyst – Europe // Applause
-  22       4                         Frontend Developer / React
-  103      4                             Intern/Working Student
-  2        4  Front-End Developer / Financial Reporting & Da...
-  59       4                         Back-End Software Engineer
-  40       4           Senior Data Analyst (m/w) - HelloFreshGO
-  ..     ...                                                ...
-  60       0                                             Intern
-  51       0     Praktikum Marketing Bio-Lebensmittel in Berlin
-  112      0                             Network Engineer (m/w)
-  49       0     Grafiker ab sofort (m/w) möglichst in Teilzeit
-  129      0         Marketing- und Kommunikationsmanager (w/m)
-  133      0                     Online Marketing Manager (m/w)
-  134      0                  Ausbildung Marketingkommunikation
-  8        0                             Fachinformatiker (m/w)
-  110      0                  Business Analyst Commercial (m/w)
-  108      0       Datenmanager (m/w) für Portfoliomodellierung
-  22       0                 Data Scientist (m/w) Industrie 4.0
-  96       0   Mitarbeiter IT-Support und -Administration (m/w)
-  85       0              Senior Inhouse Consultant (m/w) (SRM)
-  82       0  IT-Betreuer (w/m) für das Evangelische Waldkra...
-  19       0                           Android Entwickler (m/w)
-  79       0             Werkstudent Operations Analytics (w/m)
-  71       0  Head of Supply Analysis and Logistics (m/w) be...
-  20       0                  (Senior) Consultant: DevOps (m/w)
-  21       0                           Webentwickler (m/w) Java
-  22       0  Softwareentwickler Java (w/m) für Indexplattfo...
-  50       0                      Pricing & Yield Manager (m/w)
-  46       0                       Werkstudent Informatik (m/w)
-  36       0  Web Developer (m/w) mit Drupal Kenntnissen ges...
-  42       0                   Senior PHP-Entwickler m:w Berlin
-  39       0    Product Data Manager (m/w) E-Commerce in Berlin
-  44       0         Java Developer / Software Entwickler (m/w)
-  34       0                                QA Engineer (m/f/x)
-  27       0        Projektleiter (m/w) Lagerverwaltungssysteme
-  18       0  Praktikant / Werkstudent (m/w) in der Full-Sta...
-  0        0  Praktikant Einführung Business Intelligence-An...
+  963       6             Blockchain Data Scientist at Glassnode
+  1023      5                                       Data Analyst
+  1022      5                      Business Data Analyst (f/m/d)
+  1018      5                      Head of Data Science at WATTx
+  119       4                                     Data Architect
+  640       4                        Lead Data Scientist (m/w/x)
+  637       4                  Business Operations Analyst (m/f)
+  967       4                           Data Warehouse Developer
+  493       4                          Lead Data Scientist (m/f)
+  128       4   Principal Data Scientist - Data Incubation M/F/X
+  412       4                          Lead Data Scientist (m/f)
+  1024      4                               DATA SCIENTIST (F/M)
+  54        4               Full Stack Python Software Developer
+  1019      4                                 Data Analyst (m/f)
+  899       4                  Lead Customer Intelligence Lounge
+  9         4        Data Science Python Backend Developer (m/f)
+  990       4                     Product Data Scientist (f/m/d)
+  738       4            Principal Data Scientist - Berlin M/F/X
+  1001      4                                     Data Scientist
+  20        4                 Senior Data Science Engineer (f/m)
+  2         4                                      Data Engineer
+  286       4                         HEAD OF DATA SCIENCE (M/F)
+  1124      3           Blockchain Business Analyst (Internship)
+  314       3                         Product Manager - Payments
+  34        3                    Senior Solution Architect (m/f)
+  957       3                       Head of Data Science (m/f/x)
+  894       3                  Senior Manager Data Science (m/f)
+  93        3  Product Owner - Machine Learning - Pricing & F...
+  160       3  Junior Data Scientist - Marketing Technology A...
+  1         3                              Data Science Engineer
+  ...     ...                                                ...
+  735       0  Software Engineer - Java, JavaScript, React, G...
+  740       0                                 CTO (m/w) - Berlin
+  801       0                        Fullstack Developer (m/f/d)
+  744       0  Werkstudent (m/w) - Maschinelles Lernen/Künstl...
+  800       0                 Experienced PL/SQL Developer (m/f)
+  799       0              Mobile Test Automation Engineer (m/f)
+  798       0                    Senior Test Automation Engineer
+  797       0                              DevOps Engineer (m/w)
+  796       0                 Software Development Trainer (m/w)
+  795       0                            DevOps Engineer (m/w/d)
+  794       0                             Frontend Developer w/m
+  788       0                       Software Engineer Risk (m/w)
+  787       0       PHP - Entwickler (m/w) – Schwerpunkt Symfony
+  786       0          System Engineer - Automatisierung (m/w/x)
+  785       0               Consultant: Softwareentwickler (m/w)
+  784       0                              System Engineer (m/w)
+  783       0                        Python Developer (m/f) Test
+  781       0  Java-Entwickler (m/w) im Großprojekt „Risikome...
+  780       0                           Werkstudent DevOps (m/w)
+  777       0  SAP CareerStarters- Einstiegsprogramm als Hybr...
+  774       0                                    DevOps Engineer
+  771       0     Softwareentwickler im digitalen Workflow (w/m)
+  769       0                            Backend Developer (m/w)
+  766       0                 Java EE Entwickler - Backend (m/w)
+  755       0      Windows System Administrator - SQL Server DBA
+  754       0                                    DevOps Engineer
+  751       0  Sales Manager (m/w) für industrielle Ausrüstun...
+  746       0                 Senior React-Native Engineer (m/w)
+  745       0           UI Software Build/Release engineer (m/f)
+  136       0                               Team Assistant (f/m)
   
-  [934 rows x 2 columns]
+  [8498 rows x 2 columns]
 #+END_EXAMPLE
 :END:
 
-****** reduce dataframe for visual exploration
+****** add to df_print for visual exploration
+
+******* initialize
 #+BEGIN_SRC ipython
 df_print = df
+#+END_SRC
+******* add
+#+BEGIN_SRC ipython
 df_print["score"] = df_bin.sum(axis=1)
-df_print = df_print.sort_values("score", ascending=False)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[122]:
+# Out[148]:
 :END:
 
 **** guide: used words
 ***** amongst keywords
+****** view
 #+BEGIN_SRC ipython
-df_bin.sum().sort_values(ascending=False)
+queries_sorted = df_bin.sum().sort_values(ascending=False)
+queries_sorted
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[101]:
+# Out[76]:
 #+BEGIN_EXAMPLE
-  git                      301
-  data                     243
-  marketing                105
-  startup                  105
-  backend                   72
-  e business                64
-  frontend                  50
-  intelligence              44
-  analyst                   22
-  data scientist            16
-  venture capital           12
-  data visualization         9
-  business intelligence      8
-  online marketing           8
-  python                     6
-  html                       5
-  sql                        5
-  aws                        4
-  french                     4
-  github                     4
-  numpy                      3
-  pandas                     3
-  linux                      2
-  flask                      2
-  css                        2
-  live coding                2
-  bsd                        1
-  midi                       1
-  unix                       0
-  scraping                   0
-  heroku                     0
+  e business            843
+  data science          215
+  data analysis         206
+  data scientist        158
+  online marketing      141
+  data visualization     72
+  data mining            62
+  data analyst           33
+  french                 32
+  linux                  28
+  pandas                 23
+  business analyst       22
+  growth hacking         19
+  numpy                  17
+  vue.js                 15
+  bsd                    12
+  scraping                4
+  scipy                   4
+  unix                    4
+  growth hacker           4
+  live coding             4
+  flask                   3
+  open bsd                0
   dtype: int64
 #+END_EXAMPLE
 :END:
+****** export to selected list
+#+BEGIN_SRC ipython
+queries_export = queries_sorted.keys()
+with open("queries/queries_selected", "w") as f:
+    for query in queries_sorted:
+        f.write(query + "\n")
+#+END_SRC
 
-**** which contains most of the querie keywords ?  
-**** add weight to keywords ?
+#+RESULTS:
+:RESULTS:
+# Out[69]:
+:END:
+**** weighted ranking
+***** weight keywords
+#+BEGIN_SRC ipython
+total = queries_sorted.sum()
+queries_weight = queries_sorted.apply(lambda x: total / x)
+queries_weight.sort_values(ascending = False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[81]:
+#+BEGIN_EXAMPLE
+  open bsd                     inf
+  flask                 640.333333
+  live coding           480.250000
+  growth hacker         480.250000
+  unix                  480.250000
+  scipy                 480.250000
+  scraping              480.250000
+  bsd                   160.083333
+  vue.js                128.066667
+  numpy                 113.000000
+  growth hacking        101.105263
+  business analyst       87.318182
+  pandas                 83.521739
+  linux                  68.607143
+  french                 60.031250
+  data analyst           58.212121
+  data mining            30.983871
+  data visualization     26.680556
+  online marketing       13.624113
+  data scientist         12.158228
+  data analysis           9.325243
+  data science            8.934884
+  e business              2.278766
+  dtype: float64
+#+END_EXAMPLE
+:END:
+
+***** integers df
+#+BEGIN_SRC ipython
+def bool_to_int(x, query):
+    if x is True:
+        return queries_weight[query]
+    else:
+        return 0
+
+df_int = pd.DataFrame()
+
+for query in queries_selected:
+    df_int[query] = df_bool[query].apply(lambda x : bool_to_int(x, query))
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[87]:
+:END:
+***** score attribution
+****** overview
+#+BEGIN_SRC ipython
+pd.concat({"title":df.title, "score":df_int.sum(axis=1)}, axis=1).sort_values("score", ascending=False)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[91]:
+#+BEGIN_EXAMPLE
+  score                                              title
+  963   728.848722             Blockchain Data Scientist at Glassnode
+  11    723.855072  Senior Software Engineer - Python for Marketin...
+  1018  716.690494                      Head of Data Science at WATTx
+  400   676.771739   Senior Research Engineer - Machine Learning & DL
+  6     676.771739      Senior Data Scientist - Machine Learning & DL
+  39    649.268217                         Back-End Software Engineer
+  403   640.333333               Full Stack Software Developer @ metr
+  967   582.031866                           Data Warehouse Developer
+  964   548.857143                    Software Engineer (Python, m/f)
+  0     496.152880                            Marketing Manager (SEO)
+  12    494.686994                          Senior Front End Engineer
+  97    492.408228                    Business Development internship
+  99    492.408228                                Solutions Architect
+  123   492.408228                             Communications Manager
+  4     482.528766                                     Marketing Lead
+  123   482.528766                              DevOps Engineer (f/m)
+  6     480.250000                              Growth Marketer (m/w)
+  506   480.250000                                  Developer, Berlin
+  3     480.250000                      Junior NodeJS Developer (m/f)
+  1     480.250000            Junior NodeJS Developer (m/f) in Berlin
+  590   480.250000               Data Engineer / Data Scientist (m/f)
+  1077  480.250000   Teamverstärkung für Systemadministration gesucht
+  453   480.250000                                         HR Manager
+  9     235.360523        Data Science Python Backend Developer (m/f)
+  29    228.690476                          Systemadministrator (m/w)
+  20    210.958733                 Senior Data Science Engineer (f/m)
+  2     210.958733                                      Data Engineer
+  1     208.679967                              Data Science Engineer
+  260   208.679967                                     Data Scientist
+  36    208.679967                        Data Science Engineer (f/m)
+  ...          ...                                                ...
+  735     0.000000  Software Engineer - Java, JavaScript, React, G...
+  740     0.000000                                 CTO (m/w) - Berlin
+  801     0.000000                        Fullstack Developer (m/f/d)
+  744     0.000000  Werkstudent (m/w) - Maschinelles Lernen/Künstl...
+  800     0.000000                 Experienced PL/SQL Developer (m/f)
+  799     0.000000              Mobile Test Automation Engineer (m/f)
+  798     0.000000                    Senior Test Automation Engineer
+  797     0.000000                              DevOps Engineer (m/w)
+  796     0.000000                 Software Development Trainer (m/w)
+  795     0.000000                            DevOps Engineer (m/w/d)
+  794     0.000000                             Frontend Developer w/m
+  788     0.000000                       Software Engineer Risk (m/w)
+  787     0.000000       PHP - Entwickler (m/w) – Schwerpunkt Symfony
+  786     0.000000          System Engineer - Automatisierung (m/w/x)
+  785     0.000000               Consultant: Softwareentwickler (m/w)
+  784     0.000000                              System Engineer (m/w)
+  783     0.000000                        Python Developer (m/f) Test
+  781     0.000000  Java-Entwickler (m/w) im Großprojekt „Risikome...
+  780     0.000000                           Werkstudent DevOps (m/w)
+  777     0.000000  SAP CareerStarters- Einstiegsprogramm als Hybr...
+  774     0.000000                                    DevOps Engineer
+  771     0.000000     Softwareentwickler im digitalen Workflow (w/m)
+  769     0.000000                            Backend Developer (m/w)
+  766     0.000000                 Java EE Entwickler - Backend (m/w)
+  755     0.000000      Windows System Administrator - SQL Server DBA
+  754     0.000000                                    DevOps Engineer
+  751     0.000000  Sales Manager (m/w) für industrielle Ausrüstun...
+  746     0.000000                 Senior React-Native Engineer (m/w)
+  745     0.000000           UI Software Build/Release engineer (m/f)
+  136     0.000000                               Team Assistant (f/m)
+  
+  [8498 rows x 2 columns]
+#+END_EXAMPLE
+:END:
+
+****** add to df_print for visual exploration
+
+******* initialize
+#+BEGIN_SRC ipython
+df_print = df
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[146]:
+:END:
+
+******* add
+#+BEGIN_SRC ipython
+df_print["weighted_score"] = df_bin.sum(axis=1)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[147]:
+:END:
+
+**** add matched queries list
+#+BEGIN_SRC ipython
+def bool_to_str(x, query):
+    if x is True:
+        return [query]
+    else:
+        return []
+
+df_str = pd.DataFrame()
+for query in queries_selected:
+    df_str[query] = df_bool[query].apply(lambda x : bool_to_str(x, query))
+    
+df_print["matches"] = df_str.sum(axis=1)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[149]:
+:END:
+
 **** keywords distance map
 with all keywords, you are at the center
 *** companies
@@ -870,6 +1048,106 @@ len(df)
 :END:
 
 *** days ago
+**** cleansing
+***** string numbers to integers
+#+BEGIN_SRC ipython
+def int_or_die(x):
+    try:
+        return int(x)
+    except ValueError:
+        return 0
+
+df["days_ago"] = df.days_ago.apply(int_or_die)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[51]:
+:END:
+***** drop erratic values
+****** run 
+#+BEGIN_SRC ipython
+    df = df[df.days_ago.lt(30)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[81]:
+:END:
+****** tests
+#+BEGIN_SRC ipython
+    df.days_ago.lt(30)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[80]:
+#+BEGIN_EXAMPLE
+  3      True
+  12     True
+  14     True
+  15     True
+  19     True
+  23     True
+  27     True
+  28     True
+  35     True
+  38     True
+  45     True
+  48     True
+  55     True
+  57     True
+  59     True
+  62     True
+  63     True
+  64     True
+  65     True
+  66     True
+  75     True
+  79     True
+  82     True
+  87     True
+  91     True
+  92     True
+  93     True
+  94     True
+  96     True
+  100    True
+  ...
+  44     True
+  46     True
+  49     True
+  54     True
+  55     True
+  65     True
+  68     True
+  69     True
+  70     True
+  74     True
+  77     True
+  82     True
+  84     True
+  87     True
+  89     True
+  90     True
+  93     True
+  95     True
+  96     True
+  97     True
+  102    True
+  105    True
+  109    True
+  115    True
+  116    True
+  119    True
+  121    True
+  124    True
+  126    True
+  2      True
+  Name: days_ago, Length: 1625, dtype: bool
+#+END_EXAMPLE
+:END:
+
 **** histogram
 ***** pd plot
 #+BEGIN_SRC ipython
@@ -878,104 +1156,127 @@ len(df)
 
 #+RESULTS:
 :RESULTS:
-# Out[82]:
-: <matplotlib.axes._subplots.AxesSubplot at 0x7f1136869c18>
-[[file:./obipy-resources/TtBMu6.png]]
+# Out[52]:
+: <matplotlib.axes._subplots.AxesSubplot at 0x7f5f7860ad68>
+[[file:./obipy-resources/UyFNaZ.png]]
 :END:
 **** value count
 #+BEGIN_SRC ipython
-    df.days_ago.value_counts()
+df.days_ago.value_counts()
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[41]:
+# Out[53]:
 #+BEGIN_EXAMPLE
-  3     136
-  1     125
-  9     115
-  2     109
-  8      80
-  7      74
-  4      71
-  10     70
-  23     68
-  11     68
-  14     68
-  24     57
-  17     56
-  16     55
-  21     55
-  18     52
-  15     48
-  22     47
-  25     46
-  28     40
-  6      39
-  29     38
-  13     35
-  12     28
-  5      23
-  27     20
-  20     19
-  19     16
-  26     13
-  46      1
-  56      1
+  30    4251
+  2      305
+  3      263
+  9      240
+  10     218
+  6      215
+  16     206
+  5      198
+  24     190
+  13     190
+  11     189
+  17     185
+  23     162
+  12     150
+  26     144
+  4      143
+  19     140
+  25     140
+  18     136
+  1      133
+  20     120
+  8      118
+  15     107
+  27      96
+  7       66
+  21      38
+  29      38
+  14      36
+  0       30
+  22      29
+  28      22
   Name: days_ago, dtype: int64
 #+END_EXAMPLE
 :END:
-**** groupby
-***** basic output
+*** company
 #+BEGIN_SRC ipython
-    df.groupby(["days_ago"]).groups
+df.company.value_counts()
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
 # Out[54]:
 #+BEGIN_EXAMPLE
-  {1: Int64Index([20, 25, 49, 136], dtype='int64'),
-  2: Int64Index([2, 4, 10, 30, 71, 77, 116, 125, 139], dtype='int64'),
-  3: Int64Index([27, 54, 73, 98, 106, 128], dtype='int64'),
-  4: Int64Index([29, 32, 60, 97, 114, 119, 143], dtype='int64'),
-  5: Int64Index([50, 135], dtype='int64'),
-  6: Int64Index([129], dtype='int64'),
-  7: Int64Index([127], dtype='int64'),
-  8: Int64Index([104, 112, 113, 121, 138], dtype='int64'),
-  9: Int64Index([142], dtype='int64'),
-  10: Int64Index([3, 96], dtype='int64'),
-  11: Int64Index([86, 132], dtype='int64'),
-  12: Int64Index([109], dtype='int64'),
-  13: Int64Index([31], dtype='int64'),
-  14: Int64Index([22, 24, 95], dtype='int64'),
-  16: Int64Index([47], dtype='int64'),
-  17: Int64Index([6, 37, 41], dtype='int64'),
-  18: Int64Index([80], dtype='int64'),
-  20: Int64Index([79], dtype='int64'),
-  21: Int64Index([55], dtype='int64'),
-  22: Int64Index([1, 144], dtype='int64'),
-  23: Int64Index([21, 52, 75, 110], dtype='int64'),
-  24: Int64Index([66, 67], dtype='int64'),
-  25: Int64Index([14], dtype='int64'),
-  26: Int64Index([91], dtype='int64'),
-  27: Int64Index([48], dtype='int64'),
-  29: Int64Index([145], dtype='int64')}
+  Zalando                                                                            174
+  Project A Ventures                                                                 118
+  Amazon.com                                                                          95
+  N26                                                                                 64
+  AUTO1                                                                               60
+  Wayfair                                                                             52
+  media.net berlinbrandenburg                                                         49
+  Hays                                                                                49
+  Project A Services GmbH & Co. KG                                                    48
+  Delivery Hero                                                                       47
+  HelloFresh                                                                          47
+  Lesara GmbH                                                                         45
+  Flaconi GmbH                                                                        40
+  Rheingau Founders GmbH                                                              39
+  Fluffy Fairy Games                                                                  38
+  KPMG                                                                                34
+  FlixBus                                                                             33
+  Sopra Steria SE                                                                     32
+  GetYourGuide                                                                        30
+  Workstation AG Personaldienstleistungen                                             28
+  Scout24                                                                             28
+  Axel Springer                                                                       26
+  IAV GmbH                                                                            26
+  Carmeq GmbH                                                                         26
+  LIQID Investments GmbH                                                              26
+  Planet Expat                                                                        25
+  Darwin Recruitment                                                                  25
+  BASF Services Europe GmbH                                                           24
+  OLX Group                                                                           24
+  Quadriga Media Berlin GmbH                                                          23
+  ...
+  European IT Consultancy EITCO GmbH                                                   1
+  Vilo Personal GmbH                                                                   1
+  Direktorat Klinikmanagement und Strategie                                            1
+  scrappel GmbH                                                                        1
+  Deutsche Online Medien|fotokasten|myphotobook GmbH                                   1
+  Online Marketing Manager [m/w] SEA für Online Shop [Vollzeit / unbefristet]          1
+  HYGH AG                                                                              1
+  GGS Management                                                                       1
+  Scandic hotels                                                                       1
+  Senozon                                                                              1
+  Point Nine Capital                                                                   1
+  KitchenTown GmbH & Co KG                                                             1
+  share                                                                                1
+  IQVIA Commercial GmbH & Co. OHG                                                      1
+  Karma                                                                                1
+  Praktikum ab März 2019 im Bereich Produktmanagement Mercedes-Benz Pkw in Berlin      1
+  BAS Kundenservice GmbH & Co. KG (Standort: Berlin)                                   1
+  Iron Hack                                                                            1
+  Konica Minolta IT Solutions                                                          1
+  EOS Health Honorarmanagement AG                                                      1
+  awinta                                                                               1
+  Lumics GmbH                                                                          1
+  AAZZUR                                                                               1
+  Tandem                                                                               1
+  CBXNET combox internet GmbH                                                          1
+  Berlin                                                                               1
+  adesso as a service                                                                  1
+  ChartMogul Ltd                                                                       1
+  evo fitness                                                                          1
+  NSG Net Solution GmbH                                                                1
+  Name: company, Length: 2577, dtype: int64
 #+END_EXAMPLE
 :END:
-***** loop print
-#+BEGIN_SRC ipython
-grouped = df.groupby("days_ago")
 
-for name,group in grouped:
-    print(name)
-    print(group)
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[52]:
-:END:
 ** Printing
 *** quick overview
 **** head
@@ -1096,7 +1397,7 @@ df.title
 
 #+RESULTS:
 :RESULTS:
-# Out[142]:
+# Out[177]:
 :END:
 
 ***** html page generation
@@ -1120,7 +1421,7 @@ def linksgen(filename_base, pagenum, url):
     return doc.getvalue()
 
 
-def pagegen(filename_base, pagenum, title, desc, company, days, url):
+def pagegen(filename_base, pagenum, title, desc, company, days, url, query, matches):
     doc, tag, text = Doc().tagtext()
     
     doc.asis('<meta charset="UTF-8">')
@@ -1132,8 +1433,13 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
             text(title)
         with tag("h2"):
             text(company)
-        with tag("p"):
-            text(str(days) + " days ago")
+        with tag("div", align="right", style="font-style:italic"):
+            with tag("p"):
+                text(str(days) + " days ago")
+            with tag("p"):
+                text("Query : " + query)
+            with tag("p"):
+                text("Matches : " + ", ".join(matches))
         with tag("div"):
             doc.asis(desc)
         doc.asis(linksgen(filename_base, pagenum, url))
@@ -1143,30 +1449,9 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url):
 
 #+RESULTS:
 :RESULTS:
-# Out[143]:
+# Out[202]:
 :END:
 
-****** test pagegen                                                  :test:
-#+BEGIN_SRC ipython
-pagegen("nom", 0, "titre", "desc", "firm", "days", "www")
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[144]:
-: '<meta charset="UTF-8"><title>titre</title><body><div><a href=".">Home page</a> <a href="nom-1.html">Previous page</a> <a href="nom1.html">Next page</a> <a href="www" target="_blank">Original page</a></div><h1>titre</h1><h2>firm</h2><p>days days ago</p><div>desc</div><div><a href=".">Home page</a> <a href="nom-1.html">Previous page</a> <a href="nom1.html">Next page</a> <a href="www" target="_blank">Original page</a></div></body>'
-:END:
-
-****** test linksgen                                                 :test:
-#+BEGIN_SRC ipython
-linksgen("file", 10, "wwwww")
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[145]:
-: '<div><a href=".">Home page</a> <a href="file9.html">Previous page</a> <a href="file11.html">Next page</a> <a href="wwwww" target="_blank">Original page</a></div>'
-:END:
 ***** htmlexport function
 ****** definition
 #+BEGIN_SRC ipython
@@ -1182,7 +1467,9 @@ def htmlexport(df, begin, end):
                        df.desc.iloc[i],
                        df.company.iloc[i],
                        df.days_ago.iloc[i],
-                       df.url.iloc[i]
+                       df.url.iloc[i],
+                       df["query"].iloc[i],
+                       df["matches"].iloc[i]
         )
         filename = path + filename_base +  str(i) + ".html"
         with open(filename, "a") as file:
@@ -1192,19 +1479,33 @@ def htmlexport(df, begin, end):
 
 #+RESULTS:
 :RESULTS:
-# Out[146]:
+# Out[189]:
 :END:
 
-****** call
+****** sort df
+******* by score
 #+BEGIN_SRC ipython
-htmlexport(df_print, 0, 40)
+df_print = df_print.sort_values("score", ascending=False)
+#+END_SRC
+******* by weighted score
+#+BEGIN_SRC ipython
+df_print = df_print.sort_values("weighted_score", ascending=False)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[147]:
+# Out[185]:
 :END:
 
+****** call
+#+BEGIN_SRC ipython
+htmlexport(df_print, 0, 400)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[204]:
+:END:
 ****** link
 file:home/teddd/data/projects/jobseeker/reports/html/
 *** server
