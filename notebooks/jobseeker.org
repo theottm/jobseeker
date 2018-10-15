@@ -32,12 +32,12 @@ import pandas as pd
 LOCATION="Berlin"
 COUNTRY="de"
 PROJECT_ROOT="~/data/projects/jobseeker"
-CRAWL = "2018-10-10-Berlin"
+CRAWL = "2018-10-11-Berlin"
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[135]:
+# Out[33]:
 :END:
 
 *** Lists
@@ -67,7 +67,7 @@ for dirpath, dirs, files in os.walk("../data/raw/" + CRAWL):
 
 #+RESULTS:
 :RESULTS:
-# Out[136]:
+# Out[36]:
 :END:
 **** dataframe creation
 #+BEGIN_SRC ipython
@@ -90,7 +90,7 @@ for dirpath, dirs, files in os.walk("../data/raw/" + CRAWL):
 
 #+RESULTS:
 :RESULTS:
-# Out[138]:
+# Out[40]:
 :END:
 
 **** TODO time range selection
@@ -102,7 +102,7 @@ df = jobs
 
 #+RESULTS:
 :RESULTS:
-# Out[139]:
+# Out[52]:
 :END:
 
 *** python example                                                  :test:
@@ -172,7 +172,7 @@ return int(x)+1
 
 #+RESULTS:
 :RESULTS:
-# Out[140]:
+# Out[53]:
 :END:
 
 **** count
@@ -182,8 +182,8 @@ df.title.count()
 
 #+RESULTS:
 :RESULTS:
-# Out[141]:
-: 11977
+# Out[54]:
+: 13241
 :END:
 
 *** olders
@@ -663,7 +663,7 @@ df_print = df
 
 #+RESULTS:
 :RESULTS:
-# Out[154]:
+# Out[126]:
 :END:
 
 **** Tool: keywords list
@@ -676,7 +676,7 @@ queries_selected = [query for query in queries_selected if query != ""]
 
 #+RESULTS:
 :RESULTS:
-# Out[155]:
+# Out[127]:
 :END:
 
 **** Boolean df
@@ -688,7 +688,7 @@ for query in queries_selected:
 
     #+RESULTS:
     :RESULTS:
-    # Out[156]:
+    # Out[128]:
     :END:
 
 **** Unweighted score
@@ -708,7 +708,7 @@ for query in queries_selected:
 
 #+RESULTS:
 :RESULTS:
-# Out[157]:
+# Out[129]:
 :END:
 
 ***** score attribution
@@ -719,72 +719,72 @@ pd.concat({"title":df.title, "score":df_bin.sum(axis=1)}, axis=1).sort_values("s
 
 #+RESULTS:
 :RESULTS:
-# Out[158]:
+# Out[130]:
 #+BEGIN_EXAMPLE
   score                                              title
-  15        7             Blockchain Data Scientist at Glassnode
-  1317      6                         Data Scientist - Analytics
-  14        6  Senior Software Engineer - Python for Marketin...
-  71        6              Machine Learning Researcher (Germany)
-  1021      6                         Data Scientist - Analytics
-  16        6                      Head of Data Science at WATTx
-  712       6                                 Data Analyst (m/f)
-  1019      6                                       Data Analyst
-  126       5                  Lead Customer Intelligence Lounge
-  103       5                         HEAD OF DATA SCIENCE (M/F)
-  1056      5                      Business Data Analyst (f/m/d)
-  88        5         (Senior) Pricing Manager Digital Solutions
-  439       5                           Data Warehouse Developer
-  450       5  Backend Software Engineer - Search & Browse / ...
-  83        5                          Lead Data Scientist (m/f)
-  711       5                                     Data Scientist
-  73        5        Software Engineer - Search & Browse - Scala
-  176       5                        Lead Data Scientist (m/w/x)
-  505       5                     Product Data Scientist (f/m/d)
-  60        5                          Lead Data Scientist (m/f)
-  108       5                                   Junior Developer
-  3         5        Data Science Python Backend Developer (m/f)
-  225       5                      (Senior) Data Scientist (m/f)
-  723       5                  Business Operations Analyst (m/f)
-  219       5                                Lead Data Scientist
-  42        5   Senior Pricing Manager (m/f/d) Digital Solutions
-  185       4                            Lead Software Developer
-  184       4          Software Developer – Full Stack // oculid
-  904       4                        Back-End Software Developer
-  188       4                  Embedded Software Developer (m/w)
-  ...     ...                                                ...
-  468       0  Full Professorship for “Systematic Botany and ...
-  314       0             Sales Development Representative (m/f)
-  466       0       Working Student in Market Research in Berlin
-  551       0                                          VP Growth
-  288       0  INTERNATIONAL PROGRAM FOR JUNIORS / VIE - LUBR...
-  526       0                              Product Manager (m/f)
-  513       0  Social media & linkbuilding internship (Berlin...
-  289       0                   Senior Front End Developer (m/f)
-  317       0                       Fashion Marketing Internship
-  294       0         (Senior) Front-end Software Engineer (m/f)
-  589       0                      Assistant Merchandise Planner
-  586       0               Venture Development Internship (m/f)
-  255       0  Delegate Services and Conference Accommodation...
-  258       0  Working Student/Internship Content Marketing T...
-  333       0  (Junior) Regional Marketing Manager Germany (m/f)
-  269       0             Account Manager - French&English (w/m)
-  315       0                               UX/UI Designer (m/f)
-  318       0                Frontend Developer - Berlin Germany
-  287       0  Freelancer Copywriter/Translator: Native Russi...
-  338       0                           B2B Marketing Lead (m/f)
-  270       0             Account Manager - German&English (w/m)
-  552       0      Junior Business Development Manager (Spanish)
-  979       0                    Videospiele-Entwickler in C/C++
-  275       0  Corporate Sales Manager (Paris) (f/m) at Urban...
-  351       0                               Internship Marketing
-  284       0             Associate Director, Carrier Management
-  286       0                   Management Assistance Internship
-  363       0  Data-Driven Marketing Consultant (Berlin and M...
-  530       0  Working Student (m/f) Content Management Spain...
-  952       0                      Publisher Recruitment Manager
+  15       7             Blockchain Data Scientist at Glassnode
+  17       6                      Head of Data Science at WATTx
+  78       5                          Lead Data Scientist (m/f)
+  66       5                          Lead Data Scientist (m/f)
+  920      5                                       Data Analyst
+  7        5                         Python Data Engineer (f/m)
+  18       5              Machine Learning Researcher (Germany)
+  188      5                  Lead Customer Intelligence Lounge
+  10       4  Senior Software Engineer - Python for Marketin...
+  36       4                  Business Operations Analyst (m/f)
+  493      4                     Product Data Scientist (f/m/d)
+  221      4                      (Senior) Data Scientist (m/f)
+  89       4         (Senior) Pricing Manager Digital Solutions
+  490      4                                      Data Engineer
+  3        4        Data Science Python Backend Developer (m/f)
+  152      4                                     Data Architect
+  438      4                      (Senior) Data Scientist (m/f)
+  844      4                                 Data Analyst (m/f)
+  363      4                                Lead Data Scientist
+  276      4                 Senior Data Science Engineer (f/m)
+  474      4                           Data Warehouse Developer
+  489      4                         Data Scientist - Analytics
+  189      4                                     Data Scientist
+  55       4   Senior Pricing Manager (m/f/d) Digital Solutions
+  771      4                      Business Data Analyst (f/m/d)
+  212      4            Principal Data Scientist - Berlin M/F/X
+  162      4                        Lead Data Scientist (m/w/x)
+  204      4        Software Engineer - Search & Browse - Scala
+  32       4  Backend Software Engineer - Search & Browse / ...
+  127      4                         HEAD OF DATA SCIENCE (M/F)
+  ..     ...                                                ...
+  434      0                          Specialist Internal Audit
+  435      0                                  Account Executive
+  437      0  Customer Service Representative with Arabic or...
+  438      0                         Sales Manager France (m/f)
+  443      0                          City Manager France (f/m)
+  446      0                                          CFO (m/f)
+  406      0  French Linguistic Assistant Internship (m/f) V...
+  403      0  Customer Care Specialist Backoffice - Internat...
+  356      0                     Head of Marketing Europe (m/f)
+  401      0                 Senior English in-house translator
+  359      0  Influencer Marketing & Social Media Manager (f...
+  362      0                 Logistics Project Manager Regional
+  365      0  Customer Fashion Advisor For Our French Market...
+  366      0                                 Conference Manager
+  370      0  INTERNATIONAL PROGRAM FOR JUNIORS / VIE - LUBR...
+  372      0             Account Manager - French&English (w/m)
+  373      0             Account Manager - German&English (w/m)
+  375      0                      Installation Specialist (f/m)
+  377      0             Sales Development Representative (m/f)
+  383      0                Machine Learning & NLP Expert (m/f)
+  384      0                 Multi-Property Revenue Manager M/W
+  386      0                                  Head of Marketing
+  387      0                   Influencer Marketing Lead Europe
+  389      0  Freelancer Copywriter/Translator: Native Russi...
+  392      0  Internship Busi­ness Deve­lop­ment France (m/f...
+  393      0                                    Country Manager
+  394      0                         Junior Sales Manager (m/f)
+  396      0                Business Development (Sales) Intern
+  400      0                                         HR Manager
+  893      0                                     Office Manager
   
-  [11977 rows x 2 columns]
+  [13241 rows x 2 columns]
 #+END_EXAMPLE
 :END:
 
@@ -795,7 +795,7 @@ df_print["score"] = df_bin.sum(axis=1)
 
 #+RESULTS:
 :RESULTS:
-# Out[159]:
+# Out[131]:
 :END:
 
 **** Guide: used words
@@ -808,66 +808,52 @@ queries_sorted
 
 #+RESULTS:
 :RESULTS:
-# Out[160]:
+# Out[132]:
 #+BEGIN_EXAMPLE
-  au                             9796
-  e business                      991
-  sound                           262
-  data science                    190
-  online marketing                167
-  junior                          160
-  data analysis                   158
-  data scientist                  144
-  music                           141
-  audio                           107
-  vst                              81
-  data visualization               60
-  data mining                      60
-  python                           45
-  data analyst                     31
-  french                           30
-  linux                            30
+  e business                     1084
+  music                           215
+  data science                    188
+  online marketing                172
+  data analysis                   168
+  junior                          163
+  audio                           159
+  data scientist                  153
+  vst                              99
+  data mining                      61
+  data visualization               58
+  python                           51
+  data analyst                     34
+  french                           33
+  linux                            31
+  natural language processing      23
+  bsd                              23
   pandas                           22
-  numpy                            20
-  natural language processing      19
-  bsd                              18
-  market intelligence              16
-  growth hacking                   14
-  vue.js                           14
+  numpy                            22
+  business analyst                 21
+  growth hacking                   16
+  market intelligence              14
+  vue.js                           13
   Synth                            10
-  business analyst                  9
-  scipy                             8
-  speech recognition                6
-  scraping                          4
-  live coding                       4
+  speech recognition                9
+  scipy                             9
   unix                              4
   growth hacker                     4
+  scraping                          4
+  live coding                       4
   flask                             3
   jupyter                           2
   open bsd                          0
-  elisp                             0
-  audio unit                        0
+  synthetizer                       0
   circuit bending                   0
   computer music                    0
   pedal board                       0
+  Reverb                            0
+  audio unit                        0
+  elisp                             0
   emacs                             0
   nlp                               0
-  Reverb                            0
-  synthetizer                       0
   dtype: int64
 #+END_EXAMPLE
-:END:
-****** export to selected list
-#+BEGIN_SRC ipython
-queries_export = queries_sorted.keys()
-with open("queries/queries_selected", "w") as f:
-    for query in queries_sorted:
-        f.write(query + "\n")
-#+END_SRC
-
-#+RESULTS:
-:RESULTS:
-# Out[88]:
 :END:
 **** Weighted ranking
 ***** weight keywords
@@ -879,52 +865,50 @@ queries_weight.sort_values(ascending = False)
 
 #+RESULTS:
 :RESULTS:
-# Out[161]:
+# Out[133]:
 #+BEGIN_EXAMPLE
-  synthetizer                            inf
-  Reverb                                 inf
   nlp                                    inf
   emacs                                  inf
+  elisp                                  inf
+  audio unit                             inf
+  Reverb                                 inf
   pedal board                            inf
   computer music                         inf
   circuit bending                        inf
-  audio unit                             inf
-  elisp                                  inf
+  synthetizer                            inf
   open bsd                               inf
-  jupyter                        6315.000000
-  flask                          4210.000000
-  growth hacker                  3157.500000
-  unix                           3157.500000
-  live coding                    3157.500000
-  scraping                       3157.500000
-  speech recognition             2105.000000
-  scipy                          1578.750000
-  business analyst               1403.333333
-  Synth                          1263.000000
-  vue.js                          902.142857
-  growth hacking                  902.142857
-  market intelligence             789.375000
-  bsd                             701.666667
-  natural language processing     664.736842
-  numpy                           631.500000
-  pandas                          574.090909
-  linux                           421.000000
-  french                          421.000000
-  data analyst                    407.419355
-  python                          280.666667
-  data mining                     210.500000
-  data visualization              210.500000
-  vst                             155.925926
-  audio                           118.037383
-  music                            89.574468
-  data scientist                   87.708333
-  data analysis                    79.936709
-  junior                           78.937500
-  online marketing                 75.628743
-  data science                     66.473684
-  sound                            48.206107
-  e business                       12.744702
-  au                                1.289302
+  jupyter                        1436.000000
+  flask                           957.333333
+  live coding                     718.000000
+  scraping                        718.000000
+  growth hacker                   718.000000
+  unix                            718.000000
+  scipy                           319.111111
+  speech recognition              319.111111
+  Synth                           287.200000
+  vue.js                          220.923077
+  market intelligence             205.142857
+  growth hacking                  179.500000
+  business analyst                136.761905
+  numpy                           130.545455
+  pandas                          130.545455
+  bsd                             124.869565
+  natural language processing     124.869565
+  linux                            92.645161
+  french                           87.030303
+  data analyst                     84.470588
+  python                           56.313725
+  data visualization               49.517241
+  data mining                      47.081967
+  vst                              29.010101
+  data scientist                   18.771242
+  audio                            18.062893
+  junior                           17.619632
+  data analysis                    17.095238
+  online marketing                 16.697674
+  data science                     15.276596
+  music                            13.358140
+  e business                        2.649446
   dtype: float64
 #+END_EXAMPLE
 :END:
@@ -945,7 +929,7 @@ for query in queries_selected:
 
 #+RESULTS:
 :RESULTS:
-# Out[162]:
+# Out[134]:
 :END:
 
 ***** score attribution
@@ -956,72 +940,72 @@ pd.concat({"title":df.title, "weighted_score":df_int.sum(axis=1)}, axis=1).sort_
 
 #+RESULTS:
 :RESULTS:
-# Out[163]:
+# Out[135]:
 #+BEGIN_EXAMPLE
   title  weighted_score
-  15               Blockchain Data Scientist at Glassnode     9464.022927
-  16                        Head of Data Science at WATTx     9376.314593
-  30                           Back-End Software Engineer     6382.762986
-  14    Senior Software Engineer - Python for Marketin...     5193.190484
-  478                Full Stack Software Developer @ metr     4491.955968
-  439                            Data Warehouse Developer     3879.290604
-  1034                    Software Engineer (Python, m/f)     3627.995409
-  125                           Senior Front End Engineer     3257.953036
-  444                             Marketing Manager (SEO)     3245.873445
-  229                                 Solutions Architect     3245.208333
-  102                     Business Development internship     3245.208333
-  311                              Communications Manager     3245.208333
-  240             Junior NodeJS Developer (m/f) in Berlin     3236.437500
-  539                       Junior NodeJS Developer (m/f)     3206.995409
-  225                                      Marketing Lead     3171.534004
-  201                               DevOps Engineer (f/m)     3171.534004
-  421                               Growth Marketer (m/w)     3158.789302
-  308                                          HR Manager     3158.789302
-  3                                     Developer, Berlin     3158.789302
-  1044   Teamverstärkung für Systemadministration gesucht     3158.789302
-  160                Data Engineer / Data Scientist (m/f)     3157.500000
-  71                Machine Learning Researcher (Germany)     3146.233586
-  1167                 Machine Learning Research Engineer     2837.499828
-  4         Senior Data Scientist - Machine Learning & DL     2784.340909
-  356    Senior Research Engineer - Machine Learning & DL     2784.340909
-  364                Automotive System Software Architect     2771.026144
-  405                 Automotive System Software Engineer     2771.026144
-  267                     Data & Software Engineer Intern     2490.916667
-  252                              Deep Learning Engineer     2490.916667
-  749                  Growth Hacker/Performance Marketer     2381.973684
+  15               Blockchain Data Scientist at Glassnode     2097.331825
+  17                        Head of Data Science at WATTx     2078.560583
+  0                            Back-End Software Engineer     1291.721040
+  10    Senior Software Engineer - Python for Marketin...     1161.812145
+  157                Full Stack Software Developer @ metr     1013.647059
+  474                            Data Warehouse Developer      880.917288
+  902                     Software Engineer (Python, m/f)      810.645161
+  124                           Senior Front End Engineer      739.420688
+  506                             Marketing Manager (SEO)      737.347121
+  247                              Communications Manager      736.771242
+  90                      Business Development internship      736.771242
+  288                                 Solutions Architect      736.771242
+  126             Junior NodeJS Developer (m/f) in Berlin      735.619632
+  277                               DevOps Engineer (f/m)      720.649446
+  116                                      Marketing Lead      720.649446
+  3                                     Developer, Berlin      718.000000
+  357                                          HR Manager      718.000000
+  157                Data Engineer / Data Scientist (m/f)      718.000000
+  35                                Growth Marketer (m/w)      718.000000
+  1078   Teamverstärkung für Systemadministration gesucht      718.000000
+  179                       Junior NodeJS Developer (m/f)      718.000000
+  18                Machine Learning Researcher (Germany)      653.610984
+  7                            Python Data Engineer (f/m)      639.165192
+  278    Senior Research Engineer - Machine Learning & DL      580.202020
+  4         Senior Data Scientist - Machine Learning & DL      580.202020
+  299                     Data & Software Engineer Intern      505.970291
+  285                              Deep Learning Engineer      505.970291
+  736                  Machine Learning Research Engineer      459.257272
+  19                             Python Software Engineer      452.306012
+  360                Automotive System Software Architect      443.980676
   ...                                                 ...             ...
-  1249                                    Recruiter (m/f)        0.000000
-  728                        Scala Java Backend Team Lead        0.000000
-  285                                  Blender Generalist        0.000000
-  621                        Scala Java Backend Team Lead        0.000000
-  186        Product Manager “Customer Integration” (m/f)        0.000000
-  180   Praktikant im Projektmanagement Digitalisierun...        0.000000
-  291                                   Material Engineer        0.000000
-  174   Business Intelligence Engineer - BI Core Micro...        0.000000
-  510                 Infrastructure Engineer AWS (f/m/d)        0.000000
-  160          Technical Account Management Trainee (m/f)        0.000000
-  143                                       Product Owner        0.000000
-  493                              Backend Engineer (m/f)        0.000000
-  305             Lagermitarbeiter (m/w)/ Kommissionierer        0.000000
-  309   Medizinische/r Fachangestellte/r für HNO Praxi...        0.000000
-  310                      Architekt/in - Festeinstellung        0.000000
-  676   (Junior/Mid) Backend Developer (Scala/Java) - ...        0.000000
-  687                     Java Entwickler (Backend) (m/w)        0.000000
-  698                                Java Architect (w/m)        0.000000
-  449                         Senior Product Manager SWAT        0.000000
-  447   (Senior) DevOps Engineer (m/f/x) – 3rd level s...        0.000000
-  445                  Technical Product Owner- BER (m/f)        0.000000
-  1312                                   Network Engineer        0.000000
-  438                Software Engineering Manager (m/f/x)        0.000000
-  329                                Content Intern (F/M)        0.000000
-  430                Team Lead Software Development (m/f)        0.000000
-  1283                                         Cabin Crew        0.000000
-  1276                           Fellow - Risk Management        0.000000
-  421                      Software Engineer (Java) (f/m)        0.000000
-  727                        Scala Java Backend Team Lead        0.000000
-  113             Sr. Technical Product Manager (m/f/div)        0.000000
+  434                           Specialist Internal Audit        0.000000
+  435                                   Account Executive        0.000000
+  437   Customer Service Representative with Arabic or...        0.000000
+  438                          Sales Manager France (m/f)        0.000000
+  443                           City Manager France (f/m)        0.000000
+  446                                           CFO (m/f)        0.000000
+  406   French Linguistic Assistant Internship (m/f) V...        0.000000
+  403   Customer Care Specialist Backoffice - Internat...        0.000000
+  356                      Head of Marketing Europe (m/f)        0.000000
+  401                  Senior English in-house translator        0.000000
+  359   Influencer Marketing & Social Media Manager (f...        0.000000
+  362                  Logistics Project Manager Regional        0.000000
+  365   Customer Fashion Advisor For Our French Market...        0.000000
+  366                                  Conference Manager        0.000000
+  370   INTERNATIONAL PROGRAM FOR JUNIORS / VIE - LUBR...        0.000000
+  372              Account Manager - French&English (w/m)        0.000000
+  373              Account Manager - German&English (w/m)        0.000000
+  375                       Installation Specialist (f/m)        0.000000
+  377              Sales Development Representative (m/f)        0.000000
+  383                 Machine Learning & NLP Expert (m/f)        0.000000
+  384                  Multi-Property Revenue Manager M/W        0.000000
+  386                                   Head of Marketing        0.000000
+  387                    Influencer Marketing Lead Europe        0.000000
+  389   Freelancer Copywriter/Translator: Native Russi...        0.000000
+  392   Internship Busi­ness Deve­lop­ment France (m/f...        0.000000
+  393                                     Country Manager        0.000000
+  394                          Junior Sales Manager (m/f)        0.000000
+  396                 Business Development (Sales) Intern        0.000000
+  400                                          HR Manager        0.000000
+  893                                      Office Manager        0.000000
   
-  [11977 rows x 2 columns]
+  [13241 rows x 2 columns]
 #+END_EXAMPLE
 :END:
 
@@ -1032,7 +1016,7 @@ df_print["weighted_score"] = df_bin.sum(axis=1)
 
 #+RESULTS:
 :RESULTS:
-# Out[164]:
+# Out[136]:
 :END:
 
 **** Add matched queries list
@@ -1052,11 +1036,13 @@ df_print["matches"] = df_str.sum(axis=1)
 
 #+RESULTS:
 :RESULTS:
-# Out[165]:
+# Out[137]:
 :END:
 
 **** Keywords distance map
 with all keywords, you are at the center
+
+**** clusters of word of bags
 *** Recent offers
 #+BEGIN_SRC ipython
 df_save = df_print
@@ -1455,7 +1441,7 @@ df.title
 
 #+RESULTS:
 :RESULTS:
-# Out[204]:
+# Out[139]:
 :END:
 
 ***** html page generation
@@ -1507,7 +1493,7 @@ def pagegen(filename_base, pagenum, title, desc, company, days, url, query, matc
 
 #+RESULTS:
 :RESULTS:
-# Out[205]:
+# Out[140]:
 :END:
 
 ***** htmlexport function
@@ -1537,7 +1523,7 @@ def htmlexport(df, begin, end):
 
 #+RESULTS:
 :RESULTS:
-# Out[206]:
+# Out[141]:
 :END:
 
 ****** sort df
@@ -1548,7 +1534,7 @@ df_print = df_print.sort_values("score", ascending=False)
 
 #+RESULTS:
 :RESULTS:
-# Out[207]:
+# Out[142]:
 :END:
 
 ******* by weighted score
@@ -1558,7 +1544,7 @@ df_print = df_print.sort_values("weighted_score", ascending=False)
 
 #+RESULTS:
 :RESULTS:
-# Out[208]:
+# Out[143]:
 :END:
 
 ****** call
@@ -1568,7 +1554,7 @@ htmlexport(df_print, 0, 200)
 
 #+RESULTS:
 :RESULTS:
-# Out[209]:
+# Out[144]:
 :END:
 ****** link
 file:home/teddd/data/projects/jobseeker/reports/html/
