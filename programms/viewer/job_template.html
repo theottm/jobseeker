@@ -1,0 +1,50 @@
+<meta charset="UTF-8">
+<title>{{job.title}}</title>
+<style>
+table, th, td {
+  border: 2px solid gray;
+  border-collapse: collapse;
+  text-align: left;
+}
+</style>
+<body>
+  <a href="index.html">Index</a><br>
+  {% if index != 1 %}
+  <a href="job-{{index-1}}.html">Previous page </a>
+  {% endif %}
+  <b>- {{index}} / {{limit}} -</b>
+  {% if index < limit %}
+  <a href="job-{{index+1}}.html">Next page</a>
+  {% endif %}
+  <br><br>
+  <a target="_blank" href="{{job.url}}">Original page</a><br>
+  <h1>{{job.title}} {{job.company}}</h1>
+
+  <h2>Contexte</h2>
+  <table style="width:20%">
+	<tr text-align=left>
+      <th>Publication</th>
+      <th>Company</th>
+      <th>Contract</th>
+	</tr>
+	<tr>
+      <td>{{job.days_ago}} days ago</td>
+      <td>{{job.company}}</td>
+      <td>{{job.contract}}</td>
+	</tr>
+  </table>
+  <h3>Score: {{job.score}}</h3>
+  (nombre de mots clefs différents)
+  <h3>Mots clefs</h2>
+  <table style="width:100%">
+	<tr>
+	  {% for match in matches %}
+      <td>{{match}}</td>
+	  {% endfor %}
+	</tr>
+  </table><br><br>
+  
+  <h2>Decription</h2>
+  {{job.desc}}
+
+</body>

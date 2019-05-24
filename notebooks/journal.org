@@ -1,0 +1,116 @@
+* Design
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 00:24>
+:END:
+** File Structure
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:35>
+:END:
+*** scraper
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:36>
+:END:
+*** data
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:36>
+:END:
+**** a database
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:36>
+:END:
+**** a collector
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:36>
+:END:
+*** notebooks
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:36>
+:END:
+**** experiments for publications
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:37>
+:END:
+**** journaling
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:37>
+:END:
+*** programms
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:37>
+:END:
+**** standalone programms
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:37>
+:END:
+** Data Pipeline 
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:43>
+:END:
+*** Data aquisition
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:43>
+:END:
+**** Scrap the whole ?
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:43>
+:END:
+***** 600,000 in Germany
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:53>
+:END:
+***** 7 days of scraping
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:53>
+:END:
+***** scrap only recents ? 
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:54>
+:END:
+****** save last date
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:55>
+:END:
+****** scrap everything since then
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:55>
+:END:
+****** max:  10 days
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:55>
+:END:
+**** focus on one place and field
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 21:01>
+:END:
+*** Storage
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:57>
+:END:
+**** temp csv file for collector programm
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:59>
+:END:
+**** database
+:PROPERTIES:
+:CREATED:  <2019-05-07 mar. 20:57>
+:END:
+* Journal
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 00:24>
+:END:
+** 190520
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 00:24>
+:END:
+The scraper can run a chosen amount of parallel crawls thanks to ansyncio.
+A list of keywords is used to scrape job offers in Paris.
+The scraper ran on keywords lists form cybordgab.
+
+We still would like to:
+1. Have a navigable listing of sorted job offers (partly done with the crawler list)
+2. Explore different scoring rules
+3. Translate keywords
+4. Be able to chose the city / region in a country
+5. Have a general overview of the words used in a given pool of jobs.
+6. Be able to chose the country / or at least the spider
+7. Run it on a cloud / server

@@ -1,0 +1,259 @@
+* project variables 
+:PROPERTIES:
+:CREATED:  <2019-05-14 mar. 20:36>
+:END:
+#+name:root
+#+BEGIN_SRC shell
+echo ~/data/projects/jobseeker2019
+#+END_SRC
+
+#+name:env
+#+BEGIN_SRC shell :session :var root=root :results raw drawer
+source  $root/.projectrc
+env | grep PROJECT
+#+END_SRC
+
+#+RESULTS: env
+:RESULTS:
+PROJECT_ROOT=~/data/projects/jobseeker2019
+:END:
+
+
+* session
+:PROPERTIES:
+:header-args: :session :tangle analysis.py :results raw drawer
+:END:
+** imports
+#+BEGIN_SRC ipython :tangle no
+%matplotlib inline
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[1]:
+:END:
+
+#+BEGIN_SRC ipython
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[2]:
+:END:
+
+** set variables
+:PROPERTIES:
+:CREATED:  <2019-05-14 mar. 21:34>
+:END:
+#+BEGIN_SRC ipython :tangle no :eval never :session :var root=root
+import os, subprocess
+command = 'env -i bash -c "source {}/.projectrc && env"'.format(root.replace("\n", ""))
+for line in subprocess.getoutput(command).split("\n"):
+        key, value = line.split("=")
+        os.environ[key]= value
+#+END_SRC
+
+#+BEGIN_SRC ipython :session
+PROJECT_ROOT = "/home/teddd/data/projects/jobseeker2019"
+usr = "cyborgab"
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[3]:
+:END:
+
+
+** read data
+:PROPERTIES:
+:CREATED:  <2019-05-14 mar. 20:23>
+:END:
+#+BEGIN_SRC ipython
+project_data_path = PROJECT_ROOT + "/data/" 
+usr_data_path = project_data_path + usr + "/"
+
+#get the newest dataset
+import os
+dates_list = os.listdir(usr_data_path)
+dates_list.sort()
+date = dates_list[-1]
+usr_lastdata_path = usr_data_path + date + "/"
+
+crawls_list = os.listdir(usr_lastdata_path)
+
+df = pd.DataFrame()
+for crawl in crawls_list:
+    crawl_path = usr_lastdata_path + crawl
+    crawl_size = os.path.getsize(crawl_path)
+    if crawl_size > 0:
+        read = pd.read_csv(crawl_path)
+        df = df.append(read)
+df.reset_index(inplace=True)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[4]:
+:END:
+
+** data wraggling
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 22:45>
+:END:
+
+*** drop dublicates
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 21:37>
+:END:
+#+BEGIN_SRC ipython
+df.drop_duplicates(["title", "company"], inplace = True)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[5]:
+:END:
+
+** analysis
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 22:07>
+:END:
+*** words search 
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 22:07>
+:END:
+**** check occurence of one word
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 22:56>
+:END:
+#+BEGIN_SRC ipython :eval never :tangle no
+key_word = "vert"
+word_df = df[df.desc.str.contains(key_word, case=False, na=False)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[51]:
+:END:
+**** check occurence of many words 
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 22:56>
+:END:
+#+BEGIN_SRC ipython
+keywords_list = [crawl.replace(".csv", "").replace("-", " ") for crawl in crawls_list]
+NUMBER_OF_RESULTS = 200
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[6]:
+:END:
+
+***** hot tables method
+:PROPERTIES:
+:header-args: :eval never :tangle no
+:CREATED:  <2019-05-21 mar. 21:01>
+:END:
+****** boolean table with keywords as columns
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 23:17>
+:END:
+#+BEGIN_SRC ipython
+l = [df.desc.str.contains(keyword, case=False, na=False).tolist() for keyword in keywords_list]
+keywords_bool_df = pd.DataFrame(l).T
+keywords_bool_df.columns = keywords_list
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[126]:
+:END:
+****** hot table
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 23:17>
+:END:
+#+BEGIN_SRC ipython
+def bool_to_bin(x):
+    if x is True:
+        return 1
+    else:
+        return 0
+
+keywords_hot_df = keywords_bool_df.applymap(bool_to_bin)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[129]:
+:END:
+****** scores per job offer row
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 23:19>
+:END:
+#+BEGIN_SRC ipython
+df["score"] = keywords_hot_df.sum(axis=1)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[133]:
+:END:
+***** list matches method
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 21:01>
+:END:
+****** add present keywords to a list of matches
+#+BEGIN_SRC ipython
+df["match"] = [[] for i in range(len(df))]
+
+for keyword in keywords_list:
+    for index, desc in df.to_dict()["desc"].items():
+        if keyword in desc:
+            df.loc[index,"match"].append(keyword)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[23]:
+:END:
+****** attribute a score depending on the lenght of the matches list
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 21:31>
+:END:
+#+BEGIN_SRC ipython
+df["score"] = df.match.apply(len)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[25]:
+:END:
+
+***** resulting table
+:PROPERTIES:
+:CREATED:  <2019-05-16 jeu. 23:21>
+:END:
+#+BEGIN_SRC ipython
+high_rank_offers = df.sort_values(by="score", ascending = False).iloc[:NUMBER_OF_RESULTS]
+
+import time
+localtime   = time.localtime()
+now = time.strftime("%y%m%d-%H%M", localtime)
+csv_file = PROJECT_ROOT + f"/products/keywords_ranking/{now}-rank.csv"
+high_rank_offers.to_csv(csv_file)
+print(csv_file)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[26]:
+:END:
+
+***** visualize 
+:PROPERTIES:
+:CREATED:  <2019-05-21 mar. 21:47>
+:END:
+cf programms
