@@ -31,7 +31,7 @@ keywords_list = [keyword if keyword[-1] != " " else keyword[:-1] for keyword in 
 print(f"{keywords_list}")
 print(f"Number of keywords: {len(keywords_list)}")
 
-cwd="~/Desktop/jobseeker/programms/scraper/indeed"
+cwd="C:/Users/gabri/Desktop/jobseeker/programms/scraper/indeed"
 shutil.rmtree(cwd + "/output/ongoing/")
 os.mkdir(cwd + "/output/ongoing/")
 
