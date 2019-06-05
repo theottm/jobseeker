@@ -114,3 +114,9 @@ We still would like to:
 5. Have a general overview of the words used in a given pool of jobs.
 6. Be able to chose the country / or at least the spider
 7. Run it on a cloud / server
+** 190605 
+:PROPERTIES:
+:CREATED:  <2019-06-05 mer. 21:30>
+:END:
+
+Add negative keywords
