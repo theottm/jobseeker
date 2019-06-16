@@ -28,11 +28,11 @@ config.read(config_path)
 project_root = config["general"]["project_root"]
 user = config["general"]["user"]
 
+
 # read keywords file
 user_data_path = path_join(project_root, "data", user)
 keywords_file = path_join(user_data_path, "scraper_keywords.txt")
-print(keywords_file)
-print(user_data_path)
+
 
 # define parser with command line arguments
 parser = argparse.ArgumentParser(description='Launches many scrapers.')
@@ -58,8 +58,8 @@ print(f"Number of keywords: {len(keywords_list)}")
 
 
 # prepare data output folders
-ongoing_dir = path_join(user_data_path, "output", "scrapers", "ongoing")
-done_dir = path_join(user_data_path, "output", "scrapers", "done")
+ongoing_dir = path_join("ongoing")
+done_dir = path_join(user_data_path, "output", "scrapers")
 print(ongoing_dir)
 print(done_dir)
 try:
