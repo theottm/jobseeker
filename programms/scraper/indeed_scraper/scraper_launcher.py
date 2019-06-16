@@ -31,7 +31,8 @@ user = config["general"]["user"]
 # read keywords file
 user_data_path = path_join(project_root, "data", user)
 keywords_file = path_join(user_data_path, "scraper_keywords.txt")
-
+print(keywords_file)
+print(user_data_path)
 
 # define parser with command line arguments
 parser = argparse.ArgumentParser(description='Launches many scrapers.')
