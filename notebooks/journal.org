@@ -118,5 +118,5 @@ We still would like to:
 :PROPERTIES:
 :CREATED:  <2019-06-05 mer. 21:30>
 :END:
-
 Add negative keywords
+New concept : [[https://en.wikipedia.org/wiki/Taxonomy][Taxonomy]]  

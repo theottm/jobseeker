@@ -21,7 +21,7 @@ PROJECT_ROOT=~/data/projects/jobseeker2019
 
 * session
 :PROPERTIES:
-:header-args: :session :tangle analysis.py :results raw drawer
+:header-args: :session jobseeker :tangle analysis.py :results raw drawer
 :END:
 ** imports
 #+BEGIN_SRC ipython :tangle no
@@ -57,13 +57,19 @@ for line in subprocess.getoutput(command).split("\n"):
 #+END_SRC
 
 #+BEGIN_SRC ipython :session
-PROJECT_ROOT = "/home/teddd/data/projects/jobseeker2019"
-usr = "cyborgab"
+from configparser import ConfigParser
+import os
+
+PROJECT_ROOT = "/home/teddd/data/projects/jobseeker"
+
+# Load the configuration file
+config.read(os.path.join(PROJECT_ROOT, "config.ini"))
+usr = config["general"]["user"]
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[3]:
+# Out[12]:
 :END:
 
 

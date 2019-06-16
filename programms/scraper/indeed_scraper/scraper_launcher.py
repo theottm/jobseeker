@@ -6,12 +6,35 @@ import time
 import os
 import argparse
 import shutil
+from configparser import ConfigParser
+from os.path import join as path_join
 
-default_file = "../../../data/scraper_keywords.txt"
 
-# define parser form command line arguments
+# find the configuration file of the project
+def find_config(dir):
+    files = os.listdir(dir)
+    if "config.ini" in files:
+        dir = os.path.abspath(dir)
+        print(f"Found config file at {dir}.")
+        return path_join(dir, "config.ini")
+    else:
+        return find_config(path_join(dir, ".."))
+config_path = find_config(".")
+
+# read the config file
+config = ConfigParser()
+config.read(config_path)
+project_root = config["general"]["project_root"]
+user = config["general"]["user"]
+
+# read keywords file
+user_data_path = path_join(project_root, "data", user)
+keywords_file = path_join(user_data_path, "scraper_keywords.txt")
+
+
+# define parser with command line arguments
 parser = argparse.ArgumentParser(description='Launches many scrapers.')
-parser.add_argument("-f", "--file", nargs="?", type=str, default=default_file,
+parser.add_argument("-f", "--file", nargs="?", type=str, default=keywords_file,
                     help="A plain text file with a keyword per line", metavar="txt")
 parser.add_argument("-l", '--limit', nargs="?", default=20, type=int,
                     help="Maximum number of scrapers that can run at the same time.", metavar="N")
@@ -31,16 +54,27 @@ keywords_list = [keyword if keyword[-1] != " " else keyword[:-1] for keyword in 
 print(f"{keywords_list}")
 print(f"Number of keywords: {len(keywords_list)}")
 
-cwd="~/data/projects/jobseeker/programms/scraper/indeed"
-shutil.rmtree(cwd + "/output/ongoing/")
-os.mkdir(cwd + "/output/ongoing/")
+
+# prepare data output folders
+ongoing_dir = path_join(user_data_path, "output", "scrapers", "ongoing")
+done_dir = path_join(user_data_path, "output", "scrapers", "done")
+try:
+    os.makedirs(done_dir)
+except FileExistsError:
+    pass
+try:
+    shutil.rmtree(ongoing_dir)
+    os.mkdir(ongoing_dir)
+except FileNotFoundError:
+    os.makedirs(ongoing_dir)
+
 
 # define a crawl function that will be launched by asyncio
 async def crawl(keyword, semaphore):
     async with semaphore:
         file_name = f"{keyword.replace(' ','-')}.csv"
-        output_ongoing = f"output/ongoing/{file_name}"
-        output_done = f"output/done/{file_name}"
+        output_ongoing = path_join(ongoing_dir, file_name)
+        output_done = path_join(done_dir, file_name)
         print(f"Starting: {keyword}")
         if not os.path.isfile(output_done):
             cmd = ['scrapy', "crawl", "france", "-a", f'query="{keyword}"', "-a", 'location="Paris"', "-a", 'country="fr"', "-o", output_ongoing]
@@ -55,7 +89,7 @@ async def crawl(keyword, semaphore):
             # move file to a specific folder when done
             try:
                 print(f"Done: {keyword}")
-                os.rename(f"output/ongoing/{file_name}", f"output/done/{file_name}")
+                os.rename(output_ongoing, output_done)
             except FileNotFoundError:
                 print("{} stderr: length {}".format(cmd, stderr.decode()))
                 raise 
@@ -79,7 +113,10 @@ async def main():
         tasks.append(asyncio.ensure_future(crawl(keyword, semaphore)))
     await asyncio.gather(*tasks)
 
-    
-loop = asyncio.get_event_loop()
+if sys.platform == "win32":
+    loop = asyncio.ProactorEventLoop()
+    asyncio.set_event_loop(loop)
+else:
+    loop = asyncio.get_event_loop()
 loop.set_debug(True)
 ids = loop.run_until_complete(main())
