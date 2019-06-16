@@ -3,4 +3,4 @@ import os
 
 def get_project_root() -> str:
     """Returns project root folder."""
-    return os.path.abspath(Path(__file__).parent.parent.parent)
+    return str(Path(__file__).parent.parent.parent)
