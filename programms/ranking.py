@@ -16,6 +16,7 @@ user = config["general"]["user"]
 from os.path import join as path_join
 
 scraper_data_path = path_join(project_root, "data",  user, "output", "scraper")
+print("scraper_data_path")
 print(scraper_data_path)
 
 #get the newest dataset
