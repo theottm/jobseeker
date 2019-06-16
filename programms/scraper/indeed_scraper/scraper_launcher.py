@@ -57,8 +57,10 @@ print(f"Number of keywords: {len(keywords_list)}")
 
 
 # prepare data output folders
-ongoing_dir = path_join("output", "scrapers", "ongoing")
-done_dir = path_join("output", "scrapers", "done")
+ongoing_dir = path_join(user_data_path, "output", "scrapers", "ongoing")
+done_dir = path_join(user_data_path, "output", "scrapers", "done")
+print(ongoing_dir)
+print(done_dir)
 try:
     os.makedirs(done_dir)
 except FileExistsError:
