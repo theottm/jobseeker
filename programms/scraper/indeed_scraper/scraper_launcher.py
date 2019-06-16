@@ -8,6 +8,7 @@ import argparse
 import shutil
 from configparser import ConfigParser
 from os.path import join as path_join
+import sys
 
 
 # find the configuration file of the project

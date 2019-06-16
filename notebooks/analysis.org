@@ -21,7 +21,7 @@ PROJECT_ROOT=~/data/projects/jobseeker2019
 
 * session
 :PROPERTIES:
-:header-args: :session jobseeker :tangle analysis.py :results raw drawer
+:header-args: :session jobseeker :tangle ../programms/words-analysis.py :results raw drawer
 :END:
 ** imports
 #+BEGIN_SRC ipython :tangle no

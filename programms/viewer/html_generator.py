@@ -7,6 +7,8 @@ import shutil
 
 
 # get the rankings (can be produced by the analys)
+
+
 ranking_dir = "../../products/keywords_ranking/"
 rankings = os.listdir(ranking_dir)
 rankings = [r for r in rankings if "rank" in r]

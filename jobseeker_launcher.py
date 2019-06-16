@@ -3,17 +3,17 @@ from configparser import ConfigParser
 
 from programms.utils.utils import get_project_root
 
+# Initialize project root
 project_root = get_project_root()
-print("Root :" + project_root)
 config = ConfigParser()
 config_path = os.path.join(project_root, "config.ini")
-print(config_path)
 config.read(config_path)
 config.set("general", "project_root", project_root)
-print(config["general"]["project_root"])
 with open('config.ini', 'w') as configfile:
     config.write(configfile)
+print("Root :" + project_root)
 
+# 
 programms = []
 exclude_dirs = set(["indeed", "utils"])
 exclude_files = ["__init__.py", __file__, "status.py"]

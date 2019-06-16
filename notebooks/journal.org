@@ -120,3 +120,80 @@ We still would like to:
 :END:
 Add negative keywords
 New concept : [[https://en.wikipedia.org/wiki/Taxonomy][Taxonomy]]  
+** 190616
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 15:21>
+:END:
+* State:
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 15:25>
+:END:
+#+BEGIN_SRC shell :results output
+tree .. -L 3
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+..
+├── config.ini
+├── config.ini~
+├── data
+│   ├── cyborgab
+│   │   └── 190520
+│   ├── scraper_keywords.txt
+│   ├── teddd
+│   │   └── keywords.txt
+│   ├── test
+│   │   ├── 190520-2345
+│   │   └── 190520-2346
+│   └── usr
+│       ├── 190520-2338
+│       ├── 190520-2339
+│       ├── 190520-2343
+│       └── 190520-2344
+├── jobseeker_launcher.py
+├── jobseeker.py~
+├── notebooks
+│   ├── #analysis.org#
+│   ├── analysis.org
+│   ├── analysis.py
+│   ├── analysis.py~
+│   ├── jobseeker_archive.org
+│   ├── #journal.org#
+│   ├── journal.org
+│   └── journal.org~
+├── products
+│   └── keywords_ranking
+│       ├── 190521-2204-rank.csv
+│       ├── 190524-0116-rank.csv
+│       ├── 190524-0117-rank.csv
+│       ├── 190524-0119-rank.csv
+│       └── html
+└── programms
+    ├── __init__.py
+    ├── project_build
+    ├── __pycache__
+    │   ├── __init__.cpython-37.pyc
+    │   └── utils.cpython-37.pyc
+    ├── scraper
+    │   └── indeed_scraper
+    ├── utils
+    │   ├── __init__.py
+    │   ├── __pycache__
+    │   ├── scraper_wrapper.sh
+    │   ├── scraper_wrapper.sh~
+    │   ├── utils.py
+    │   └── utils.py~
+    └── viewer
+        ├── classement-offres-190522.zip
+        ├── html_generator.py
+        ├── html_generator.py~
+        ├── index_template.html
+        ├── index_template.html~
+        ├── index_template.html.bak
+        ├── job-offers-ranking-cyborgab-190522.zip
+        ├── job_template.html
+        └── job_template.html~
+
+24 directories, 35 files
+#+end_example
