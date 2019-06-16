@@ -78,7 +78,7 @@ async def crawl(keyword, semaphore):
         output_done = path_join(done_dir, file_name)
         print(f"Starting: {keyword}")
         if not os.path.isfile(output_done):
-            cmd = ['scrapy', "crawl", "france", "-a", f'query="{keyword}"', "-a", 'location="Paris"', "-a", 'country="fr"', "-o", output_ongoing]
+            cmd = ['scrapy', "crawl", "france", "-a", f'query="{keyword}"', "-a", 'location="Paris"', "-a", 'country="fr"', "-o", f"\"{output_ongoing}\""]
             #cmd = ["touch", 'output/"{}".csv'.format(keyword)]
             cmd = " ".join(cmd)
             print(f"Running : {cmd}")
