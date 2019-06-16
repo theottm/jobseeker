@@ -88,16 +88,8 @@ async def crawl(keyword, semaphore):
                 stderr=asyncio.subprocess.PIPE)
             stdout, stderr = await proc.communicate()
             # move file to a specific folder when done
-            try:
-                print(f"Done: {keyword}")
-                os.rename(output_ongoing, output_done)
-            except FileNotFoundError:
-                print("{} stderr: length {}".format(cmd, stderr.decode()))
-                raise 
-            if stdout:
-                print("stdout: length: {}".format(len(stdout.decode())))
-            if stderr:
-                print("stderr: length {}".format(len(stderr.decode())))
+            print(f"Done: {keyword}")
+            os.rename(output_ongoing, output_done)
         else:
             print(f"{file_name} already exists, skipping.")
 
