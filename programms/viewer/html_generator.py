@@ -4,22 +4,38 @@ import random
 import ast
 import os
 import shutil
+from os.path import join as path_join
+from configparser import ConfigParser
+import re
 
+# find the configuration file of the project
+def find_config(dir):
+    files = os.listdir(dir)
+    if "config.ini" in files:
+        dir = os.path.abspath(dir)
+        print(f"Found config file at {dir}.")
+        return path_join(dir, "config.ini")
+    else:
+        return find_config(path_join(dir, ".."))
+config_path = find_config(".")
 
-# get the rankings (can be produced by the analys)
+# read the config file
+config = ConfigParser()
+config.read(config_path)
+project_root = config["general"]["project_root"]
+user = config["general"]["user"]
 
-
-ranking_dir = "../../products/keywords_ranking/"
+# get the ranking
+ranking_dir = path_join(project_root, "products", "keywords_ranking")
 rankings = os.listdir(ranking_dir)
 rankings = [r for r in rankings if "rank" in r]
 rankings.sort()
-print(rankings)
 ranking = rankings[-1]
-ranking_path = ranking_dir + ranking
+ranking_path = path_join(ranking_dir, ranking)
 df = pd.read_csv(ranking_path)
 
 # clean output dir
-output_dir = ranking_dir + "html/"
+output_dir = path_join(ranking_dir, "html")
 shutil.rmtree(output_dir)
 os.mkdir(output_dir)
 
@@ -30,9 +46,11 @@ with open("./index_template.html") as f:
 
 index = df.to_dict("records")
 html = index_template.render(jobs=index)
-with open(f"{output_dir}/index.html", "w") as text_file:
+with open(path_join(output_dir, "index.html"), "w") as text_file:
     text_file.write(html) 
 
+print(df)
+    
 # render a html file per job
 with open("./job_template.html") as f:
     job_template = f.read()
@@ -53,6 +71,6 @@ for i, row in enumerate(df.to_dict("records")):
         random_color_str = '{:02X}{:02X}{:02X}'.format(*base)
         print(random_color_str)
         keyword_colored = f'<b style="background-color:#{random_color_str}">{keyword}</b>'
-        html_colored = html_colored.replace(keyword, keyword_colored)
-    with open(f"{output_dir}/job-{i}.html", "w") as text_file:
+        html_colored = re.sub(keyword, keyword_colored, html_colored, flags=re.I)
+    with open(path_join(output_dir, f"job-{i}.html"), "w") as text_file:
         text_file.write(html_colored)

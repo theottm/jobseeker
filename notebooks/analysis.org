@@ -21,7 +21,7 @@ PROJECT_ROOT=~/data/projects/jobseeker2019
 
 * session
 :PROPERTIES:
-:header-args: :session jobseeker :tangle ../programms/words-analysis.py :results raw drawer
+:header-args: :session jobseeker :tangle ../programms/ranking.py :results raw drawer
 :END:
 ** imports
 #+BEGIN_SRC ipython :tangle no
@@ -30,7 +30,7 @@ PROJECT_ROOT=~/data/projects/jobseeker2019
 
 #+RESULTS:
 :RESULTS:
-# Out[1]:
+# Out[10]:
 :END:
 
 #+BEGIN_SRC ipython
@@ -41,12 +41,17 @@ import pandas as pd
 
 #+RESULTS:
 :RESULTS:
-# Out[2]:
+# Out[11]:
 :END:
 
 ** set variables
 :PROPERTIES:
 :CREATED:  <2019-05-14 mar. 21:34>
+:END:
+
+*** with bash env (experimental)
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 23:20>
 :END:
 #+BEGIN_SRC ipython :tangle no :eval never :session :var root=root
 import os, subprocess
@@ -56,20 +61,45 @@ for line in subprocess.getoutput(command).split("\n"):
         os.environ[key]= value
 #+END_SRC
 
-#+BEGIN_SRC ipython :session
-from configparser import ConfigParser
-import os
-
-PROJECT_ROOT = "/home/teddd/data/projects/jobseeker"
-
-# Load the configuration file
-config.read(os.path.join(PROJECT_ROOT, "config.ini"))
-usr = config["general"]["user"]
+*** org mode 
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 23:23>
+:END:
+#+BEGIN_SRC ipython :tangle no
+project_root = os.path.abspath("..")
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
 # Out[12]:
+:END:
+
+*** python script
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 23:48>
+:END:
+#+BEGIN_SRC ipython :eval never
+from utils.utils import get_project_root
+project_root = get_project_root()
+#+END_SRC
+
+*** language agnostic
+:PROPERTIES:
+:CREATED:  <2019-06-16 dim. 23:49>
+:END:
+#+BEGIN_SRC ipython
+from configparser import ConfigParser
+import os
+
+# Load the configuration file
+config = ConfigParser()
+config.read(os.path.join(project_root, "config.ini"))
+user = config["general"]["user"]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[13]:
 :END:
 
 
@@ -78,21 +108,22 @@ usr = config["general"]["user"]
 :CREATED:  <2019-05-14 mar. 20:23>
 :END:
 #+BEGIN_SRC ipython
-project_data_path = PROJECT_ROOT + "/data/" 
-usr_data_path = project_data_path + usr + "/"
+from os.path import join as path_join
+
+scraper_data_path = path_join(project_root, "data",  user, "output", "scraper")
 
 #get the newest dataset
 import os
-dates_list = os.listdir(usr_data_path)
-dates_list.sort()
-date = dates_list[-1]
-usr_lastdata_path = usr_data_path + date + "/"
+# dates_list = os.listdir(scraper_data_path)
+# dates_list.sort()
+# date = dates_list[-1]
+#user_lastdata_path = path_join(user_data_path, date)
 
-crawls_list = os.listdir(usr_lastdata_path)
+crawls_list = os.listdir(scraper_data_path)
 
 df = pd.DataFrame()
 for crawl in crawls_list:
-    crawl_path = usr_lastdata_path + crawl
+    crawl_path = os.path.join(scraper_data_path, crawl)
     crawl_size = os.path.getsize(crawl_path)
     if crawl_size > 0:
         read = pd.read_csv(crawl_path)
@@ -102,7 +133,7 @@ df.reset_index(inplace=True)
 
 #+RESULTS:
 :RESULTS:
-# Out[4]:
+# Out[14]:
 :END:
 
 ** data wraggling
@@ -120,7 +151,7 @@ df.drop_duplicates(["title", "company"], inplace = True)
 
 #+RESULTS:
 :RESULTS:
-# Out[5]:
+# Out[15]:
 :END:
 
 ** analysis
@@ -155,7 +186,7 @@ NUMBER_OF_RESULTS = 200
 
 #+RESULTS:
 :RESULTS:
-# Out[6]:
+# Out[16]:
 :END:
 
 ***** hot tables method
@@ -215,16 +246,18 @@ df["score"] = keywords_hot_df.sum(axis=1)
 #+BEGIN_SRC ipython
 df["match"] = [[] for i in range(len(df))]
 
+import re
 for keyword in keywords_list:
     for index, desc in df.to_dict()["desc"].items():
-        if keyword in desc:
+        if  re.search(keyword, desc, flags=re.I):
             df.loc[index,"match"].append(keyword)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[23]:
+# Out[22]:
 :END:
+
 ****** attribute a score depending on the lenght of the matches list
 :PROPERTIES:
 :CREATED:  <2019-05-21 mar. 21:31>
@@ -235,7 +268,7 @@ df["score"] = df.match.apply(len)
 
 #+RESULTS:
 :RESULTS:
-# Out[25]:
+# Out[18]:
 :END:
 
 ***** resulting table
@@ -248,14 +281,14 @@ high_rank_offers = df.sort_values(by="score", ascending = False).iloc[:NUMBER_OF
 import time
 localtime   = time.localtime()
 now = time.strftime("%y%m%d-%H%M", localtime)
-csv_file = PROJECT_ROOT + f"/products/keywords_ranking/{now}-rank.csv"
+csv_file = path_join(project_root, "products", "keywords_ranking", f"ranking.csv")
 high_rank_offers.to_csv(csv_file)
 print(csv_file)
 #+END_SRC
 
 #+RESULTS:
 :RESULTS:
-# Out[26]:
+# Out[19]:
 :END:
 
 ***** visualize 

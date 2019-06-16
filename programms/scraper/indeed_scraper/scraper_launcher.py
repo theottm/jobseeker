@@ -58,12 +58,12 @@ print(f"Number of keywords: {len(keywords_list)}")
 
 
 # prepare data output folders
-ongoing_dir = path_join("ongoing")
-done_dir = path_join(user_data_path, "output", "scrapers")
+ongoing_data_dir = path_join("ongoing")
+storage_data_dir = path_join(user_data_path, "output", "scraper")
 print(ongoing_dir)
-print(done_dir)
+print(storage_data_dir)
 try:
-    os.makedirs(done_dir)
+    os.makedirs(storage_data_dir)
 except FileExistsError:
     pass
 try:
@@ -78,7 +78,7 @@ async def crawl(keyword, semaphore):
     async with semaphore:
         file_name = f"{keyword.replace(' ','-')}.csv"
         output_ongoing = path_join(ongoing_dir, file_name)
-        output_done = path_join(done_dir, file_name)
+        output_done = path_join(storage_data_dir, file_name)
         print(f"Starting: {keyword}")
         if not os.path.isfile(output_done):
             cmd = ['scrapy', "crawl", "france", "-a", f'query="{keyword}"', "-a", 'location="Paris"', "-a", 'country="fr"', "-o", f"\"{output_ongoing}\""]
