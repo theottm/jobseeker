@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import os
 
 from utils.utils import get_project_root
 project_root = get_project_root()
@@ -16,8 +17,6 @@ user = config["general"]["user"]
 from os.path import join as path_join
 
 scraper_data_path = path_join(project_root, "data",  user, "output", "scraper")
-print("scraper_data_path")
-print(scraper_data_path)
 
 #get the newest dataset
 import os
@@ -27,6 +26,7 @@ import os
 #user_lastdata_path = path_join(user_data_path, date)
 
 crawls_list = os.listdir(scraper_data_path)
+print(f"Number of crawls : {len(crawls_list)}")
 
 df = pd.DataFrame()
 for crawl in crawls_list:
@@ -37,17 +37,21 @@ for crawl in crawls_list:
         df = df.append(read)
 df.reset_index(inplace=True)
 
+from humanize import naturalsize
+print(f"Size : {naturalsize(df.size)}")
+
 df.drop_duplicates(["title", "company"], inplace = True)
+print(f"Size without duplicates : {naturalsize(df.size)}")
 
 keywords_list = [crawl.replace(".csv", "").replace("-", " ") for crawl in crawls_list]
-NUMBER_OF_RESULTS = 200
+NUMBER_OF_RESULTS = -1
 
 df["match"] = [[] for i in range(len(df))]
 
 import re
 for keyword in keywords_list:
     for index, desc in df.to_dict()["desc"].items():
-        if  re.search(keyword, desc, flags=re.I):
+        if  re.search(f"{keyword}", desc, flags=re.I):
             df.loc[index,"match"].append(keyword)
 
 df["score"] = df.match.apply(len)
@@ -59,4 +63,4 @@ localtime   = time.localtime()
 now = time.strftime("%y%m%d-%H%M", localtime)
 csv_file = path_join(project_root, "products", "keywords_ranking", f"ranking.csv")
 high_rank_offers.to_csv(csv_file)
-print(csv_file)
+print(f"Exported : {csv_file}")

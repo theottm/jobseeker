@@ -48,8 +48,6 @@ index = df.to_dict("records")
 html = index_template.render(jobs=index)
 with open(path_join(output_dir, "index.html"), "w") as text_file:
     text_file.write(html) 
-
-print(df)
     
 # render a html file per job
 with open("./job_template.html") as f:
@@ -62,15 +60,15 @@ for i, row in enumerate(df.to_dict("records")):
     match=ast.literal_eval(row["match"])
     html = job_template.render(job=row, index=i, limit=len(df), matches=match)
     # color the html
-    html_colored = html
+    html_head, html_body = html.split("<body>")
+    html_body = "<body>" + html_body
+    html_colored = html_body
     for keyword in match:
-        print(f"\"{keyword}\"")
         r = lambda: random.randint(1,255)
         base = [r(), r(), 255]
         random.shuffle(base)
         random_color_str = '{:02X}{:02X}{:02X}'.format(*base)
-        print(random_color_str)
         keyword_colored = f'<b style="background-color:#{random_color_str}">{keyword}</b>'
         html_colored = re.sub(keyword, keyword_colored, html_colored, flags=re.I)
     with open(path_join(output_dir, f"job-{i}.html"), "w") as text_file:
-        text_file.write(html_colored)
+        text_file.write(html_head + html_colored)

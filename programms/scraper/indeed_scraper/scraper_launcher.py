@@ -60,24 +60,22 @@ print(f"Number of keywords: {len(keywords_list)}")
 # prepare data output folders
 ongoing_data_dir = path_join("ongoing")
 storage_data_dir = path_join(user_data_path, "output", "scraper")
-print(ongoing_dir)
-print(storage_data_dir)
 try:
     os.makedirs(storage_data_dir)
 except FileExistsError:
     pass
 try:
-    shutil.rmtree(ongoing_dir)
-    os.mkdir(ongoing_dir)
+    shutil.rmtree(ongoing_data_dir)
+    os.mkdir(ongoing_data_dir)
 except FileNotFoundError:
-    os.makedirs(ongoing_dir)
+    os.makedirs(ongoing_data_dir)
 
 
 # define a crawl function that will be launched by asyncio
 async def crawl(keyword, semaphore):
     async with semaphore:
         file_name = f"{keyword.replace(' ','-')}.csv"
-        output_ongoing = path_join(ongoing_dir, file_name)
+        output_ongoing = path_join(ongoing_data_dir, file_name)
         output_done = path_join(storage_data_dir, file_name)
         print(f"Starting: {keyword}")
         if not os.path.isfile(output_done):

@@ -13,6 +13,10 @@ with open('config.ini', 'w') as configfile:
     config.write(configfile)
 print("Root :" + project_root)
 
+try:
+    os.mkdir(os.path.join(project_root, "data", config["general"]["user"]))
+except FileExistsError:
+    pass
 # 
 programms = []
 exclude_dirs = set(["indeed", "utils"])
