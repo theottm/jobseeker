@@ -120,10 +120,19 @@ We still would like to:
 :END:
 Add negative keywords
 New concept : [[https://en.wikipedia.org/wiki/Taxonomy][Taxonomy]]  
-** 190616
+** 190617
 :PROPERTIES:
 :CREATED:  <2019-06-16 dim. 15:21>
 :END:
+updated tasks:
+- run from a windows machine
+- parallel run for ranking programm
+- use groups of keywords in the ranking list for modular ranking
+- negative keywords
+- find a translation service
+- try the "whole country crawl" (https://de.indeed.com/Jobs-in-Deutschland; https://www.indeed.ch/Stellen-in-Switzerland; https://www.indeed.fr/Emplois-job; https://se.indeed.com/jobb-i-Sverige)
+- cluster analysis
+- run the next version on the cloud
 * State:
 :PROPERTIES:
 :CREATED:  <2019-06-16 dim. 15:25>
@@ -139,27 +148,19 @@ tree .. -L 3
 ├── config.ini~
 ├── data
 │   ├── cyborgab
-│   │   └── 190520
-│   ├── scraper_keywords.txt
-│   ├── teddd
-│   │   └── keywords.txt
-│   ├── test
-│   │   ├── 190520-2345
-│   │   └── 190520-2346
-│   └── usr
-│       ├── 190520-2338
-│       ├── 190520-2339
-│       ├── 190520-2343
-│       └── 190520-2344
+│   │   ├── output
+│   │   └── scraper_keywords.txt
+│   └── teddd
+│       ├── output
+│       ├── scraper_keywords.bak
+│       ├── scraper_keywords.txt
+│       └── scraper_keywords.txt~
 ├── jobseeker_launcher.py
+├── jobseeker_launcher.py~
 ├── jobseeker.py~
 ├── notebooks
-│   ├── #analysis.org#
 │   ├── analysis.org
-│   ├── analysis.py
-│   ├── analysis.py~
 │   ├── jobseeker_archive.org
-│   ├── #journal.org#
 │   ├── journal.org
 │   └── journal.org~
 ├── products
@@ -168,13 +169,14 @@ tree .. -L 3
 │       ├── 190524-0116-rank.csv
 │       ├── 190524-0117-rank.csv
 │       ├── 190524-0119-rank.csv
-│       └── html
+│       ├── html
+│       └── ranking.csv
 └── programms
     ├── __init__.py
-    ├── project_build
     ├── __pycache__
     │   ├── __init__.cpython-37.pyc
     │   └── utils.cpython-37.pyc
+    ├── ranking.py
     ├── scraper
     │   └── indeed_scraper
     ├── utils
@@ -185,7 +187,6 @@ tree .. -L 3
     │   ├── utils.py
     │   └── utils.py~
     └── viewer
-        ├── classement-offres-190522.zip
         ├── html_generator.py
         ├── html_generator.py~
         ├── index_template.html
@@ -195,5 +196,5 @@ tree .. -L 3
         ├── job_template.html
         └── job_template.html~
 
-24 directories, 35 files
+16 directories, 35 files
 #+end_example

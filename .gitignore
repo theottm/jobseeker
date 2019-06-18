@@ -1,4 +1,5 @@
 *TRASH*
-data/*/output/
-products/
+data/*
+products/*
+!*README*
 config.ini
