@@ -3,6 +3,8 @@ from configparser import ConfigParser, NoSectionError
 
 from programms.utils.utils import get_project_root
 
+project_root = get_project_root()
+
 # create config file
 config = ConfigParser()
 config_path = os.path.join(project_root, "config.ini")
@@ -13,7 +15,6 @@ except NoSectionError:
         config_file.write("")
 
 # Add project root 
-project_root = get_project_root()
 config.set("general", "project_root", project_root)
 print(f"Root : {project_root}")
 
