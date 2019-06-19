@@ -1,18 +1,19 @@
 import os
-from configparser import ConfigParser, NoSectionError
+from configparser import ConfigParser, DuplicateSectionError
 
 from programms.utils.utils import get_project_root
 
 project_root = get_project_root()
 
-# create config file
+# define config file
 config = ConfigParser()
 config_path = os.path.join(project_root, "config.ini")
+config.read(config_path)
 try:
-    config.read(config_path)
-except NoSectionError:
-    with open(config_path, "w") as config_file:
-        config_file.write("")
+    config.add_section("general")
+    config_status = "Creating config file"
+except DuplicateSectionError:
+    config_status = "Updating config file"
 
 # Add project root 
 config.set("general", "project_root", project_root)
@@ -32,9 +33,9 @@ except KeyError:
         pass
     print(f"Welcome on board, {user} !")
 
-print(f"Creating config file...")
-with open('config.ini', 'w') as configfile:
-    config.write(configfile)
+print(f"{config_status}...")
+with open(config_path, 'w') as config_file:
+    config.write(config_file)
 print(f"Done.")
     
 # 
