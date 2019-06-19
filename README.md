@@ -5,12 +5,13 @@ python ./jobseeker_launcher.py
 ```
 
 # Launch the scraper
-Check if there is a file named "scraper_keywords.txt" in data/[your-user-name]
-Navigate to programms/scraper/indeed_scraper and run the command (in anaconda prompt if you are on Windows):
+Check if there is a file named "scraper\_keywords.txt" in data/[your-user-name]. Add keywords to the list. Separate each keyword by a new line. 
+Run the commands (in anaconda prompt if you are on Windows):
 ```shell
+cd programms/scraper/indeed\_scraper 
 python ./scraper_launcher.py
 ```
-This will run a crawl on indeed for every keyword you gave in.
+This will run a crawl on indeed for every keyword in "scraper\_keywords.txt".
 
 
 # Rank the results
@@ -19,7 +20,7 @@ cd programms
 python ./ranking.py
 ```
 
-# View the results
+# View the ranking
 ```shell
 cd programms/viewer
 python ./html_generator.py
