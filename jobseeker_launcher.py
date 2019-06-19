@@ -3,7 +3,7 @@ from configparser import ConfigParser
 
 from programms.utils.utils import get_project_root
 
-# Initialize project root
+# Initialize project root in the config file
 project_root = get_project_root()
 config = ConfigParser()
 config_path = os.path.join(project_root, "config.ini")
@@ -11,12 +11,22 @@ config.read(config_path)
 config.set("general", "project_root", project_root)
 with open('config.ini', 'w') as configfile:
     config.write(configfile)
-print("Root :" + project_root)
+print(f"Root : {project_root}")
 
+# Add user
 try:
-    os.mkdir(os.path.join(project_root, "data", config["general"]["user"]))
-except FileExistsError:
-    pass
+    user = config["general"]["user"]
+    print(f"User : {user}")
+except KeyError:
+    user = input("Please enter a user name : ")
+    config.set("general", "user", user)
+    print("Creating your profile ...")
+    try:
+        os.mkdir(os.path.join(project_root, "data", config["general"]["user"]))
+    except FileExistsError:
+        pass
+    print(f"Welcome on board, {user} !")
+    
 # 
 programms = []
 exclude_dirs = set(["indeed", "utils"])
