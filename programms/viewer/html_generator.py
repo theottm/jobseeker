@@ -46,7 +46,7 @@ with open("./index_template.html") as f:
 
 index = df.to_dict("records")
 html = index_template.render(jobs=index)
-with open(path_join(output_dir, "index.html"), "w") as text_file:
+with open(path_join(output_dir, "index.html"), "w", encoding="utf-8") as text_file:
     text_file.write(html) 
     
 # render a html file per job
@@ -70,5 +70,5 @@ for i, row in enumerate(df.to_dict("records")):
         random_color_str = '{:02X}{:02X}{:02X}'.format(*base)
         keyword_colored = f'<b style="background-color:#{random_color_str}">{keyword}</b>'
         html_colored = re.sub(keyword, keyword_colored, html_colored, flags=re.I)
-    with open(path_join(output_dir, f"job-{i}.html"), "w") as text_file:
+    with open(path_join(output_dir, f"job-{i}.html"), "w", encoding="utf-8") as text_file:
         text_file.write(html_head + html_colored)

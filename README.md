@@ -5,10 +5,11 @@ python ./jobseeker_launcher.py
 ```
 
 # Launch the scraper
-Check if there is a file named "scraper\_keywords.txt" in data/[your-user-name]. Add keywords to the list. Separate each keyword by a new line. 
+Check if there is a file named "scraper\_keywords.txt" in data/[your-user-name].
+Add keywords to the list. Separate each keyword by a new line. 
 Run the commands (in anaconda prompt if you are on Windows):
 ```shell
-cd programms/scraper/indeed\_scraper 
+cd programms/scraper/indeed_scraper 
 python ./scraper_launcher.py
 ```
 This will run a crawl on indeed for every keyword in "scraper\_keywords.txt".
