@@ -1,0 +1,48 @@
+<meta charset="UTF-8">
+<title>Ranking</title>
+<style>
+table, th {
+  border: 10px solid white;
+  border-collapse: collapse;
+  text-align: left;
+}
+td {
+	border: 1px solid white;
+	border-collapse: collapse;
+	text-align: left;
+	vertical-align:top
+}
+#job {
+	border-bottom: 2px solid #dddddd;
+}
+</style>
+<body>
+  <h1>Job offers</h1>
+  <table style="width:100%">
+	<tr text-align=left>
+      <th style="text-align:right;">Title</th>
+	  <th>Company</th>
+      <th>Rank</th>
+	  <th>Matches</th>
+	</tr>
+	{% for job in jobs %}
+	<tr>
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+	<tr>
+      <td style="text-align:right;"><a href="jobs/{{loop.index}}">{{job.title}}{{i}}</a></td>
+	  <td style="text-align:center;">{{job.company}}</td>
+      <td style="text-align:center;">{{loop.index}}</td>
+      <td>{{job.match}}</td>
+	  <!-- <td>{% for match in job.match[:-1] %}{{match}}, {% endfor %}{{job.match[-1]}}.</td> -->
+	</tr>
+	<tr id="job">
+	  <td></td>
+	  <td></td>
+	  <td></td>
+	</tr>
+	{% endfor %}  
+  </table><br><br>
+</body>

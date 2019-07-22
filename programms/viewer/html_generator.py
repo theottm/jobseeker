@@ -72,3 +72,5 @@ for i, row in enumerate(df.to_dict("records")):
         html_colored = re.sub(keyword, keyword_colored, html_colored, flags=re.I)
     with open(path_join(output_dir, f"job-{i}.html"), "w", encoding="utf-8") as text_file:
         text_file.write(html_head + html_colored)
+
+print(f"Exported : {path_join(output_dir, 'index.html')}")

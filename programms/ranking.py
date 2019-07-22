@@ -16,7 +16,8 @@ user = config["general"]["user"]
 
 from os.path import join as path_join
 
-scraper_data_path = path_join(project_root, "data",  user, "output", "scraper")
+data_path = path_join(project_root, "data",  user)
+scraper_data_path = path_join(data_path, "output", "scraper")
 
 #get the newest dataset
 import os
@@ -27,6 +28,7 @@ import os
 
 crawls_list = os.listdir(scraper_data_path)
 print(f"Number of crawls : {len(crawls_list)}")
+
 
 df = pd.DataFrame()
 for crawl in crawls_list:
@@ -43,20 +45,38 @@ print(f"Size : {naturalsize(df.size)}")
 df.drop_duplicates(["title", "company"], inplace = True)
 print(f"Size without duplicates : {naturalsize(df.size)}")
 
-keywords_list = [crawl.replace(".csv", "").replace("-", " ") for crawl in crawls_list]
-NUMBER_OF_RESULTS = -1
+#keywords_list = [crawl.replace(".csv", "").replace("-", " ") for crawl in crawls_list]
+
+ranking_keywords_file = config["ranking"]["ranking_keywords_file"]
+ranking_keywords_file_path = os.path.join(data_path, ranking_keywords_file)
+ranking_anti_keywords_file = config["ranking"]["ranking_anti_keywords_file"]
+ranking_anti_keywords_file_path = os.path.join(data_path, ranking_anti_keywords_file)
+
+with open(ranking_keywords_file_path) as f:
+    keywords_list_str = f.read()
+keywords_list =  [keyword for keyword in keywords_list_str.split("\n") if keyword != ""]
+
+with open(ranking_anti_keywords_file_path) as f:
+    anti_keywords_list_str = f.read()
+anti_keywords_list =  [keyword for keyword in anti_keywords_list_str.split("\n") if keyword != ""]
+
+number_of_results = int(config["ranking"]["number_of_results"])
 
 df["match"] = [[] for i in range(len(df))]
+df["anti_match"] = [[] for i in range(len(df))]
 
 import re
-for keyword in keywords_list:
-    for index, desc in df.to_dict()["desc"].items():
+for index, desc in df.to_dict()["desc"].items():
+    for keyword in keywords_list:
         if  re.search(f"{keyword}", desc, flags=re.I):
             df.loc[index,"match"].append(keyword)
+    for anti_keyword in anti_keywords_list:
+        if  re.search(f"{anti_keyword}", desc, flags=re.I):
+            df.loc[index,"anti_match"].append(anti_keyword)
 
-df["score"] = df.match.apply(len)
+df["score"] = df.match.apply(len) - df.anti_match.apply(len)
 
-high_rank_offers = df.sort_values(by="score", ascending = False).iloc[:NUMBER_OF_RESULTS]
+high_rank_offers = df.sort_values(by="score", ascending = False).iloc[:number_of_results]
 
 import time
 localtime   = time.localtime()

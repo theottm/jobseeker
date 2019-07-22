@@ -1,0 +1,18 @@
+table {
+	border:1;
+	bordercolor:black;
+	width:100%;
+    table-layout:auto;
+}
+
+/* td { */
+/*     word-wrap:break-word; */
+/* } */
+
+/* th { */
+/* 	align:left; */
+/* } */
+
+h1 {
+	color=red
+}
