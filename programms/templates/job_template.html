@@ -8,13 +8,13 @@ table, th, td {
 }
 </style>
 <body>
-  <a href="index.html">Index</a><br>
-  {% if index != 1 %}
-  <a href="job-{{index-1}}.html">Previous page </a>
+  <a href="/jobs">Index</a><br>
+  {% if index != 0 %}
+  <a href="{{index-1}}">Previous page </a>
   {% endif %}
   <b>- {{index}} / {{limit}} -</b>
   {% if index < limit %}
-  <a href="job-{{index+1}}.html">Next page</a>
+  <a href="{{index+1}}">Next page</a>
   {% endif %}
   <br><br>
   <a target="_blank" href="{{job.url}}">Original page</a><br>
@@ -45,6 +45,6 @@ table, th, td {
   </table><br><br>
   
   <h2>Decription</h2>
-  {{job.desc}}
+  {{job.desc|safe}}
 
 </body>

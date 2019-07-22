@@ -1,0 +1,17 @@
+<meta charset="UTF-8">
+<title>{{config.general.user}}</title>
+<style>
+table, th, td {
+  border: 2px solid gray;
+  border-collapse: collapse;
+  text-align: left;
+}
+</style>
+<body>
+  <h1>Welcome {{config.general.user}} !</h1>
+  <form method="POST" action="rank">
+	Jobs in the Ranking:<br>
+	<input type="text" name="number" value="{{config.ranking.number_of_results}}"><br>
+	<input type="submit" value="Submit">
+  </form>
+</body>

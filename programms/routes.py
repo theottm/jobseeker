@@ -1,4 +1,4 @@
-from app import app
+from programms import flask_app
 from flask import render_template, request
 
 from urllib.parse import urlparse, parse_qs
@@ -31,7 +31,7 @@ project_root = config["general"]["project_root"]
 user = config["general"]["user"]
 
 
-@app.route("/jobs", methods=["GET"])
+@flask_app.route("/jobs", methods=["GET"])
 def index():
     # get the ranking
     ranking_dir = path_join(project_root, "products", "keywords_ranking")
@@ -44,7 +44,7 @@ def index():
     index = df.to_dict("records")
     return render_template("index_template.html",jobs=index)
 
-@app.route("/jobs/<int:job_index>", methods=["GET"])
+@flask_app.route("/jobs/<int:job_index>", methods=["GET"])
 def job(job_index):
     ranking_dir = path_join(project_root, "products", "keywords_ranking")
     rankings = os.listdir(ranking_dir)
@@ -58,7 +58,25 @@ def job(job_index):
     return render_template("job_template.html",
                            job=row, index=job_index, limit=len(df), matches=match)
 
-@app.route("/", methods=["GET", "POST"])
+@flask_app.route("/dashboard", methods=["GET"])
+def dashboard():
+    return render_template("dashboard_template.html", config=config)
+
+@flask_app.route("/rank", methods=["GET", "POST"])
+def rank_run():
+    print(request)
+    print(request.method)
+    if request.method == "POST":
+        number_of_results = request.form["number"]
+        import sys
+        sys.path.append("..")
+        from programms.ranking import rank
+        rank()
+        return "OK. " + number_of_results
+    else:
+        return "No query"
+    
+@flask_app.route("/", methods=["GET", "POST"])
 def front():
     query_string = urlparse(request.url).query
 
