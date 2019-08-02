@@ -3,14 +3,14 @@ import numpy as np
 import pandas as pd
 import os
 
-from programms.utils.utils import get_project_root
+from utils.utils import get_project_root
 project_root = get_project_root()
 
 from configparser import ConfigParser
-import os
 
 
- rank():
+def rank():
+    import os
     # Load the configuration file
     config = ConfigParser()
     config.read(os.path.join(project_root, "config.ini"))
@@ -85,3 +85,6 @@ import os
     csv_file = path_join(project_root, "products", "keywords_ranking", f"ranking.csv")
     high_rank_offers.to_csv(csv_file)
     print(f"Exported : {csv_file}")
+
+if __name__ == "__main__":
+    rank()
